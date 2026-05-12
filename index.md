@@ -19,6 +19,8 @@ A Chrome extension that lets you paste Markdown into X (Twitter) article editor 
 
 Pay with credit card / Apple Pay / Google Pay. Each license activates on up to 5 devices.
 
+<a id="cn"></a>
+
 ### 🇨🇳 国内用户（支付宝 / 微信）
 
 没有国际信用卡？扫下方二维码加微信群，私聊我领 **100% 折扣码**，在 Creem 走 $0 结账拿激活码，然后给我支付宝/微信转账 ¥98（等价于「我帮你代付」）。
