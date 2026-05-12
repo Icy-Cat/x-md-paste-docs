@@ -397,3 +397,130 @@ footer.site .links a:hover { color: var(--fg); }
 [lang-zh], [lang-en] { display: none; }
 html[data-lang="zh"] [lang-zh] { display: revert; }
 html[data-lang="en"] [lang-en] { display: revert; }
+
+/* ─── Mobile (≤600px) ────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  body { font-size: 15px; }
+
+  /* Header: tighten gaps, allow brand to truncate */
+  header.site {
+    padding: 14px 16px;
+    gap: 8px;
+  }
+  header.site .brand {
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+  }
+  header.site nav {
+    gap: 12px;
+    font-size: 12.5px;
+  }
+  /* Hide secondary nav links on phones; keep lang toggle always */
+  header.site nav a { display: none; }
+  header.site nav .lang-toggle { display: inline-block; }
+
+  /* Hero: tighter padding + tagline */
+  .hero {
+    padding: 56px 20px 44px;
+  }
+  .hero h1 {
+    font-size: 32px;
+    letter-spacing: -0.015em;
+    margin-bottom: 14px;
+  }
+  .hero .tagline {
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+  .cta-row {
+    gap: 10px;
+  }
+  .btn {
+    padding: 11px 18px;
+    font-size: 14px;
+  }
+  .btn-primary, .btn-ghost {
+    flex: 1;
+    min-width: 140px;
+  }
+
+  /* Sections: cut vertical breathing room */
+  section { padding: 44px 20px; }
+  section h2 { font-size: 22px; }
+  section .lead { font-size: 14px; margin-bottom: 28px; }
+
+  /* Features: 1 column on phones */
+  .features {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .feature {
+    padding: 18px;
+  }
+  .feature h3 { font-size: 15px; }
+  .feature p { font-size: 13.5px; }
+
+  /* Pricing card: less padding, price size down */
+  .price-card {
+    padding: 24px 20px;
+  }
+  .price-card .amount {
+    font-size: 44px;
+  }
+  .price-card .amount .currency {
+    font-size: 22px;
+  }
+  .price-card li {
+    font-size: 14px;
+  }
+
+  /* CN card: shrink QR on phone */
+  .cn-card {
+    padding: 20px 16px;
+    margin-top: 24px;
+  }
+  .cn-card img {
+    width: 160px;
+    height: 160px;
+  }
+  .cn-card p { font-size: 13.5px; }
+
+  /* FAQ: tighter padding */
+  .faq details {
+    padding: 14px 0;
+  }
+  .faq summary {
+    font-size: 14.5px;
+  }
+  .faq .answer {
+    font-size: 14px;
+  }
+
+  /* Footer: stack links + reduce padding */
+  footer.site {
+    padding: 32px 20px 44px;
+  }
+  footer.site .links {
+    gap: 14px;
+    font-size: 12.5px;
+  }
+
+  /* Doc page (privacy/terms): mobile-friendly headings */
+  .doc {
+    padding: 44px 20px 60px;
+  }
+  .doc h1 { font-size: 26px; }
+  .doc h2 { font-size: 16px; margin-top: 26px; }
+  .doc p, .doc li { font-size: 14.5px; line-height: 1.65; }
+}
+
+/* Tighter still (≤380px — small phones) */
+@media (max-width: 380px) {
+  .hero h1 { font-size: 28px; }
+  .price-card .amount { font-size: 38px; }
+  .btn-primary, .btn-ghost { width: 100%; flex: none; }
+}
