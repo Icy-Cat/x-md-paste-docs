@@ -1,0 +1,202 @@
+<!doctype html>
+<html data-lang="en" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-zh="X 文章 Markdown 一键导入" data-en="X Article Markdown Paste">X Article Markdown Paste</title>
+  <meta name="description" content="Paste Markdown into X (Twitter) article editor — auto-renders images, code, dividers, tables, and tweet embeds." />
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Icy-Cat/x-md-paste-docs/main/favicon.png" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./lang.js"></script>
+</head>
+<body>
+  <header class="site">
+    <a href="./" class="brand"><span class="dot"></span><span lang-zh>X 文章 Markdown 一键导入</span><span lang-en>X Article Markdown Paste</span></a>
+    <nav>
+      <a href="#features"><span lang-zh>功能</span><span lang-en>Features</span></a>
+      <a href="#pricing"><span lang-zh>价格</span><span lang-en>Pricing</span></a>
+      <a href="#faq"><span lang-zh>FAQ</span><span lang-en>FAQ</span></a>
+      <button id="lang-toggle" class="lang-toggle" type="button">中</button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>
+      <span lang-zh>写在 Obsidian，<span class="accent">一键发到 X</span>。</span>
+      <span lang-en>Write in Obsidian. <span class="accent">Paste into X.</span></span>
+    </h1>
+    <p class="tagline">
+      <span lang-zh>Chrome 扩展。在 X 文章编辑器里 <kbd>Ctrl+V</kbd> 粘贴 Markdown，自动渲染图片、代码、表格、推文嵌入。</span>
+      <span lang-en>Chrome extension. <kbd>Ctrl+V</kbd> Markdown into X's article editor — auto-renders images, code, tables, and tweet embeds.</span>
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="https://www.creem.io/payment/prod_5jwj6zkX0G42WgE8EfeUhD" target="_blank" rel="noopener">
+        <span lang-zh>立即购买 $29</span>
+        <span lang-en>Buy now — $29</span>
+      </a>
+      <a class="btn btn-ghost" href="#features">
+        <span lang-zh>看看怎么用</span>
+        <span lang-en>How it works</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="features" class="alt">
+    <div class="container">
+      <h2>
+        <span lang-zh>支持的内容</span>
+        <span lang-en>What it handles</span>
+      </h2>
+      <p class="lead">
+        <span lang-zh>整篇 Markdown 复制粘贴，每个语法都按 X 的原生格式渲染。</span>
+        <span lang-en>Copy a whole Markdown article, paste once. Every syntax renders in X's native format.</span>
+      </p>
+      <div class="features">
+        <div class="feature">
+          <span class="icon">📷</span>
+          <h3><span lang-zh>图片自动上传</span><span lang-en>Auto-uploads images</span></h3>
+          <p><span lang-zh>外链图片自动下载，走 X 自家 CDN 上传。本地图片授权目录后也能用。</span><span lang-en>External URLs are fetched + uploaded via X's own media pipeline. Local images work with directory access.</span></p>
+        </div>
+        <div class="feature">
+          <span class="icon">📊</span>
+          <h3><span lang-zh>表格 → 图片</span><span lang-en>Tables → images</span></h3>
+          <p><span lang-zh>X 不支持表格？我们渲染成 PNG 自动嵌入，HiDPI 清晰度。</span><span lang-en>X doesn't support tables? We render to PNG and embed inline at HiDPI quality.</span></p>
+        </div>
+        <div class="feature">
+          <span class="icon">💻</span>
+          <h3><span lang-zh>代码块带高亮</span><span lang-en>Code blocks</span></h3>
+          <p><span lang-zh>带语言标记的 fenced code 转成 X 原生代码块，等宽字体灰底。</span><span lang-en>Fenced code with language tag → X native code block (mono, gray bg).</span></p>
+        </div>
+        <div class="feature">
+          <span class="icon">🐦</span>
+          <h3><span lang-zh>推文自动嵌入</span><span lang-en>Tweet embeds</span></h3>
+          <p><span lang-zh>粘贴 X 推文链接，自动转成嵌入卡片，跟 X 网页粘贴体验一致。</span><span lang-en>Tweet URLs are auto-converted to embed cards, just like pasting them on x.com.</span></p>
+        </div>
+        <div class="feature">
+          <span class="icon">📁</span>
+          <h3><span lang-zh>拖入 .md 文件</span><span lang-en>Drag & drop .md</span></h3>
+          <p><span lang-zh>不用复制粘贴，把 .md 文件直接拖进浏览器，自动新建草稿并填充内容。</span><span lang-en>Drag a .md file onto the browser — extension creates a fresh draft and fills it in.</span></p>
+        </div>
+        <div class="feature">
+          <span class="icon">⚡</span>
+          <h3><span lang-zh>0 数据收集</span><span lang-en>Zero data collection</span></h3>
+          <p><span lang-zh>没有 analytics、不读 cookie、不传输内容。所有处理都在你浏览器内完成。</span><span lang-en>No analytics, no cookies read, no content sent anywhere. Everything happens in your browser.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="container">
+      <h2 style="text-align:center">
+        <span lang-zh>一次买断，永久使用</span>
+        <span lang-en>Buy once. Use forever.</span>
+      </h2>
+      <p class="lead" style="text-align:center; margin-left:auto; margin-right:auto;">
+        <span lang-zh>没有订阅、没有年费。前 100 名锁定早鸟价。</span>
+        <span lang-en>No subscriptions, no annual fees. First 100 buyers lock in the early-bird price.</span>
+      </p>
+
+      <div class="price-card">
+        <span class="badge">
+          <span lang-zh>早鸟价</span>
+          <span lang-en>Early bird</span>
+        </span>
+        <div class="amount"><span class="currency">$</span>29</div>
+        <span class="period">
+          <span lang-zh>永久买断 · 5 台设备</span>
+          <span lang-en>Lifetime · 5 devices</span>
+        </span>
+        <ul>
+          <li><span lang-zh>无限图片、表格、推文嵌入</span><span lang-en>Unlimited images, tables, tweet embeds</span></li>
+          <li><span lang-zh>本地图片目录支持</span><span lang-en>Local image directory support</span></li>
+          <li><span lang-zh>未来新功能优先体验</span><span lang-en>Priority access to upcoming features</span></li>
+          <li><span lang-zh>无文末签名</span><span lang-en>No footer watermark</span></li>
+          <li><span lang-zh>支持信用卡 / Apple Pay / Google Pay</span><span lang-en>Card / Apple Pay / Google Pay</span></li>
+        </ul>
+        <a class="btn btn-primary" style="width:100%" href="https://www.creem.io/payment/prod_5jwj6zkX0G42WgE8EfeUhD" target="_blank" rel="noopener">
+          <span lang-zh>立即购买</span>
+          <span lang-en>Buy now</span>
+        </a>
+        <p class="later">
+          <span lang-zh>上线后 $39 → 半年后 $49</span>
+          <span lang-en>$39 after launch · $49 after 6 months</span>
+        </p>
+      </div>
+
+      <div id="cn" class="cn-card">
+        <h3>🇨🇳 <span lang-zh>国内用户（支付宝 / 微信）</span><span lang-en>China users (Alipay / WeChat)</span></h3>
+        <p>
+          <span lang-zh>没有国际信用卡？扫码加微信群，私聊我领 100% 折扣码，在 Creem 走 $0 结账拿激活码，然后给我支付宝/微信转账 ¥98。</span>
+          <span lang-en>No international card? Scan to join the WeChat group, DM me for a 100% discount code — checkout at $0 on Creem, then settle ¥98 via Alipay / WeChat.</span>
+        </p>
+        <img src="./wechat-group-qr.png" alt="WeChat group QR" />
+        <p class="qr-note">
+          <span lang-zh>⚠ 二维码 7 天更新一次。如失效请刷新本页。</span>
+          <span lang-en>⚠ QR refreshes every 7 days. Reload this page for the latest.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="alt">
+    <div class="container">
+      <h2 style="text-align:center"><span lang-zh>常见问题</span><span lang-en>FAQ</span></h2>
+      <div class="faq" style="margin-top:36px">
+        <details>
+          <summary><span lang-zh>装在哪？怎么用？</span><span lang-en>How do I install and use it?</span></summary>
+          <div class="answer">
+            <span lang-zh>从 Chrome Web Store 安装后，去 <a href="https://x.com/compose/articles" target="_blank">X 文章编辑器</a>，<kbd>Ctrl+V</kbd> 粘贴你的 Markdown 即可。或者把 <code>.md</code> 文件拖进浏览器自动新建草稿。</span>
+            <span lang-en>Install from the Chrome Web Store, open the <a href="https://x.com/compose/articles" target="_blank">X article editor</a>, then <kbd>Ctrl+V</kbd> your Markdown. Or drag a <code>.md</code> file onto the browser to create a fresh draft.</span>
+          </div>
+        </details>
+        <details>
+          <summary><span lang-zh>会泄露我的 X 账号或文章内容吗？</span><span lang-en>Does it leak my X account or content?</span></summary>
+          <div class="answer">
+            <span lang-zh>不会。扩展只在 <code>x.com/compose/articles/*</code> 工作，不读你的 cookie 或密码，不上传任何文章内容。详见 <a href="./privacy.html">隐私政策</a>。</span>
+            <span lang-en>No. The extension only runs on <code>x.com/compose/articles/*</code>, doesn't read your cookies or password, and uploads zero article content. See <a href="./privacy.html">Privacy Policy</a>.</span>
+          </div>
+        </details>
+        <details>
+          <summary><span lang-zh>激活码怎么用？</span><span lang-en>How does the license work?</span></summary>
+          <div class="answer">
+            <span lang-zh>付款后邮箱会收到 UUID 格式的激活码（如 <code>7c8e2f1a-…</code>）。点扩展图标，把激活码粘到输入框回车。每个激活码可在 5 台设备上使用，永久有效。</span>
+            <span lang-en>After purchase, you'll receive a UUID license key by email (e.g. <code>7c8e2f1a-…</code>). Click the extension icon, paste it, press Enter. Each key activates on up to 5 devices, lifetime.</span>
+          </div>
+        </details>
+        <details>
+          <summary><span lang-zh>能退款吗？</span><span lang-en>Can I get a refund?</span></summary>
+          <div class="answer">
+            <span lang-zh>付款 7 天内未激活满意的话可全额退款。请发邮件到 <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a>，附订单号。</span>
+            <span lang-en>Yes — within 7 days of purchase if you're not satisfied. Email <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a> with your order ID.</span>
+          </div>
+        </details>
+        <details>
+          <summary><span lang-zh>X 改了 UI 之后会不会失效？</span><span lang-en>Does it break when X updates its UI?</span></summary>
+          <div class="answer">
+            <span lang-zh>会偶尔出问题，但我们盯着——发现失效后通常 24-48 小时内修好推送更新。Chrome 扩展自动更新。</span>
+            <span lang-en>Occasionally yes, but we monitor closely — usually fixed and pushed within 24-48 hours of breakage. Chrome auto-updates the extension.</span>
+          </div>
+        </details>
+        <details>
+          <summary><span lang-zh>支持 Firefox / Edge / Safari 吗？</span><span lang-en>Firefox / Edge / Safari support?</span></summary>
+          <div class="answer">
+            <span lang-zh>当前只支持 Chrome 和基于 Chromium 的浏览器（Edge、Brave、Arc 等）。Firefox 和 Safari 在 v1.5 路线图上。</span>
+            <span lang-en>Currently Chrome and Chromium-based browsers (Edge, Brave, Arc) only. Firefox and Safari are on the v1.5 roadmap.</span>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site">
+    <div class="links">
+      <a href="./privacy.html"><span lang-zh>隐私政策</span><span lang-en>Privacy</span></a>
+      <a href="./terms.html"><span lang-zh>服务条款</span><span lang-en>Terms</span></a>
+      <a href="mailto:lengkuxiaomao@gmail.com"><span lang-zh>联系</span><span lang-en>Contact</span></a>
+      <a href="https://x.com/lngkximo" target="_blank" rel="noopener">@lngkximo</a>
+    </div>
+    <div>© 2026 IcyCat · <span lang-zh>独立开发</span><span lang-en>Built solo</span></div>
+  </footer>
+</body>
+</html>

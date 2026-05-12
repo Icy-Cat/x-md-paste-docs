@@ -1,12 +1,11 @@
-# X Article Markdown Paste — Public docs
+# X Article Markdown Paste — Public site
 
-Privacy policy, Terms of Service, and support info for the
-[X Article Markdown Paste](https://chrome.google.com/webstore) Chrome extension.
+Marketing page + legal docs for the [X Article Markdown Paste](https://xmdpaste.icy-cat.com)
+Chrome extension. Hosted via GitHub Pages, served from `xmdpaste.icy-cat.com`.
 
-The extension's source code is private. This repository hosts only the
-public-facing legal docs (required by Chrome Web Store) and is published
-via GitHub Pages.
+The extension's source is private; this repo holds only the public-facing site.
 
-- 📜 [Privacy Policy (EN)](./privacy-en.md) · [中文](./privacy-zh.md)
-- 📜 [Terms (EN)](./terms-en.md) · [中文](./terms-zh.md)
-- 📩 Support: lengkuxiaomao@gmail.com
+- Live site: https://xmdpaste.icy-cat.com
+- Privacy: https://xmdpaste.icy-cat.com/privacy.html
+- Terms: https://xmdpaste.icy-cat.com/terms.html
+- Contact: lengkuxiaomao@gmail.com
