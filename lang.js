@@ -23,14 +23,32 @@
 
   apply(detect());
 
+  // Auto-expand a <details> element when the URL hash targets it.
+  // Without this, deep-linking to #find-license-key jumps to the
+  // collapsed summary and the screenshot stays hidden.
+  function expandHashTarget() {
+    const id = (location.hash || '').replace(/^#/, '');
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.tagName === 'DETAILS') {
+      el.open = true;
+      // Re-scroll after the layout grows so the section aligns to the top.
+      requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     const btn = document.getElementById('lang-toggle');
-    if (!btn) return;
-    btn.addEventListener('click', () => {
-      const cur = document.documentElement.getAttribute('data-lang');
-      const next = cur === 'zh' ? 'en' : 'zh';
-      localStorage.setItem(KEY, next);
-      apply(next);
-    });
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const cur = document.documentElement.getAttribute('data-lang');
+        const next = cur === 'zh' ? 'en' : 'zh';
+        localStorage.setItem(KEY, next);
+        apply(next);
+      });
+    }
+    expandHashTarget();
+    window.addEventListener('hashchange', expandHashTarget);
   });
 })();
