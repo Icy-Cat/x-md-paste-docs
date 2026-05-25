@@ -280,7 +280,7 @@ section .lead {
   color: var(--fg-faint);
 }
 
-/* CN section */
+/* China support section */
 .cn-card {
   max-width: 520px;
   margin: 32px auto 0;
@@ -291,20 +291,7 @@ section .lead {
 }
 .cn-card h3 { margin: 0 0 10px; font-size: 16px; font-weight: 600; }
 .cn-card p { margin: 0 0 16px; font-size: 14px; color: var(--fg-soft); line-height: 1.6; }
-.cn-card img {
-  width: 200px;
-  height: 200px;
-  border-radius: var(--radius);
-  background: #fff;
-  padding: 8px;
-  display: block;
-  margin: 0 auto;
-}
-.cn-card .qr-note {
-  font-size: 12px;
-  color: var(--fg-faint);
-  margin-top: 10px;
-}
+.cn-card .btn { width: 100%; justify-content: center; }
 
 /* FAQ */
 .faq { max-width: var(--max); margin: 0 auto; }
@@ -478,14 +465,10 @@ html[data-lang="en"] [lang-en] { display: revert; }
     font-size: 14px;
   }
 
-  /* CN card: shrink QR on phone */
+  /* China support card */
   .cn-card {
     padding: 20px 16px;
     margin-top: 24px;
-  }
-  .cn-card img {
-    width: 160px;
-    height: 160px;
   }
   .cn-card p { font-size: 13.5px; }
 
