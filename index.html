@@ -7,7 +7,7 @@
   <meta name="description" content="A stable Markdown publishing workflow for X Articles. Import drafts from Obsidian, Notion exports, and local files with images, tables, covers, and tweet embeds." />
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Icy-Cat/x-md-paste-docs/main/favicon.png" />
   <link rel="stylesheet" href="./styles.css" />
-  <script src="./lang.js"></script>
+  <script src="./lang.js" defer></script>
 </head>
 <body>
   <header class="site">
@@ -21,28 +21,57 @@
   </header>
 
   <section class="hero">
-    <h1>
-      <span lang-zh>把 Markdown 草稿，<span class="accent">稳定导入 X 长文</span>。</span>
-      <span lang-en>Publish Markdown drafts as <span class="accent">stable X Articles</span>.</span>
-    </h1>
-    <p class="tagline">
-      <span lang-zh>给 Obsidian、Notion 导出、本地 .md 和 AI 生成长文使用的 Chrome 扩展。导入图片、表格、封面和推文嵌入，发布前仍由你在 X 里检查。</span>
-      <span lang-en>A Chrome extension for Obsidian notes, Notion exports, local .md files, and AI-written drafts. Import images, tables, covers, and tweet embeds, then review everything inside X before publishing.</span>
-    </p>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="#pricing">
-        <span lang-zh>查看 Pro 订阅</span>
-        <span lang-en>See Pro plans</span>
-      </a>
-      <a class="btn btn-ghost" href="#features">
-        <span lang-zh>看看怎么用</span>
-        <span lang-en>How it works</span>
-      </a>
+    <div class="hero-copy">
+      <p class="edition-line">
+        <span lang-zh>Vol. 1 · Chrome 扩展 · X Articles</span>
+        <span lang-en>Vol. 1 · Chrome Extension · X Articles</span>
+      </p>
+      <h1>
+        <span lang-zh>Markdown 草稿<br><span class="accent">稳定导入 X 长文</span></span>
+        <span lang-en>Publish Markdown drafts as <span class="accent">stable X Articles</span>.</span>
+      </h1>
+      <p class="tagline">
+        <span lang-zh>给 Obsidian、Notion 导出、本地 .md 和 AI 生成长文使用的 Chrome 扩展。导入图片、表格、封面和推文嵌入，发布前仍由你在 X 里检查。</span>
+        <span lang-en>A Chrome extension for Obsidian notes, Notion exports, local .md files, and AI-written drafts. Import images, tables, covers, and tweet embeds, then review everything inside X before publishing.</span>
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#pricing">
+          <span lang-zh>查看 Pro 订阅</span>
+          <span lang-en>See Pro plans</span>
+        </a>
+        <a class="btn btn-ghost" href="#features">
+          <span lang-zh>看看怎么用</span>
+          <span lang-en>How it works</span>
+        </a>
+      </div>
+    </div>
+    <div class="article-proof" aria-label="Markdown to X article preview">
+      <div class="proof-bar">
+        <span>MARKDOWN</span>
+        <span>X ARTICLE</span>
+      </div>
+      <div class="proof-grid">
+        <div class="proof-source">
+          <strong># Launch Notes</strong>
+          <span>cover: ./hero.png</span>
+          <span>![chart](table.md)</span>
+          <span>```js</span>
+          <span>publish(draft)</span>
+          <span>```</span>
+        </div>
+        <div class="proof-output">
+          <span class="proof-label">Rendered Draft</span>
+          <h2>Launch Notes</h2>
+          <div class="proof-image"></div>
+          <p>Title, cover, images, tables and embeds arrive in the editor ready for review.</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <section id="features" class="alt">
     <div class="container">
+      <p class="section-kicker">Features Desk</p>
       <h2>
         <span lang-zh>支持的内容</span>
         <span lang-en>What it handles</span>
@@ -53,37 +82,37 @@
       </p>
       <div class="features">
         <div class="feature">
-          <span class="icon">📷</span>
+          <span class="icon">01</span>
           <h3><span lang-zh>图片自动上传</span><span lang-en>Auto-uploads images</span></h3>
           <p><span lang-zh>外链图片自动下载，走 X 自家 CDN 上传。本地图片授权目录后也能用。</span><span lang-en>External URLs are fetched + uploaded via X's own media pipeline. Local images work with directory access.</span></p>
         </div>
         <div class="feature">
-          <span class="icon">📌</span>
+          <span class="icon">02</span>
           <h3><span lang-zh>标题 / 封面自动识别</span><span lang-en>Title &amp; cover auto-detected</span></h3>
           <p><span lang-zh>第一个 H1 自动作为文章标题，第一张图自动作为封面。也可在 frontmatter 用 <code>title:</code>/<code>cover:</code>（或 <code>标题:</code>/<code>封面:</code>）显式指定。</span><span lang-en>First H1 becomes the article title, first image becomes the cover. Override explicitly via frontmatter <code>title:</code> / <code>cover:</code>.</span></p>
         </div>
         <div class="feature">
-          <span class="icon">📊</span>
+          <span class="icon">03</span>
           <h3><span lang-zh>表格 → 图片</span><span lang-en>Tables → images</span></h3>
           <p><span lang-zh>X 不支持表格？我们渲染成 PNG 自动嵌入，HiDPI 清晰度。</span><span lang-en>X doesn't support tables? We render to PNG and embed inline at HiDPI quality.</span></p>
         </div>
         <div class="feature">
-          <span class="icon">💻</span>
+          <span class="icon">04</span>
           <h3><span lang-zh>代码块带高亮</span><span lang-en>Code blocks</span></h3>
           <p><span lang-zh>带语言标记的 fenced code 转成 X 原生代码块，等宽字体灰底。</span><span lang-en>Fenced code with language tag → X native code block (mono, gray bg).</span></p>
         </div>
         <div class="feature">
-          <span class="icon">🐦</span>
+          <span class="icon">05</span>
           <h3><span lang-zh>推文自动嵌入</span><span lang-en>Tweet embeds</span></h3>
           <p><span lang-zh>粘贴 X 推文链接，自动转成嵌入卡片，跟 X 网页粘贴体验一致。</span><span lang-en>Tweet URLs are auto-converted to embed cards, just like pasting them on x.com.</span></p>
         </div>
         <div class="feature">
-          <span class="icon">📁</span>
+          <span class="icon">06</span>
           <h3><span lang-zh>拖入 .md 文件</span><span lang-en>Drag & drop .md</span></h3>
           <p><span lang-zh>不用复制粘贴，把 .md 文件直接拖进浏览器，自动新建草稿并填充内容。</span><span lang-en>Drag a .md file onto the browser — extension creates a fresh draft and fills it in.</span></p>
         </div>
         <div class="feature">
-          <span class="icon">⚡</span>
+          <span class="icon">07</span>
           <h3><span lang-zh>0 数据收集</span><span lang-en>Zero data collection</span></h3>
           <p><span lang-zh>没有 analytics、不读 cookie、不传输内容。所有处理都在你浏览器内完成。</span><span lang-en>No analytics, no cookies read, no content sent anywhere. Everything happens in your browser.</span></p>
         </div>
@@ -93,6 +122,7 @@
 
   <section id="pricing">
     <div class="container">
+      <p class="section-kicker center">Subscription Notice</p>
       <h2 style="text-align:center">
         <span lang-zh>14 天试用，然后按需订阅</span>
         <span lang-en>Try Pro for 14 days, then subscribe if it saves time.</span>
@@ -137,7 +167,7 @@
       </div>
 
       <div id="cn" class="cn-card">
-        <h3>💬 <span lang-zh>国内用户支持</span><span lang-en>Support for China users</span></h3>
+        <h3><span lang-zh>国内用户支持</span><span lang-en>Support for China users</span></h3>
         <p>
           <span lang-zh>国内早鸟支持价 ¥98/年。没有国际信用卡或想进微信群交流，可以先通过 X 私信我。</span>
           <span lang-en>China early supporter price: ¥98/year. If you need local payment help or want to join the WeChat group, message me on X first.</span>
@@ -152,6 +182,7 @@
 
   <section id="faq" class="alt">
     <div class="container">
+      <p class="section-kicker center">Reader Questions</p>
       <h2 style="text-align:center"><span lang-zh>常见问题</span><span lang-en>FAQ</span></h2>
       <div class="faq" style="margin-top:36px">
         <details>

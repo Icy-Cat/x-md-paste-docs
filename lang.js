@@ -39,6 +39,8 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    apply(detect());
+
     const btn = document.getElementById('lang-toggle');
     if (btn) {
       btn.addEventListener('click', () => {
