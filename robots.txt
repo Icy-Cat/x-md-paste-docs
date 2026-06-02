@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://xmdpaste.icy-cat.com/sitemap.xml
