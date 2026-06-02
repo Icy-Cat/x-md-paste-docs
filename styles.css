@@ -274,6 +274,16 @@ section .lead {
   color: var(--accent);
   font-weight: 700;
 }
+.plan-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.plan-actions .btn {
+  width: 100%;
+  padding-left: 14px;
+  padding-right: 14px;
+}
 .price-card .later {
   margin-top: 14px;
   font-size: 12px;
@@ -463,6 +473,9 @@ html[data-lang="en"] [lang-en] { display: revert; }
   }
   .price-card li {
     font-size: 14px;
+  }
+  .plan-actions {
+    grid-template-columns: 1fr;
   }
 
   /* China support card */
