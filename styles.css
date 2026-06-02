@@ -372,6 +372,22 @@ section .lead {
 code, kbd {
   font-family: "JetBrains Mono", Consolas, monospace;
 }
+.feature-note {
+  margin: 18px 0 0;
+  padding: 14px 18px;
+  border-left: 4px solid var(--accent);
+  border-bottom: 2px solid var(--ink);
+  color: var(--muted);
+  background: rgba(255, 250, 240, 0.66);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.feature-note strong {
+  color: var(--ink);
+  font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+}
 
 /* Pricing */
 .price-card {
