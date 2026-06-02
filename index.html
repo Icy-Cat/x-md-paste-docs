@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title data-zh="X 文章 Markdown 一键导入" data-en="X Article Markdown Paste">X Article Markdown Paste</title>
+  <title data-zh="X 长文 Markdown 导入器" data-en="X Article Markdown Paste">X Article Markdown Paste</title>
   <meta name="description" content="A stable Markdown publishing workflow for X Articles. Import drafts from Obsidian, Notion exports, and local files with images, tables, covers, and tweet embeds." />
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Icy-Cat/x-md-paste-docs/main/favicon.png" />
   <link rel="stylesheet" href="./styles.css" />
@@ -11,7 +11,7 @@
 </head>
 <body>
   <header class="site">
-    <a href="./" class="brand"><span class="dot"></span><span lang-zh>X 文章 Markdown 一键导入</span><span lang-en>X Article Markdown Paste</span></a>
+    <a href="./" class="brand"><span class="dot"></span><span lang-zh>X 长文 Markdown 导入器</span><span lang-en>X Article Markdown Paste</span></a>
     <nav>
       <a href="#features"><span lang-zh>功能</span><span lang-en>Features</span></a>
       <a href="#pricing"><span lang-zh>价格</span><span lang-en>Pricing</span></a>
@@ -23,24 +23,24 @@
   <section class="hero">
     <div class="hero-copy">
       <p class="edition-line">
-        <span lang-zh>Vol. 1 · Chrome 扩展 · X Articles</span>
+        <span lang-zh>第 1 版 · Chrome 扩展 · X 长文</span>
         <span lang-en>Vol. 1 · Chrome Extension · X Articles</span>
       </p>
       <h1>
-        <span lang-zh>Markdown 草稿<br><span class="accent">稳定导入 X 长文</span></span>
+        <span lang-zh>Markdown 草稿<br><span class="accent">一键导入 X 长文</span></span>
         <span lang-en>Publish Markdown drafts as <span class="accent">stable X Articles</span>.</span>
       </h1>
       <p class="tagline">
-        <span lang-zh>给 Obsidian、Notion 导出、本地 .md 和 AI 生成长文使用的 Chrome 扩展。导入图片、表格、封面和推文嵌入，发布前仍由你在 X 里检查。</span>
+        <span lang-zh>为 Obsidian 笔记、Notion 导出、本地 .md 和 AI 草稿准备的 Chrome 扩展。图片、表格、封面和推文嵌入会自动导入，发布前你仍然可以在 X 编辑器里检查。</span>
         <span lang-en>A Chrome extension for Obsidian notes, Notion exports, local .md files, and AI-written drafts. Import images, tables, covers, and tweet embeds, then review everything inside X before publishing.</span>
       </p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#pricing">
-          <span lang-zh>查看 Pro 订阅</span>
+          <span lang-zh>查看 Pro 方案</span>
           <span lang-en>See Pro plans</span>
         </a>
         <a class="btn btn-ghost" href="#features">
-          <span lang-zh>看看怎么用</span>
+          <span lang-zh>了解功能</span>
           <span lang-en>How it works</span>
         </a>
       </div>
@@ -73,47 +73,47 @@
     <div class="container">
       <p class="section-kicker">Features Desk</p>
       <h2>
-        <span lang-zh>支持的内容</span>
+        <span lang-zh>能处理什么</span>
         <span lang-en>What it handles</span>
       </h2>
       <p class="lead">
-        <span lang-zh>重点不是“能粘贴”，而是减少 X 编辑器改版、本地图片、表格和封面带来的发布风险。</span>
+        <span lang-zh>它解决的不是复制粘贴本身，而是 X 编辑器改版、本地图片、表格和封面带来的不确定性。</span>
         <span lang-en>The point is not just pasting. It is reducing publishing risk around X editor changes, local images, tables, and cover handling.</span>
       </p>
       <div class="features">
         <div class="feature">
           <span class="icon">01</span>
           <h3><span lang-zh>图片自动上传</span><span lang-en>Auto-uploads images</span></h3>
-          <p><span lang-zh>外链图片自动下载，走 X 自家 CDN 上传。本地图片授权目录后也能用。</span><span lang-en>External URLs are fetched + uploaded via X's own media pipeline. Local images work with directory access.</span></p>
+          <p><span lang-zh>外链图片会自动下载，并通过 X 自己的媒体通道上传。本地图片授权目录后也能直接引用。</span><span lang-en>External URLs are fetched + uploaded via X's own media pipeline. Local images work with directory access.</span></p>
         </div>
         <div class="feature">
           <span class="icon">02</span>
-          <h3><span lang-zh>标题 / 封面自动识别</span><span lang-en>Title &amp; cover auto-detected</span></h3>
-          <p><span lang-zh>第一个 H1 自动作为文章标题，第一张图自动作为封面。也可在 frontmatter 用 <code>title:</code>/<code>cover:</code>（或 <code>标题:</code>/<code>封面:</code>）显式指定。</span><span lang-en>First H1 becomes the article title, first image becomes the cover. Override explicitly via frontmatter <code>title:</code> / <code>cover:</code>.</span></p>
+          <h3><span lang-zh>标题和封面自动识别</span><span lang-en>Title &amp; cover auto-detected</span></h3>
+          <p><span lang-zh>第一个 H1 会作为文章标题，第一张图片会作为封面。也可以在 frontmatter 里用 <code>title:</code>、<code>cover:</code>（或 <code>标题:</code>、<code>封面:</code>）指定。</span><span lang-en>First H1 becomes the article title, first image becomes the cover. Override explicitly via frontmatter <code>title:</code> / <code>cover:</code>.</span></p>
         </div>
         <div class="feature">
           <span class="icon">03</span>
           <h3><span lang-zh>表格 → 图片</span><span lang-en>Tables → images</span></h3>
-          <p><span lang-zh>X 不支持表格？我们渲染成 PNG 自动嵌入，HiDPI 清晰度。</span><span lang-en>X doesn't support tables? We render to PNG and embed inline at HiDPI quality.</span></p>
+          <p><span lang-zh>X 文章不支持表格，扩展会把表格渲染成清晰的 PNG，再自动插入正文。</span><span lang-en>X doesn't support tables? We render to PNG and embed inline at HiDPI quality.</span></p>
         </div>
         <div class="feature">
           <span class="icon">04</span>
-          <h3><span lang-zh>代码块带高亮</span><span lang-en>Code blocks</span></h3>
-          <p><span lang-zh>带语言标记的 fenced code 转成 X 原生代码块，等宽字体灰底。</span><span lang-en>Fenced code with language tag → X native code block (mono, gray bg).</span></p>
+          <h3><span lang-zh>代码块保留格式</span><span lang-en>Code blocks</span></h3>
+          <p><span lang-zh>带语言标记的代码块会转成 X 原生代码样式，保留等宽字体和灰底格式。</span><span lang-en>Fenced code with language tag → X native code block (mono, gray bg).</span></p>
         </div>
         <div class="feature">
           <span class="icon">05</span>
-          <h3><span lang-zh>推文自动嵌入</span><span lang-en>Tweet embeds</span></h3>
-          <p><span lang-zh>粘贴 X 推文链接，自动转成嵌入卡片，跟 X 网页粘贴体验一致。</span><span lang-en>Tweet URLs are auto-converted to embed cards, just like pasting them on x.com.</span></p>
+          <h3><span lang-zh>推文链接自动嵌入</span><span lang-en>Tweet embeds</span></h3>
+          <p><span lang-zh>正文里的 X 推文链接会自动变成嵌入卡片，效果和在 X 网页里直接粘贴一致。</span><span lang-en>Tweet URLs are auto-converted to embed cards, just like pasting them on x.com.</span></p>
         </div>
         <div class="feature">
           <span class="icon">06</span>
           <h3><span lang-zh>拖入 .md 文件</span><span lang-en>Drag & drop .md</span></h3>
-          <p><span lang-zh>不用复制粘贴，把 .md 文件直接拖进浏览器，自动新建草稿并填充内容。</span><span lang-en>Drag a .md file onto the browser — extension creates a fresh draft and fills it in.</span></p>
+          <p><span lang-zh>不用先复制全文，直接把 .md 文件拖进浏览器，扩展会新建草稿并填入内容。</span><span lang-en>Drag a .md file onto the browser — extension creates a fresh draft and fills it in.</span></p>
         </div>
       </div>
       <p class="feature-note">
-        <span lang-zh><strong>隐私原则：</strong>没有 analytics、不读 cookie、不传输文章内容，所有处理都在你浏览器内完成。</span>
+        <span lang-zh><strong>隐私原则：</strong>不接入统计，不读取 cookie，也不上传文章内容。所有处理都在你的浏览器里完成。</span>
         <span lang-en><strong>Privacy principle:</strong> no analytics, no cookies read, no article content sent anywhere. Everything happens in your browser.</span>
       </p>
     </div>
@@ -123,11 +123,11 @@
     <div class="container">
       <p class="section-kicker center">Subscription Notice</p>
       <h2 style="text-align:center">
-        <span lang-zh>14 天试用，然后按需订阅</span>
+        <span lang-zh>先试用 14 天，再决定是否订阅</span>
         <span lang-en>Try Pro for 14 days, then subscribe if it saves time.</span>
       </h2>
       <p class="lead" style="text-align:center; margin-left:auto; margin-right:auto;">
-        <span lang-zh>Free 版可以继续用基础导入。Pro 解锁无限图片、表格、推文嵌入、本地图片和无签名。</span>
+        <span lang-zh>免费版保留基础导入能力。Pro 解锁无限图片、表格、推文嵌入、本地图片和去除文末签名。</span>
         <span lang-en>The Free tier keeps basic imports available. Pro unlocks unlimited images, tables, tweet embeds, local images, and no footer signature.</span>
       </p>
 
@@ -138,15 +138,15 @@
         </span>
         <div class="amount"><span class="currency">$</span>49</div>
         <span class="period">
-          <span lang-zh>年付 · 约 $4.08/月 · 最多 5 台设备</span>
+          <span lang-zh>年付 · 约 $4.08/月 · 最多支持 5 台设备</span>
           <span lang-en>Annual · about $4.08/mo · up to 5 devices</span>
         </span>
         <ul>
           <li><span lang-zh>无限图片、表格、推文嵌入</span><span lang-en>Unlimited images, tables, tweet embeds</span></li>
           <li><span lang-zh>本地图片目录支持</span><span lang-en>Local image directory support</span></li>
-          <li><span lang-zh>标题、封面和 frontmatter 自动识别</span><span lang-en>Title, cover, and frontmatter auto-detection</span></li>
-          <li><span lang-zh>X 改版后的兼容维护</span><span lang-en>Compatibility maintenance when X changes the editor</span></li>
-          <li><span lang-zh>无文末签名</span><span lang-en>No footer watermark</span></li>
+          <li><span lang-zh>自动识别标题、封面和 frontmatter</span><span lang-en>Title, cover, and frontmatter auto-detection</span></li>
+          <li><span lang-zh>X 编辑器改版后的兼容维护</span><span lang-en>Compatibility maintenance when X changes the editor</span></li>
+          <li><span lang-zh>去除文末签名</span><span lang-en>No footer watermark</span></li>
           <li><span lang-zh>支持信用卡 / Apple Pay / Google Pay</span><span lang-en>Card / Apple Pay / Google Pay</span></li>
         </ul>
         <div class="plan-actions">
@@ -160,7 +160,7 @@
           </a>
         </div>
         <p class="later">
-          <span lang-zh>付款后 Creem 会通过邮件发送激活码。插件弹窗只负责激活，不在弹窗里展示价格。</span>
+          <span lang-zh>付款后 Creem 会把激活码发到你的邮箱。插件弹窗只用于激活，不在弹窗里展示价格。</span>
           <span lang-en>Creem emails your license key after checkout. The extension popup is for activation, not pricing.</span>
         </p>
       </div>
@@ -168,11 +168,11 @@
       <div id="cn" class="cn-card">
         <h3><span lang-zh>国内用户支持</span><span lang-en>Support for China users</span></h3>
         <p>
-          <span lang-zh>国内早鸟支持价 ¥98/年。没有国际信用卡或想进微信群交流，可以先通过 X 私信我。</span>
+          <span lang-zh>国内早鸟价 ¥98/年。没有国际信用卡，或想进微信群交流，可以先在 X 上私信我。</span>
           <span lang-en>China early supporter price: ¥98/year. If you need local payment help or want to join the WeChat group, message me on X first.</span>
         </p>
         <a class="btn btn-secondary" href="https://x.com/lngkximo" target="_blank" rel="noopener">
-          <span lang-zh>X 私信我加微信群</span>
+          <span lang-zh>在 X 上私信我</span>
           <span lang-en>DM me on X to join the WeChat group</span>
         </a>
       </div>
@@ -185,33 +185,33 @@
       <h2 style="text-align:center"><span lang-zh>常见问题</span><span lang-en>FAQ</span></h2>
       <div class="faq" style="margin-top:36px">
         <details>
-          <summary><span lang-zh>装在哪？怎么用？</span><span lang-en>How do I install and use it?</span></summary>
+          <summary><span lang-zh>安装后怎么用？</span><span lang-en>How do I install and use it?</span></summary>
           <div class="answer">
-            <span lang-zh>从 Chrome Web Store 安装后，去 <a href="https://x.com/compose/articles" target="_blank">X 文章编辑器</a>，<kbd>Ctrl+V</kbd> 粘贴你的 Markdown 即可。或者把 <code>.md</code> 文件拖进浏览器自动新建草稿。</span>
+            <span lang-zh>从 Chrome Web Store 安装后，打开 <a href="https://x.com/compose/articles" target="_blank">X 文章编辑器</a>，用 <kbd>Ctrl+V</kbd> 粘贴 Markdown 即可。也可以把 <code>.md</code> 文件直接拖进浏览器，让扩展自动新建草稿。</span>
             <span lang-en>Install from the Chrome Web Store, open the <a href="https://x.com/compose/articles" target="_blank">X article editor</a>, then <kbd>Ctrl+V</kbd> your Markdown. Or drag a <code>.md</code> file onto the browser to create a fresh draft.</span>
           </div>
         </details>
         <details>
-          <summary><span lang-zh>会泄露我的 X 账号或文章内容吗？</span><span lang-en>Does it leak my X account or content?</span></summary>
+          <summary><span lang-zh>会读取我的 X 账号或文章内容吗？</span><span lang-en>Does it leak my X account or content?</span></summary>
           <div class="answer">
-            <span lang-zh>不会。扩展只在 <code>x.com/compose/articles/*</code> 工作，不读你的 cookie 或密码，不上传任何文章内容。详见 <a href="./privacy.html">隐私政策</a>。</span>
+            <span lang-zh>不会。扩展只在 <code>x.com/compose/articles/*</code> 页面工作，不读取你的 cookie 或密码，也不会上传文章内容。详见 <a href="./privacy.html">隐私政策</a>。</span>
             <span lang-en>No. The extension only runs on <code>x.com/compose/articles/*</code>, doesn't read your cookies or password, and uploads zero article content. See <a href="./privacy.html">Privacy Policy</a>.</span>
           </div>
         </details>
         <details id="find-license-key">
-          <summary><span lang-zh>付款后在哪里找激活码？</span><span lang-en>Where do I find the license key after purchase?</span></summary>
+          <summary><span lang-zh>付款后去哪找激活码？</span><span lang-en>Where do I find the license key after purchase?</span></summary>
           <div class="answer">
             <p>
-              <span lang-zh>付款后 Creem 会发一封订单确认邮件到你购买时填的邮箱（标题大致是 <em>Your X Article Markdown Paste order</em>）。点邮件里的 <strong>"View Order"</strong> / <strong>查看订单</strong> 链接进 Creem 订单页：</span>
+              <span lang-zh>付款后，Creem 会向你购买时填写的邮箱发送订单确认邮件（标题大致是 <em>Your X Article Markdown Paste order</em>）。点击邮件里的 <strong>"View Order"</strong> / <strong>查看订单</strong>，进入 Creem 订单页：</span>
               <span lang-en>Creem sends an order confirmation email (subject roughly <em>Your X Article Markdown Paste order</em>) to the address you entered at checkout. Click the <strong>"View Order"</strong> link inside the email to open your order page on Creem:</span>
             </p>
             <ol class="license-steps">
-              <li><span lang-zh><strong>① 左侧 Orders 列表</strong>：点 "X Article Markdown Paste — Pro" 那一条</span><span lang-en><strong>① Orders panel on the left</strong>: click the "X Article Markdown Paste — Pro" row</span></li>
-              <li><span lang-zh><strong>② 右侧 License Key 区域</strong>：复制那串 <code>5VLZ0-…-…-…-…</code> 形式的激活码</span><span lang-en><strong>② License Key panel on the right</strong>: copy the <code>5VLZ0-…-…-…-…</code> key</span></li>
+              <li><span lang-zh><strong>① 左侧 Orders 列表</strong>：点击 "X Article Markdown Paste — Pro" 这一条订单</span><span lang-en><strong>① Orders panel on the left</strong>: click the "X Article Markdown Paste — Pro" row</span></li>
+              <li><span lang-zh><strong>② 右侧 License Key 区域</strong>：复制形如 <code>5VLZ0-…-…-…-…</code> 的激活码</span><span lang-en><strong>② License Key panel on the right</strong>: copy the <code>5VLZ0-…-…-…-…</code> key</span></li>
             </ol>
             <img src="./creem-find-license-key.png" alt="Creem dashboard: how to locate license key" style="width: 100%; max-width: 720px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(127,127,127,0.3);" />
             <p style="margin-top: 10px;">
-              <span lang-zh>拿到激活码后，点 Chrome 工具栏的扩展图标，把激活码粘进 <strong>License Key</strong> 输入框，按回车即可。每个激活码最多可在 5 台设备上使用，订阅有效期以 Creem 订单状态为准。</span>
+              <span lang-zh>拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 <strong>License Key</strong> 输入框，然后按回车。每个激活码最多可在 5 台设备上使用，订阅有效期以 Creem 订单状态为准。</span>
               <span lang-en>Once you have the key, click the extension icon in Chrome's toolbar, paste it into the <strong>License Key</strong> field, press Enter. Each key activates on up to 5 devices, and subscription validity follows the Creem order status.</span>
             </p>
           </div>
@@ -219,21 +219,21 @@
         <details>
           <summary><span lang-zh>能退款吗？</span><span lang-en>Can I get a refund?</span></summary>
           <div class="answer">
-            <span lang-zh>付款 7 天内未激活满意的话可全额退款。请发邮件到 <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a>，附订单号。</span>
+            <span lang-zh>购买后 7 天内如果不满意，可以申请全额退款。请把订单号发到 <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a>。</span>
             <span lang-en>Yes — within 7 days of purchase if you're not satisfied. Email <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a> with your order ID.</span>
           </div>
         </details>
         <details>
-          <summary><span lang-zh>X 改了 UI 之后会不会失效？</span><span lang-en>Does it break when X updates its UI?</span></summary>
+          <summary><span lang-zh>X 改版后会不会失效？</span><span lang-en>Does it break when X updates its UI?</span></summary>
           <div class="answer">
-            <span lang-zh>会偶尔出问题，但我们盯着——发现失效后通常 24-48 小时内修好推送更新。Chrome 扩展自动更新。</span>
+            <span lang-zh>有可能。X 的编辑器改版时，扩展偶尔会失效。发现问题后，我会尽量在 24-48 小时内修复并推送更新，Chrome 会自动安装新版扩展。</span>
             <span lang-en>Occasionally yes, but we monitor closely — usually fixed and pushed within 24-48 hours of breakage. Chrome auto-updates the extension.</span>
           </div>
         </details>
         <details>
           <summary><span lang-zh>支持 Firefox / Edge / Safari 吗？</span><span lang-en>Firefox / Edge / Safari support?</span></summary>
           <div class="answer">
-            <span lang-zh>当前只支持 Chrome 和基于 Chromium 的浏览器（Edge、Brave、Arc 等）。Firefox 和 Safari 在 v1.5 路线图上。</span>
+            <span lang-zh>目前支持 Chrome，以及 Edge、Brave、Arc 等基于 Chromium 的浏览器。Firefox 和 Safari 会放在后续版本规划里。</span>
             <span lang-en>Currently Chrome and Chromium-based browsers (Edge, Brave, Arc) only. Firefox and Safari are on the v1.5 roadmap.</span>
           </div>
         </details>
@@ -248,7 +248,7 @@
       <a href="mailto:lengkuxiaomao@gmail.com"><span lang-zh>联系</span><span lang-en>Contact</span></a>
       <a href="https://x.com/lngkximo" target="_blank" rel="noopener">@lngkximo</a>
     </div>
-    <div>© 2026 IcyCat · <span lang-zh>独立开发</span><span lang-en>Built solo</span></div>
+    <div>© 2026 IcyCat · <span lang-zh>独立开发者作品</span><span lang-en>Built solo</span></div>
   </footer>
 </body>
 </html>
