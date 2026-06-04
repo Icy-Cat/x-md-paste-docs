@@ -457,6 +457,9 @@ code, kbd {
   padding-left: 14px;
   padding-right: 14px;
 }
+.plan-actions .btn:only-child {
+  grid-column: 1 / -1;
+}
 .price-card .later {
   margin: 16px 0 0;
   color: var(--muted);
