@@ -14,6 +14,17 @@
   --max: 1120px;
   /* 版面用的分栏规：比组件描边重一档，读者靠它分节 */
   --rule: 2px solid var(--ic-ink);
+  /* 唯一的 webfont，只给「展示级」字号用：大标题、节标题、价格数字。
+     整站换系统时把它一起去掉了，结果 $29 变成一个界面里的数字——落地页
+     没有别的东西替它撑起调性，那个数字就是主视觉。
+     字体栈的顺序是有讲究的：Playfair 没有汉字，所以中文会自动落到
+     PingFang，拉丁和数字走 Playfair——混排各取所长，正是这里要的效果
+     （标题里的「早鸟价」保持黑体，「$29」是衬线）。
+     正文一律不用它：一个高对比度衬线体读长文会累，那也不是它的活。
+     数字是旧式的（2 蹲在 x 高、9 带降部），这是字体本身的设计，不是没配
+     lnum：实测这个 family 根本没有 lnum/onum 两个 feature，切换前后字形
+     完全一致。$29 就是要这个手感。 */
+  --display: "Playfair Display", var(--ic-font);
   min-height: 100vh;
 }
 
@@ -29,7 +40,8 @@ section { padding: 72px 0; border-bottom: var(--rule); }
 /* 最后一节紧挨着页脚，页脚自带上边规，再画一条就成了双线 */
 section:last-of-type { border-bottom: 0; }
 section.alt { background: color-mix(in srgb, var(--ic-brand) 5%, var(--ic-paper)); }
-section > .container > h2 { font-size: var(--ic-fs-h); margin: 0 0 var(--ic-3); letter-spacing: -.02em; }
+section > .container > h2 { font-family: var(--display); font-weight: 700; font-size: var(--ic-fs-h);
+                            margin: 0 0 var(--ic-3); letter-spacing: -.01em; }
 .lead { max-width: 60ch; margin: 0 0 var(--ic-6); color: var(--ic-ink-2); }
 
 /* 小节眉题：等宽 + 字距，和系统的 .ic-cap 同一个角色，只是这里要用品牌色 */
@@ -69,8 +81,8 @@ header.site nav a:hover { color: var(--ic-brand); }
   border-bottom: var(--rule);
 }
 .hero-copy { min-width: 0; }
-.hero h1 { font-size: var(--ic-fs-hero); line-height: 1.06; letter-spacing: -.025em;
-           font-weight: 600; margin: 0 0 var(--ic-4); text-wrap: balance; }
+.hero h1 { font-family: var(--display); font-size: var(--ic-fs-hero); line-height: 1.06;
+           letter-spacing: -.01em; font-weight: 900; margin: 0 0 var(--ic-4); text-wrap: balance; }
 /* 强调词底下压一道粗线：原版是这个站的签名，只是把正红换成品牌蓝 */
 .hero h1 .accent {
   color: var(--ic-brand);
@@ -114,7 +126,8 @@ html[data-lang="en"] .hero .tagline::first-letter {
 .proof__src strong { color: var(--ic-brand); }
 .proof__out { padding: var(--ic-4); display: flex; flex-direction: column; gap: var(--ic-3); }
 .proof__out .kicker { margin: 0; }
-.proof__out h3 { margin: 0; font-size: var(--ic-fs-h); font-weight: 600; letter-spacing: -.02em; }
+.proof__out h3 { margin: 0; font-family: var(--display); font-weight: 700;
+                 font-size: var(--ic-fs-h); letter-spacing: -.01em; }
 .proof__out p { margin: 0; font-size: var(--ic-fs-sm); line-height: var(--ic-lh-sm); color: var(--ic-ink-2); }
 .proof__img {
   min-height: 132px; flex: 1; border-radius: var(--ic-r);
@@ -166,8 +179,8 @@ html[data-lang="en"] .hero .tagline::first-letter {
   border-width: 2px; box-shadow: 6px 6px 0 var(--ic-ink);
 }
 .price-card .ic-badge { margin-bottom: var(--ic-2); }
-.price-card .amount { font: 600 clamp(52px, 8vw, 76px)/1 var(--ic-font); letter-spacing: -.03em; }
-.price-card .amount .currency { font-size: .42em; vertical-align: .55em; margin-right: 3px; color: var(--ic-brand); }
+.price-card .amount { font: 900 clamp(56px, 8.5vw, 84px)/.94 var(--display); letter-spacing: -.02em; }
+.price-card .amount .currency { font-size: .38em; vertical-align: .6em; margin-right: 4px; color: var(--ic-brand); }
 .price-card .period {
   display: block; margin: var(--ic-2) 0 var(--ic-4);
   font: 500 var(--ic-fs-cap)/1.5 var(--ic-mono); color: var(--ic-ink-3);
@@ -222,8 +235,8 @@ footer.site .links a { color: var(--ic-ink); font-weight: 500; }
 
 /* 条款 / 隐私页 */
 .doc { max-width: 820px; margin: 0 auto; padding: 64px 24px 88px; }
-.doc h1 { margin: 0 0 var(--ic-2); font-size: var(--ic-fs-hero); line-height: 1.06;
-          letter-spacing: -.025em; font-weight: 600; }
+.doc h1 { margin: 0 0 var(--ic-2); font-family: var(--display); font-size: var(--ic-fs-hero);
+          line-height: 1.06; letter-spacing: -.01em; font-weight: 900; }
 .doc .updated {
   margin: 0 0 var(--ic-6);
   font: 600 var(--ic-fs-cap)/1.5 var(--ic-mono); letter-spacing: .1em;
@@ -232,7 +245,7 @@ footer.site .links a { color: var(--ic-ink); font-weight: 500; }
 .doc h2 {
   margin: var(--ic-6) 0 var(--ic-2); padding-top: var(--ic-4);
   border-top: var(--ic-bw) solid var(--ic-soft);
-  font-size: var(--ic-fs-h); font-weight: 600; letter-spacing: -.02em;
+  font-family: var(--display); font-size: var(--ic-fs-h); font-weight: 700; letter-spacing: -.01em;
 }
 .doc p, .doc li { font-size: var(--ic-fs-body); line-height: 1.75; }
 .doc ul { padding-left: 24px; }

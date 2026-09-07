@@ -705,6 +705,9 @@
   font:600 var(--ic-fs-cap)/1.5 var(--ic-font);padding:2px 8px;
   border:1.5px solid;border-radius:var(--ic-r);
 }
+/* brand 是「身份」不是「结果」：档位、所属、被选中的那一个。ok 说的是
+   「刚才那件事成了」，拿它标 Pro 会让一个常驻标签读成一条成功提示。 */
+.ic-badge--brand{color:var(--ic-brand);border-color:var(--ic-brand);background:color-mix(in srgb, var(--ic-brand) 10%, transparent)}
 .ic-badge--ok{color:var(--ic-olive);border-color:var(--ic-olive);background:color-mix(in srgb, var(--ic-olive) 10%, transparent)}
 .ic-badge--info{color:var(--ic-blue);border-color:var(--ic-blue);background:color-mix(in srgb, var(--ic-blue) 9%, transparent)}
 .ic-badge--warn{color:var(--ic-gold);border-color:var(--ic-gold);background:color-mix(in srgb, var(--ic-gold) 11%, transparent)}
@@ -718,6 +721,8 @@
 /* spec-ok: border-color over .ic-badge-- —— 贴纸下 badge 一律墨色描边，压掉四个语义变体各自的
    描边色是有意的：语义靠填充色表达，描边统一才像一张贴纸。 */
 .ic-root[data-lang="sticker"] .ic-badge{color:var(--ic-ink);border-color:var(--ic-ink)}
+/* 实心品牌色 + 白字，和主按钮同一枚颜色——档位标签和「去升级」讲的是同一件事 */
+.ic-root[data-lang="sticker"] .ic-badge--brand{background:var(--ic-brand);color:var(--ic-on-brand)}
 .ic-root[data-lang="sticker"] .ic-badge--ok{background:var(--ic-fill-ok);color:var(--ic-on-fill)}
 .ic-root[data-lang="sticker"] .ic-badge--info{background:var(--ic-fill-info);color:var(--ic-on-fill)}
 .ic-root[data-lang="sticker"] .ic-badge--warn{background:var(--ic-fill-warn);color:var(--ic-on-fill)}
@@ -1198,6 +1203,10 @@
 .ic-collapse>summary{
   display:flex;align-items:center;gap:var(--ic-2);padding:10px 2px;cursor:pointer;
   font-size:var(--ic-fs-body);font-weight:500;list-style:none;
+  /* summary 是按钮，不是文本。双击「开、关」是很自然的手势，而浏览器会
+     在第二次按下时把标题整段选中——蓝底一片，还得点空白处才消得掉。
+     不选中它不损失什么：要复制的是答案，答案在 __body 里，仍可选。 */
+  -webkit-user-select:none;user-select:none;
 }
 .ic-collapse>summary::-webkit-details-marker{display:none}
 .ic-collapse>summary::before{
