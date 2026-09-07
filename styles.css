@@ -64,10 +64,15 @@ header.site .brand {
   display: inline-flex; align-items: center; gap: var(--ic-2);
   font-weight: 600; text-decoration: none; min-width: 0;
 }
-header.site .brand .dot {
-  width: 14px; height: 14px; flex: none;
-  background: var(--ic-brand); border: var(--ic-bw) solid var(--ic-ink);
-  border-radius: 3px; box-shadow: var(--ic-pop);
+/* 站点标记就是扩展图标本身，不是另画一个方块——用户在 Chrome 工具栏上认的
+   是这一枚。图稿是固定色（近黑底 + 白 M），直接放在暗色页面上会糊进背景，
+   所以垫一层永远是白的底板：这是这份样式表里唯一一个写死的颜色，因为它跟
+   主题无关，是图稿的一部分。 */
+header.site .brand .mark {
+  width: 26px; height: 26px; flex: none;
+  padding: 2px; background: #FFFFFF;
+  border: var(--ic-bw) solid var(--ic-ink); border-radius: 7px;
+  box-shadow: var(--ic-pop);
 }
 header.site nav { display: flex; align-items: center; gap: var(--ic-4); font-size: var(--ic-fs-sm); }
 header.site nav a { text-decoration: none; color: var(--ic-ink-2); }
