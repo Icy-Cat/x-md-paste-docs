@@ -1,0 +1,1264 @@
+/* ═══════════════════════════════════════════════════════════════
+   coolcat-ui v1 — 跨宿主组件层
+   零依赖、零构建。vanilla JS / React / Obsidian 插件 / 油猴脚本通吃。
+
+   三条硬约束（被 Chrome content script 逼出来的，别改）：
+   1. 所有类名 ic- 前缀 —— 注入 X 页面时宿主 CSS 会污染
+   2. 变量挂 .ic-root 不挂 :root —— 注入场景拿不到 :root
+   3. 形语言用 .ic-root[data-lang] 切 —— B/C 共存靠这个，不是两个文件
+
+   用法：<div class="ic-root" data-lang="paper"> … </div>
+         data-lang="paper"   → C 纸与线（文档、落地页、数据表）
+         data-lang="sticker" → B 贴纸（插件面板、弹层）
+   ═══════════════════════════════════════════════════════════════ */
+
+.ic-root{
+  /* 共用色 —— 两条形语言只在形上分叉，色永远一样。
+     白 + 黑 + 蓝，和冷酷小猫本身一致：奶油白毛在纯白插图底上、粗炭黑
+     描边、牛仔蓝。上一版把毛色的奶油当成了 UI 底色，结果一整屏发黄，
+     而插图规范本来就要求纯白背景。 */
+  --ic-paper:#FFFFFF; --ic-surface:#FFFFFF; --ic-inset:#F1F2F4; --ic-soft:#D4D7DC;
+  /* ink-3 是提示、说明、placeholder、表头标签的颜色——全是正文。
+     上一版 #8C867C 对卡片只有 3.47:1、对底色 2.82:1，AA 要 4.5，
+     整套系统的辅助文字都不达标，看起来就是「一屏灰蒙蒙」。
+     #6B7076：对纯白 4.99:1，过 AA。 */
+  --ic-ink:#111111; --ic-ink-2:#5F6368; --ic-ink-3:#6B7076;
+  /* 品牌主色 —— 取自冷酷小猫的牛仔背带裤（IP 身上唯一的彩色，那只猫身上
+     一个红像素都没有）。对白字 5.5:1，过 AA。primary 按钮、进度条、
+     tab 选中态都用它。 */
+  --ic-brand:#1B6FD3; --ic-brand-2:#155BAF;   /* 白字 4.93:1，过 AA */
+  /* 主按钮上的字色。亮色下品牌蓝够深，用白字；暗色下品牌蓝要提亮才
+     跟得住暗底，于是反过来用深字——Material 3 的 primary/onPrimary
+     就是这么翻的，不是我发明的。 */
+  --ic-on-brand:#FFFFFF;
+  /* 贴纸色块（badge 填充）上的字。这组填充在两个主题里都是亮色，
+     所以字色恒定压深，不跟 --ic-ink 翻。 */
+  --ic-on-fill:#111111;
+  --ic-scrim:rgba(17,17,17,.36);            /* 模态遮罩 */
+  /* 贴纸 badge 的填充。**故意不随主题翻**：暗底上一块亮色 chip 正是
+     这条形语言要的效果，配 --ic-on-fill 的深字，两个主题都 ≥9:1。 */
+  --ic-fill-ok:#86E38B; --ic-fill-info:#7FC4FF;
+  --ic-fill-warn:#FFD84D; --ic-fill-err:#FF9B8F;
+  --ic-tick-on-brand:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2' d='M1 4l3 3 5-6'/%3E%3C/svg%3E");
+  /* 红 —— 只干两件事：破坏性操作，和「偏离默认」的标识（约定 17：
+     筛选中的表头、脏值的 combobox）。**选中不是偏离默认**，选中一律用
+     品牌色：勾选框、单选、下拉选中项、分段控件、chip、按下的图标按钮、
+     选中的表格行、tab、开关，全部 --ic-brand。
+     它不再是主操作色：品牌色和危险色必须是两个颜色，否则「保存」和
+     「删除」长得一样。 */
+  --ic-red:#C1121F;
+  --ic-blue:#0E7490; --ic-olive:#2E7D4F; --ic-gold:#B45309;
+  /* 语义色，不是主色。三件事：
+     · info 用青而不是蓝——按钮已经是蓝的，信息提示再用同一个蓝，
+       用户会以为那块可以点。
+     · gold 从 #A87F16 改成 #B45309：旧值对白只有 3.68:1，而它是
+       .ic-msg--warn / .ic-badge--warn 的**文字**色，AA 不达标。
+     · olive 从橄榄改成正绿：白底上橄榄色发脏。 */
+
+  /* 形（默认 = paper） */
+  --ic-bw:1.5px; --ic-r:4px; --ic-r-lg:6px; --ic-pop:none;
+  /* 字体 —— 一个 webfont 都不加。Mac 上就是 SF Pro，Win 上是 Segoe UI。
+     顺序是有讲究的：先排全部拉丁字体，再排中文字体。SF Pro 没有汉字，
+     所以中文会自动落到 PingFang SC，拉丁仍走 SF——中西混排各取所长。
+     反过来把 PingFang 提前会让英文也变成苹方，字形立刻不对。
+
+     字重上限 600。PingFang SC 只有 Regular/Medium/Semibold 三档，
+     写 700 以上在中文上会被合成假粗，边缘发糊。 */
+  --ic-font:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
+            "Segoe UI",Roboto,"Helvetica Neue",Arial,
+            "PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",
+            sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  --ic-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+
+  /* ── 字号阶 · 六档封顶 ──────────────────────────────────
+     Obsidian 全站只有五档，这是它「看起来是设计过的」的主因之一。
+     唯一调字距的是 hero：≥28px 收 -.02em，小字一律 normal。
+     控件一律用 --ic-fs-body，别再各写各的 13/13.5/14。 */
+  --ic-fs-hero:32px;  --ic-lh-hero:1.1;   /* 页面主标题，带负字距 */
+  --ic-fs-h:20px;     --ic-lh-h:1.3;      /* 区块标题 */
+  --ic-fs-sub:15px;   --ic-lh-sub:1.45;   /* 小节标题、卡片标题 */
+  --ic-fs-body:13.5px;--ic-lh-body:1.6;   /* 正文与所有控件 */
+  --ic-fs-sm:12.5px;  --ic-lh-sm:1.5;     /* 次要说明、辅助文字 */
+  --ic-fs-cap:11px;   --ic-lh-cap:1.4;    /* 标签、元信息、表头 */
+
+  /* ── z-index 层级表 · 全站唯一顺序真源 ────────────────────
+     语义顺序（改之前先确认不会破坏这条链）：
+       局部浮层 < 下拉 < 模态 < 右键菜单 < tooltip < toast < 拖拽残影
+     依据：模态常从局部浮层里打开，所以模态必须高于浮层；右键菜单和
+     tooltip 常挂在模态**内部**的控件上，所以必须高于模态。
+     新浮层一律引用 token，不要再写字面数字——「有表但没人用」是
+     这类 bug 的真正成因，不是某处数字写错了。 */
+  --ic-z-overlay:100;   /* 局部浮层、区域遮罩 */
+  --ic-z-dropdown:200;  /* combobox / select 下拉 */
+  --ic-z-modal:300;     /* 对话框及其遮罩 */
+  --ic-z-menu:400;      /* 右键菜单：可挂在模态内部的控件上 */
+  --ic-z-tooltip:500;
+  --ic-z-toast:600;
+  --ic-z-drag:700;      /* 拖拽残影跟着指针走，永远最高 */
+
+  /* 组件内部用到的图标，走 CSS mask 以便跟 currentColor 一起变色 */
+  --ic-caret:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M5 1L9 8H1z'/%3E%3C/svg%3E");
+  --ic-funnel:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M22 3H2l8 9.46V19l4 2v-8.54z'/%3E%3C/svg%3E");
+  --ic-grip:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='9' cy='6' r='2'/%3E%3Ccircle cx='15' cy='6' r='2'/%3E%3Ccircle cx='9' cy='12' r='2'/%3E%3Ccircle cx='15' cy='12' r='2'/%3E%3Ccircle cx='9' cy='18' r='2'/%3E%3Ccircle cx='15' cy='18' r='2'/%3E%3C/svg%3E");
+
+  --ic-x:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' d='M1 1l8 8M9 1l-8 8'/%3E%3C/svg%3E");
+  --ic-warn:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 100 20 10 10 0 000-20zm-1 5h2v8h-2V7zm0 10h2v2h-2v-2z'/%3E%3C/svg%3E");
+  --ic-tick:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2a10 10 0 100 20 10 10 0 000-20zm-1.2 14.5l-4-4 1.4-1.4 2.6 2.6 5.6-5.6L17.8 9l-7 7.5z'/%3E%3C/svg%3E");
+
+  /* 控件高度 · 只有两档。
+     之前按钮 34.5、输入/下拉/步进器 39.9、小按钮 22——三套高度摆在一屏
+     里，横向对不齐，纵向也没有节奏。34px 是按 --ic-fs-body 13.5px 配
+     1.4 行高算出来的：(34 - 2×1.5 描边 - 18.9 文字) / 2 = 6px 内边距。
+     26px 那档给页面杂项控件（语言切换、工具条上的小按钮）。 */
+  --ic-h:34px; --ic-h-sm:26px;
+
+  /* 间距阶 · 4 的倍数 */
+  --ic-1:4px; --ic-2:8px; --ic-3:12px; --ic-4:16px; --ic-6:24px;
+
+  /* 动效 —— 曲线全站唯一，别各写各的 */
+  --ic-e:cubic-bezier(.4,0,.2,1);
+  --ic-t:.15s var(--ic-e);        /* 状态变化 */
+  --ic-t-in:.18s var(--ic-e);     /* 浮层进入 */
+
+  color-scheme:light dark;
+  color:var(--ic-ink); font-family:var(--ic-font);
+  font-size:var(--ic-fs-body); line-height:var(--ic-lh-body);
+  background:var(--ic-paper);
+}
+.ic-root[data-lang="sticker"]{
+  --ic-bw:1.5px; --ic-r:6px; --ic-r-lg:12px; --ic-pop:2px 2px 0 var(--ic-ink);
+  /* sticker 不再改底色：白底白卡靠 1.5px 描边和硬阴影分层，
+     那正是这条形语言的分层手段。 */
+}
+/* ═══ 暗色主题 ═══════════════════════════════════════════════
+   两段，缺一不可：
+     · @media 那段跟随系统，但被 [data-theme="light"] 排除——用户明确
+       选了亮色，系统是暗的也不能盖过他。
+     · [data-theme="dark"] 那段是显式选择，权重高于 @media，所以在
+       亮色系统上也能强制暗色。
+   两段的值必须一模一样。用不了 light-dark() 一次写完的原因很实际：
+   它要 Chrome 123+，而这套东西要跑在 minimum_chrome_version 114 的
+   扩展里。值改了记得两边都改（x-article-md-paste 里有个测试盯着这点）。
+
+   形语言不用改：--ic-pop 和描边都引 --ic-ink，墨色一翻成浅色，
+   粗描边和硬阴影自动变成浅色的——那正是暗色新粗野主义的做法。 */
+@media (prefers-color-scheme: dark) {
+  .ic-root:not([data-theme="light"]) {
+  /* 底与面：暗色不是把亮色反过来，纯黑底配纯白字会晃眼。
+     底 #0E1114 略偏冷（跟蓝品牌同一个方向），卡片抬高一档做层次——
+     亮色下 paper 和 surface 同为纯白、靠描边分层；暗色下多给一档明度，
+     因为暗背景里人眼对明度差比对描边敏感。 */
+  --ic-paper:#0E1114; --ic-surface:#14181D; --ic-inset:#1E2228; --ic-soft:#333B44;
+  /* 不用纯白当正文色：#FFFFFF 压在暗底上会发光、笔画糊。 */
+  --ic-ink:#F2F4F6; --ic-ink-2:#B6BCC4; --ic-ink-3:#8A9098;   /* ink-3 对卡片 5.54:1 */
+  /* 品牌蓝提亮到 #5B9FE6，字反过来用深色（对比 6.79:1）。
+     #1B6FD3 那个深蓝在暗底上是一块闷色，色块对底只有 3.84:1。 */
+  --ic-brand:#5B9FE6; --ic-brand-2:#7FB3F0; --ic-on-brand:#111111;
+  /* 语义色全部换亮版：亮色那组在暗底上是 2.86~3.55:1，全部不达标。 */
+  --ic-olive:#57C97F; --ic-blue:#3BB6D6; --ic-gold:#E0A33A; --ic-red:#F26A6A;
+  --ic-scrim:rgba(0,0,0,.62);
+  --ic-tick-on-brand:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8'%3E%3Cpath fill='none' stroke='%23111' stroke-width='2' d='M1 4l3 3 5-6'/%3E%3C/svg%3E");
+  }
+}
+.ic-root[data-theme="dark"] {
+  /* 底与面：暗色不是把亮色反过来，纯黑底配纯白字会晃眼。
+     底 #0E1114 略偏冷（跟蓝品牌同一个方向），卡片抬高一档做层次——
+     亮色下 paper 和 surface 同为纯白、靠描边分层；暗色下多给一档明度，
+     因为暗背景里人眼对明度差比对描边敏感。 */
+  --ic-paper:#0E1114; --ic-surface:#14181D; --ic-inset:#1E2228; --ic-soft:#333B44;
+  /* 不用纯白当正文色：#FFFFFF 压在暗底上会发光、笔画糊。 */
+  --ic-ink:#F2F4F6; --ic-ink-2:#B6BCC4; --ic-ink-3:#8A9098;   /* ink-3 对卡片 5.54:1 */
+  /* 品牌蓝提亮到 #5B9FE6，字反过来用深色（对比 6.79:1）。
+     #1B6FD3 那个深蓝在暗底上是一块闷色，色块对底只有 3.84:1。 */
+  --ic-brand:#5B9FE6; --ic-brand-2:#7FB3F0; --ic-on-brand:#111111;
+  /* 语义色全部换亮版：亮色那组在暗底上是 2.86~3.55:1，全部不达标。 */
+  --ic-olive:#57C97F; --ic-blue:#3BB6D6; --ic-gold:#E0A33A; --ic-red:#F26A6A;
+  --ic-scrim:rgba(0,0,0,.62);
+  --ic-tick-on-brand:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8'%3E%3Cpath fill='none' stroke='%23111' stroke-width='2' d='M1 4l3 3 5-6'/%3E%3C/svg%3E");
+}
+.ic-root *,.ic-root *::before,.ic-root *::after{box-sizing:border-box}
+/* 链接：正文里的链接跟着墨色走，只靠下划线区分。
+   蓝色链接是浏览器默认值，不是设计——它和这套色一个都不搭，而且蓝在这里
+   已经是语义色（info），拿去当链接色会让两者互相稀释。红是强调色，留给
+   「偏离默认」那类标识，不给链接。
+
+   :not(.ic-btn) 不是洁癖：`.ic-root a` 的权重（0,1,1）高于 `.ic-btn--primary`
+   （0,1,0），所以做成按钮的 <a> 会被这条规则把字刷回墨色，实心主按钮直接
+   变成一块看不见字的黑砖。 */
+.ic-root a:not(.ic-btn):not(.ic-icon-btn){
+  color:var(--ic-ink);text-underline-offset:2px;text-decoration-thickness:1px}
+.ic-root a:not(.ic-btn):hover{text-decoration-thickness:2px}
+.ic-root a:focus-visible{outline:2px solid var(--ic-red);outline-offset:2px;border-radius:2px}
+/* 可点的东西一律不可选中。点一下把标签文字选蓝是最廉价的「没打磨」信号。
+   例外：输入框、表格单元格、正文——那些是要让人复制的。 */
+.ic-btn,.ic-icon-btn,.ic-option,.ic-chip,.ic-tab,.ic-sb-row,.ic-menu__item,
+.ic-segmented button,.ic-check,.ic-switch,.ic-pager button,.ic-combobox__trigger,
+.ic-listbox__foot,.ic-table th,.ic-label,.ic-cap,.ic-toast__action,.ic-toast__close,
+.ic-dialog__title,.ic-sb-label{
+  -webkit-user-select:none;user-select:none;
+}
+
+/* ── 按钮 ─────────────────────────────────────────────────────
+   hover / :active(clicked) / :focus-visible / [disabled] 四态齐全。
+   paper 用填充翻转，sticker 用位移下沉——同一份 HTML，形语言决定行为。 */
+.ic-btn{
+  display:inline-flex;align-items:center;gap:var(--ic-2);
+  font:500 var(--ic-fs-body)/1 var(--ic-font);height:var(--ic-h);padding:0 15px;
+  border:var(--ic-bw) solid var(--ic-ink);border-radius:var(--ic-r);
+  background:var(--ic-surface);color:var(--ic-ink);
+  box-shadow:var(--ic-pop);cursor:pointer;
+  transition:background-color var(--ic-t),color var(--ic-t),
+             border-color var(--ic-t),box-shadow var(--ic-t),transform var(--ic-t);
+}
+.ic-btn:hover{background:var(--ic-ink);color:var(--ic-paper)}
+.ic-btn:active{transform:translate(1px,1px)}
+/* sticker 的 hover 分成两条，是被权重逼的：这里的 (0,3,0) 会压过
+   .ic-btn--primary:hover 和 .ic-btn--danger:hover 的 (0,2,0)。写成一条
+   带 background 的话，实心按钮一 hover 就掉色成灰底黑字，看着像被禁用了。
+   所以「按下去」的位移和阴影给所有按钮，换底色只给没有实心变体的那些。 */
+/* 排除 ghost 和 sm：这两个变体本来就声明了 box-shadow:none，而这条 (0,4,0)
+   压得过它们的 (0,2,0)——不排除的话，一个「无阴影」的按钮 hover 时会长出
+   一个硬阴影，还跟着位移。 */
+.ic-root[data-lang="sticker"] .ic-btn:not(.ic-btn--ghost):not(.ic-btn--sm):hover{
+  transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ic-ink)}
+.ic-root[data-lang="sticker"] .ic-btn:not(.ic-btn--primary):not(.ic-btn--danger):hover{
+  background:var(--ic-inset);color:var(--ic-ink)}
+/* 主动去掉阴影的按钮（页面杂项控件），hover 时不该又长出一个来。 */
+.ic-root[data-lang="sticker"] .ic-btn--sm:hover{box-shadow:none;transform:none;
+  border-color:var(--ic-ink-3)}
+.ic-root[data-lang="sticker"] .ic-btn:active{transform:translate(2px,2px);box-shadow:none}
+.ic-btn:focus-visible{outline:2px solid var(--ic-red);outline-offset:2px}
+.ic-btn[disabled],.ic-btn[aria-disabled="true"]{
+  background:transparent;border-color:var(--ic-soft);color:var(--ic-ink-3);
+  box-shadow:none;transform:none;cursor:not-allowed;pointer-events:none;
+}
+/* ── 三档按钮：主色 / 描边 / 危险 ──────────────────────────
+   上一版把主操作刷成墨黑，理由是「品牌色是正红，红天然带危险语义，
+   主操作刷红就和删除撞车」。诊断对了一半：撞车是真的，但结论错在
+   **品牌色本来就不是红**——冷酷小猫身上只有牛仔蓝、奶油白和炭黑，
+   红是后来硬安上去的。品牌色一换成蓝，红就空出来专职 danger，
+   主操作也不必再退到黑。
+
+   近黑 primary 不是错的，它是 shadcn / Vercel / Polaris v12 那一派的
+   做法——但那是**中性品牌**的做法。这只猫有颜色。
+
+   三档，和 Material 3 / Carbon / Apple HIG 的分法一致：
+     primary  品牌色实心  —— 每屏那一个主操作（保存 / 导出 / 激活）
+     （默认）  描边墨黑    —— 次操作
+     danger   描边红      —— 破坏性操作，靠**形式**（描边 vs 实心）和
+                            **颜色**双重区分，且必须配二次确认（约定 5）
+
+   没有第四档。「比 primary 更大声」的按钮 Material / Carbon / Apple 都
+   不做——一屏两个抢眼的实心块，等于两个都不抢眼。 */
+.ic-btn--primary{background:var(--ic-brand);border-color:var(--ic-brand);color:var(--ic-on-brand)}
+.ic-btn--primary:hover{background:var(--ic-brand-2);border-color:var(--ic-brand-2);color:var(--ic-on-brand)}
+/* :not([disabled]) 不是洁癖：这条选择器权重 (0,3,0) 压过 .ic-btn[disabled]
+   的 (0,2,0)，不排除的话，一个禁用的主按钮会保留满黑描边，变成整屏最重
+   的元素——看起来比能点的按钮还像能点。 */
+/* spec-ok: border-color over :hover —— 贴纸下主按钮的墨色描边压过 hover 的品牌色描边是
+   有意的：hover 只换填充，描边始终是墨色，那是这条形语言的骨架。 */
+.ic-root[data-lang="sticker"] .ic-btn--primary:not([disabled]):not([aria-disabled="true"]){
+  border-color:var(--ic-ink)}
+/* 小一档：页面杂项控件（语言切换、工具条按钮），不是这屏的操作。 */
+.ic-btn--sm{height:var(--ic-h-sm);padding:0 10px;font-size:var(--ic-fs-sm)}
+.ic-btn--ghost{background:transparent;border-color:transparent;color:var(--ic-ink-2);box-shadow:none}
+.ic-btn--ghost:hover{background:var(--ic-inset);color:var(--ic-ink);box-shadow:none;transform:none}
+/* 破坏性动作。约定 5：有代价的操作必须二次确认，不靠颜色代替确认 */
+.ic-btn--danger{border-color:var(--ic-red);color:var(--ic-red);background:transparent;font-weight:600}
+.ic-btn--danger:hover{background:var(--ic-red);color:var(--ic-surface)}
+
+/* ── 输入 ───────────────────────────────────────────────────── */
+.ic-field{display:flex;flex-direction:column;gap:var(--ic-1)}
+.ic-label{font-size:var(--ic-fs-cap);font-weight:600;letter-spacing:.06em;color:var(--ic-ink-3);text-transform:uppercase}
+.ic-input{
+  font:400 var(--ic-fs-body)/1.4 var(--ic-font);height:var(--ic-h);padding:0 11px;width:100%;
+  background:var(--ic-surface);color:var(--ic-ink);
+  border:var(--ic-bw) solid var(--ic-soft);border-radius:var(--ic-r);
+  transition:border-color var(--ic-t),background-color var(--ic-t);
+}
+.ic-input::placeholder{color:var(--ic-ink-3)}
+.ic-input:hover{border-color:var(--ic-ink-3)}
+.ic-input:focus{outline:none;border-color:var(--ic-brand);box-shadow:inset 0 0 0 .5px var(--ic-brand)}
+.ic-input[aria-invalid="true"]{border-color:var(--ic-red)}
+.ic-input[disabled]{background:var(--ic-inset);color:var(--ic-ink-3);cursor:not-allowed}
+
+/* 原生 <select> 不提供。
+   它只有 trigger 能被样式化，展开后的面板由操作系统渲染——macOS 给系统蓝高亮，
+   Windows 给另一套，改不了（CSS appearance:base-select 要 Chrome 135+，不能依赖）。
+   一个能被样式化、一个不能，同屏放在一起永远对不齐。单选一律用 .ic-combobox
+   加 data-multi="false"。 */
+
+/* ── 浮层互斥契约 ───────────────────────────────────────────
+   约定 13：同一时刻只允许一个浮层打开。点空白、点另一个浮层的 trigger、
+   按 Esc、滚动，都要收起当前浮层。
+
+   CSS 管不了这件事，所以定成结构契约：**所有浮层都用 data-state
+   ="open|closed"**（combobox 下拉、右键菜单、tooltip、表头筛选面板）。
+   JS 侧只需要一个 dispatcher：
+
+     function closeAllPopovers(except){
+       document.querySelectorAll('[data-state="open"]').forEach(function(el){
+         if(el!==except && !el.contains(except)) el.dataset.state='closed';
+       });
+     }
+
+   打开任何浮层前先调它。不要每个组件各自绑 document click —— 那样只会
+   互相打架，也是「两个下拉同时开着」的成因。 */
+
+/* ── Combobox（可搜索下拉）──────────────────────────────────
+   结构约定（照抄 shadcn/Radix 的 data-state 命名，白拿行业标准）：
+   <div class="ic-combobox">
+     <button class="ic-combobox__trigger" aria-expanded="false" data-state="closed">…</button>
+     <div class="ic-listbox" role="listbox" data-state="closed">
+       <input class="ic-listbox__search">
+       <div class="ic-option" role="option" aria-selected="false">…</div>
+     </div>
+   </div>
+   JS 只负责翻 data-state 和 aria-*，样式全在这里。 */
+.ic-combobox{position:relative;display:inline-block}
+.ic-combobox__trigger{
+  display:inline-flex;align-items:center;gap:var(--ic-2);justify-content:space-between;
+  min-width:180px;font:400 var(--ic-fs-body)/1.4 var(--ic-font);height:var(--ic-h);padding:0 11px;
+  background:var(--ic-surface);color:var(--ic-ink);cursor:pointer;text-align:left;
+  border:var(--ic-bw) solid var(--ic-soft);border-radius:var(--ic-r);
+  transition:border-color var(--ic-t);
+}
+.ic-combobox__trigger:hover{border-color:var(--ic-ink-3)}
+/* 聚焦/展开同时加粗到 2px，不只是换色。这是边框式输入框的通行做法：
+   Material 3 是 1dp→2dp，IBM Carbon 是 1px→2px，都在换色的同时加粗。
+   shadcn / Primer 那种「边框不动、外面加一圈 ring」是细边框系统的路数，
+   和这套 1.5px 描边的硬边风格打架。
+   加粗**不能靠改 border-width**：box-sizing:border-box 保证外框不动，但内容盒
+   每边会缩 0.5px，框里的文字跟着挪半个像素——聚焦时文字抖一下，比不加粗还糟。
+   改用 inset 阴影往内补粗：box-shadow 完全不参与布局，1.5px 描边 + 0.5px 内阴影
+   在视觉上就是一条 2px 的实边，而 clientLeft/clientTop 一动不动。
+   无障碍上这不是必须的（AA 靠颜色对比 4.93:1 就过了，键盘焦点另有一圈
+   2px 红环覆盖 WCAG 2.4.13 的 AAA 要求），加粗是为了视觉权重——
+   1.5px 只换色，「被激活」的份量不够。
+
+   展开态用品牌色，和列表里选中项的对勾同色：同一次交互里「这个控件是当前
+   打开的」和「这一项是当前选的」是一件事，一蓝一黑看着就是没对齐。
+   触发器边框是条灰度递进（静止 soft → hover ink-3 → 展开），顶端只是「更黑」
+   说不出「活跃」，换成品牌色整条交互才是一个颜色故事。 */
+.ic-combobox__trigger[data-state="open"]{border-color:var(--ic-brand);box-shadow:inset 0 0 0 .5px var(--ic-brand)}
+.ic-combobox__trigger::after{
+  content:"";width:8px;height:8px;flex:none;
+  border-right:1.6px solid var(--ic-ink-2);border-bottom:1.6px solid var(--ic-ink-2);
+  transform:rotate(45deg) translate(-2px,-2px);
+  transition:transform var(--ic-t);
+}
+.ic-combobox__trigger[data-state="open"]::after{transform:rotate(-135deg) translate(-3px,-3px)}
+/* ── 「偏离默认」标识（约定 1 的统一实现）─────────────────
+   三种方案都试过，选了 C：
+
+     A 淡底 tint   —— 一眼可见，但和 hover 态、选中行抢同一种语言
+     B 左侧红点    —— 点孤零零浮着像装饰，而且只说「改过」，不给退出的路
+     C 值着色 + ×  —— label 保持灰、**值**用强调色、末尾一个清除按钮 ✅
+
+   C 多做了一件事：给出口。约定 3 的精神是让用户知道自己能退回去，
+   一个只报告「你改过」的标识是半个功能。清除按钮同时也是那个"标识"，
+   它出现本身就说明这个筛选器有值。 */
+.ic-trigger-label{color:var(--ic-ink-3)}
+.ic-combobox__trigger[data-dirty="true"] .ic-trigger-label{color:var(--ic-ink-3)}
+.ic-trigger-value{color:var(--ic-ink);font-weight:600}
+.ic-combobox__trigger[data-dirty="true"] .ic-trigger-value{color:var(--ic-red);font-weight:700}
+.ic-trigger-clear{
+  width:15px;height:15px;flex:none;margin-left:2px;padding:0;cursor:pointer;
+  border:0;border-radius:50%;background:transparent;color:var(--ic-ink-3);
+  display:none;align-items:center;justify-content:center;
+  transition:background-color var(--ic-t),color var(--ic-t);
+}
+.ic-combobox__trigger[data-dirty="true"] .ic-trigger-clear{display:inline-flex}
+.ic-trigger-clear::before{
+  content:"";width:9px;height:9px;background:currentColor;
+  -webkit-mask:var(--ic-x) center/9px no-repeat;mask:var(--ic-x) center/9px no-repeat;
+}
+.ic-trigger-clear:hover{background:var(--ic-red);color:var(--ic-surface)}
+
+.ic-listbox{
+  position:absolute;top:calc(100% + 4px);left:0;z-index:var(--ic-z-dropdown);
+  min-width:180px;max-width:min(320px,92vw);max-height:300px;
+  display:flex;flex-direction:column;overflow:hidden;
+  background:var(--ic-surface);border:var(--ic-bw) solid var(--ic-ink);border-radius:var(--ic-r);
+  box-shadow:var(--ic-pop);
+}
+.ic-listbox[data-state="closed"]{display:none}
+
+/* ⚠️ 浮层在带滚动的祖先里会被**裁掉**——z-index 再高也没用，它压根没被画出来。
+   `.ic-toolbar` 有 overflow-x:auto（约定 10），`.ic-datatable__scroll` 有 overflow:auto，
+   放在这些容器里的下拉必须改用 fixed 定位 + JS 算坐标：
+
+       <div class="ic-listbox ic-listbox--fixed" style="width:236px">
+
+   判据很简单：**trigger 的任何祖先有 overflow 不是 visible → 用 fixed。**
+   fixed 定位的浮层还必须显式给 width（见上面 min-width 那条注释）。 */
+.ic-listbox--fixed{position:fixed;top:auto;left:auto}
+
+/* 浮层宽度硬上限，全类型统一。任何新浮层自动继承这道闸。 */
+.ic-listbox,.ic-menu,.ic-tooltip{max-width:min(360px,92vw);box-sizing:border-box}
+.ic-listbox[data-state="open"]{animation:ic-pop-in var(--ic-t-in) both}
+.ic-listbox__search{
+  flex:none;font:400 var(--ic-fs-body)/1.4 var(--ic-font);padding:9px 11px;
+  border:0;border-bottom:var(--ic-bw) solid var(--ic-soft);
+  background:var(--ic-paper);color:var(--ic-ink);
+}
+.ic-listbox__search:focus{outline:none;background:var(--ic-surface)}
+.ic-listbox__body{overflow-y:auto;padding:var(--ic-1)}
+/* 约定 2：全选/取消全选放面板内部，不占外面位置 */
+.ic-listbox__foot{
+  flex:none;display:flex;gap:var(--ic-1);padding:var(--ic-1);
+  border-top:var(--ic-bw) solid var(--ic-soft);background:var(--ic-paper);
+}
+
+.ic-option{
+  display:flex;align-items:center;gap:var(--ic-2);
+  padding:7px 9px;border-radius:calc(var(--ic-r) - 1px);cursor:pointer;
+  font-size:var(--ic-fs-body);color:var(--ic-ink);
+  transition:background-color var(--ic-t);
+}
+.ic-option:hover,.ic-option[data-highlighted="true"]{background:var(--ic-inset)}
+.ic-option:active{background:var(--ic-soft)}
+.ic-option[aria-selected="true"]{font-weight:600}
+.ic-option[aria-selected="true"]::before{
+  content:"";width:14px;height:14px;flex:none;border-radius:2px;
+  border:1.5px solid var(--ic-brand);background:var(--ic-brand);
+  /* 这个对勾只能走 background-image：::before 不能再嵌一层伪元素，
+     而 mask 会把方块和描边一起挖掉。SVG 里的颜色是烤死的，所以暗色
+     主题块里要换成深色那张——见文件末尾两处 --ic-tick-on-brand。 */
+  background-image:var(--ic-tick-on-brand);
+  background-repeat:no-repeat;background-position:center;
+}
+.ic-option[aria-selected="false"]::before{
+  content:"";width:14px;height:14px;flex:none;border-radius:2px;
+  border:1.5px solid var(--ic-soft);
+}
+/* 单选：不画勾选框，用一个对勾表示当前项——避免让人以为能多选。 */
+.ic-combobox[data-multi="false"] .ic-option::before{
+  border:0;background:none;border-radius:0;
+}
+.ic-combobox[data-multi="false"] .ic-option[aria-selected="true"]::before{
+  background:var(--ic-brand);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='9'%3E%3Cpath fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M1 4.5l3.5 3.5L11 1'/%3E%3C/svg%3E") center no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='9'%3E%3Cpath fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M1 4.5l3.5 3.5L11 1'/%3E%3C/svg%3E") center no-repeat;
+}
+.ic-option[aria-disabled="true"]{color:var(--ic-ink-3);cursor:not-allowed;pointer-events:none}
+/* 约定 3：筛选器列全集，没数据的显示 0 不隐藏 */
+.ic-option__count{margin-left:auto;font:400 var(--ic-fs-cap)/1 var(--ic-mono);color:var(--ic-ink-3);
+  font-variant-numeric:tabular-nums}
+.ic-option[data-empty="true"]{color:var(--ic-ink-3)}
+.ic-option[data-empty="true"] .ic-option__count{opacity:.6}
+
+/* ── 数据表 ─────────────────────────────────────────────────
+   ⚠️ 数据表是**一个复合组件**，不是「表格 + 旁边几个按钮」。
+   它有头、身、尾三段，一个边框包住：
+
+     <div class="ic-datatable">
+       <div class="ic-datatable__head">   搜索 · 筛选器 · 功能按钮 · 视图
+       <div class="ic-datatable__scroll">  ← 只有这一段滚动
+         <table class="ic-table">
+       <div class="ic-datatable__foot">   选中数 · 批量动作 · 分页
+     </div>
+
+   把工具栏放在框外面，视觉上它就不属于这张表——用户看不出这些按钮
+   作用于哪些数据；一个页面有两张表时更是直接混掉。
+
+   ⚠️ head 和 foot 都有 overflow-x:auto（约定 10），所以它们里面的浮层
+   必须用 fixed 定位（约定 30b）。这是复合结构自带的约束，不是个案。 */
+.ic-datatable{
+  display:flex;flex-direction:column;min-height:0;
+  border:var(--ic-bw) solid var(--ic-ink);border-radius:var(--ic-r);
+  background:var(--ic-surface);overflow:hidden;
+}
+.ic-datatable__head{
+  flex:none;display:flex;align-items:center;gap:var(--ic-2);
+  padding:var(--ic-2) var(--ic-3);overflow-x:auto;
+  background:var(--ic-paper);border-bottom:var(--ic-bw) solid var(--ic-ink);
+}
+.ic-datatable__scroll{overflow:auto;flex:1;min-height:0}
+.ic-datatable__foot{
+  flex:none;display:flex;align-items:center;gap:var(--ic-2);
+  padding:var(--ic-2) var(--ic-3);overflow-x:auto;
+  background:var(--ic-paper);border-top:var(--ic-bw) solid var(--ic-ink);
+}
+.ic-datatable__spacer{margin-left:auto;flex:none}
+.ic-datatable__sep{width:1px;height:20px;flex:none;background:var(--ic-soft);margin:0 var(--ic-1)}
+/* 头部搜索框不撑满，也不缩到看不见 */
+.ic-datatable__search{flex:0 1 220px;min-width:120px}
+/* 选中态摘要。有选中时才出现批量动作区，没选中时不占位置也不显示禁用按钮——
+   一排灰按钮既没用又让人以为坏了。 */
+.ic-datatable__sel{font-size:var(--ic-fs-sm);color:var(--ic-ink-2);flex:none;
+  font-variant-numeric:tabular-nums}
+.ic-datatable__bulk{display:flex;gap:var(--ic-2);align-items:center}
+.ic-datatable[data-has-selection="false"] .ic-datatable__bulk{display:none}
+
+.ic-table{border-collapse:separate;border-spacing:0;width:100%;font-size:var(--ic-fs-body)}
+.ic-table th{
+  position:sticky;top:0;z-index:2;
+  background:var(--ic-paper);text-align:left;white-space:nowrap;
+  font:600 var(--ic-fs-cap)/1 var(--ic-font);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ic-ink-2);
+  padding:10px 12px;border-bottom:var(--ic-bw) solid var(--ic-ink);
+}
+/* 约定 2：筛选挂表头，不堆工具栏。约定 1：筛选中的表头高亮 */
+.ic-table th[data-sortable]{cursor:pointer}
+.ic-table th[data-sortable]:hover{background:var(--ic-inset);color:var(--ic-ink)}
+
+/* 表头内部结构（照 Excel）：
+     <th data-filtered="true"><div class="ic-th">
+       <span class="ic-th__label">状态</span>
+       <span class="ic-th__sort" data-dir="asc"></span>
+       <button class="ic-th__filter" aria-label="筛选"></button>
+     </div></th>
+   筛选生效时高亮的是**文字和图标**，不是给整个格子刷底色或加下边线——
+   底色/下边线会和「选中行」「hover 行」抢同一种视觉语言，列一多就分不清。 */
+.ic-th{display:flex;align-items:center;gap:4px;min-width:0}
+.ic-th__label{overflow:hidden;text-overflow:ellipsis}
+.ic-th--num{justify-content:flex-end}
+.ic-th--num .ic-th__label{order:2}
+.ic-th--num .ic-th__sort{order:1}
+.ic-th--num .ic-th__filter{order:0}
+
+.ic-th__sort{
+  width:9px;height:9px;flex:none;opacity:0;
+  background:currentColor;transition:opacity var(--ic-t),transform var(--ic-t);
+  -webkit-mask:var(--ic-caret) center/9px no-repeat; mask:var(--ic-caret) center/9px no-repeat;
+}
+.ic-table th:hover .ic-th__sort{opacity:.4}
+.ic-th__sort[data-dir="asc"],.ic-th__sort[data-dir="desc"]{opacity:1}
+.ic-th__sort[data-dir="desc"]{transform:rotate(180deg)}
+
+/* 漏斗紧挨列名，不用 margin-left:auto 推到列尾——列一宽，图标就飘到
+   离列名十几个字符远的地方，看不出它属于谁。 */
+.ic-th__filter{
+  width:17px;height:17px;flex:none;padding:0;cursor:pointer;
+  border:0;border-radius:3px;background:transparent;color:var(--ic-ink-3);
+  opacity:0;transition:opacity var(--ic-t),background-color var(--ic-t),color var(--ic-t);
+}
+.ic-th__filter::after{
+  content:"";display:block;width:12px;height:12px;margin:auto;background:currentColor;
+  -webkit-mask:var(--ic-funnel) center/12px no-repeat; mask:var(--ic-funnel) center/12px no-repeat;
+}
+.ic-table th:hover .ic-th__filter,.ic-th__filter[data-state="open"]{opacity:1}
+.ic-th__filter:hover{background:var(--ic-soft);color:var(--ic-ink)}
+
+/* 筛选生效：文字和漏斗变强调色，漏斗常驻可见（约定 1）。
+   这里用满色而不是红点，因为表头是横向一排、每列最多一个标识，
+   不会像筛选器那样堆三四个红点；而且漏斗图标本身就是那颗"点"。 */
+.ic-table th[data-filtered="true"]{color:var(--ic-red)}
+.ic-table th[data-filtered="true"] .ic-th__filter{opacity:1;color:var(--ic-red)}
+.ic-table th[data-filtered="true"] .ic-th__label{font-weight:700}
+
+/* ── 选择列 · 数据表首列 ────────────────────────────────────
+   顺序固定：① 勾选框 ② 行号 ③ 数据列。
+
+   为什么勾选框在最前而不是靠行号兼任：勾选框是**可操作的**，行号是**只读标识**，
+   两者语义不同不该合并；而且表头那一格要放全选/半选，行号列没有对应的表头动作。
+
+   表头勾选框三态：全选 / 全不选 / indeterminate（部分选中）。
+   indeterminate 必须用 JS 设（HTML 没有这个属性），别用第三个 class 糊。 */
+.ic-table th.ic-check-col,.ic-table td.ic-check-col{
+  width:1%;white-space:nowrap;padding-right:0;text-align:left;
+}
+.ic-table td.ic-check-col .ic-check,.ic-table th.ic-check-col .ic-check{gap:0}
+/* 勾选框在未选中的行上淡一点，选中/hover 才实——一整列实心方框会
+   把视线从数据上拽走，而勾选是低频动作。 */
+.ic-table td.ic-check-col .ic-check__box{opacity:.45;transition:opacity var(--ic-t)}
+.ic-table tbody tr:hover td.ic-check-col .ic-check__box,
+.ic-table tbody tr[aria-selected="true"] td.ic-check-col .ic-check__box{opacity:1}
+
+/* ── 序号列 ─────────────────────────────────────────────────
+   语义先定死：序号标的是「你看到的第几行」，不是「这条数据的编号」。
+   所以排序、筛选、拖拽之后它重排。如果你要的是数据编号，那它是**标识符**
+   不是序号——用 .ic-id（等宽、左对齐、有列名），别混。
+
+   用 CSS counter 生成，不写进 DOM。白拿三件事：
+     1. 复制表格不会带走序号（伪元素不进剪贴板）
+     2. 拖拽排序后自动重排，不用 JS 同步
+     3. 零 JS
+   跨页连续：在 tbody 上设 --ic-row-offset（一行 JS），默认 0。 */
+.ic-table tbody{counter-reset:ic-row var(--ic-row-offset,0)}
+.ic-table tbody tr{counter-increment:ic-row}
+.ic-table th.ic-rownum,.ic-table td.ic-rownum{
+  width:1%;white-space:nowrap;text-align:right;padding-right:6px;
+  font-family:var(--ic-mono);font-variant-numeric:tabular-nums;
+  font-size:var(--ic-fs-cap);color:var(--ic-ink-3);
+  -webkit-user-select:none;user-select:none;
+}
+.ic-table td.ic-rownum::before{content:counter(ic-row)}
+.ic-table tbody tr[aria-selected="true"] td.ic-rownum{color:var(--ic-brand);font-weight:700}
+
+/* ── 拖拽排序 ───────────────────────────────────────────────
+   ⚠️ **数据表不用这个。** 数据表的顺序由排序列决定，不该手动拖；
+   在数据表里按住拖动只有一个含义：**框选**（见下一块）。
+
+   只用于「顺序本身就是数据」的列表：播放列表、看板列、步骤清单、
+   优先级队列——那里位置有语义，换位置等于改数据。
+
+   把手常驻但淡，hover 才实——拖拽是低频动作，不该抢视觉。 */
+.ic-drag-handle{
+  width:14px;height:16px;flex:none;cursor:grab;opacity:0;
+  background:var(--ic-ink-3);transition:opacity var(--ic-t);
+  -webkit-mask:var(--ic-grip) center/12px no-repeat; mask:var(--ic-grip) center/12px no-repeat;
+}
+.ic-table tbody tr:hover .ic-drag-handle{opacity:.55}
+.ic-drag-handle:hover{opacity:1!important}
+.ic-drag-handle:active{cursor:grabbing}
+.ic-table tbody tr[data-dragging="true"]{opacity:.35}
+/* 落点指示线。画在行的上/下边，不给整行加边框——加边框会让行高跳。 */
+.ic-table tbody tr[data-drop="above"] td{box-shadow:inset 0 2px 0 var(--ic-red)}
+.ic-table tbody tr[data-drop="below"] td{box-shadow:inset 0 -2px 0 var(--ic-red)}
+
+/* ── 视图管理（列显隐 / 列排序 / 密度）──────────────────────
+   约定 2 的边界情形：列的显隐和顺序不属于任何一列，它跨全表，
+   所以入口在工具栏，不在表头。表头只管这一列自己的事（排序、筛选）。
+
+   面板结构：一行 = 拖拽把手 + 列名 + 开关。
+   最后一列不能隐藏——全隐藏掉表格就成了空壳，用户会以为坏了。 */
+.ic-viewrow{
+  display:flex;align-items:center;gap:var(--ic-2);
+  padding:6px 8px;border-radius:calc(var(--ic-r) - 1px);
+  font-size:var(--ic-fs-body);cursor:default;
+  transition:background-color var(--ic-t);
+}
+.ic-viewrow:hover{background:var(--ic-inset)}
+.ic-viewrow__handle{
+  width:13px;height:15px;flex:none;cursor:grab;opacity:.35;background:var(--ic-ink-3);
+  -webkit-mask:var(--ic-grip) center/11px no-repeat;mask:var(--ic-grip) center/11px no-repeat;
+  transition:opacity var(--ic-t);
+}
+.ic-viewrow:hover .ic-viewrow__handle{opacity:.7}
+.ic-viewrow__handle:active{cursor:grabbing}
+.ic-viewrow__label{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ic-viewrow[data-hidden="true"] .ic-viewrow__label{color:var(--ic-ink-3)}
+.ic-viewrow[data-dragging="true"]{opacity:.4}
+.ic-viewrow[data-drop="above"]{box-shadow:inset 0 2px 0 var(--ic-red)}
+.ic-viewrow[data-drop="below"]{box-shadow:inset 0 -2px 0 var(--ic-red)}
+.ic-viewrow .ic-switch__track{width:28px;height:16px}
+.ic-viewrow .ic-switch__track::after{width:9px;height:9px}
+.ic-viewrow .ic-switch input:checked+.ic-switch__track::after{transform:translateX(12px)}
+
+/* 隐藏的列 */
+.ic-table [data-col-hidden="true"]{display:none}
+
+/* 密度。紧凑档只改纵向内边距，不动字号——改字号会让整张表重新排版。 */
+.ic-table[data-density="compact"] th,
+.ic-table[data-density="compact"] td{padding-top:5px;padding-bottom:5px}
+.ic-table[data-density="loose"] th,
+.ic-table[data-density="loose"] td{padding-top:15px;padding-bottom:15px}
+
+/* 拖拽调列宽。手柄在表头右边缘，6px 宽——太窄抓不住，太宽会误触排序。 */
+.ic-table th{position:sticky;top:0}
+.ic-th__resize{
+  position:absolute;top:0;right:-3px;bottom:0;width:6px;z-index:3;
+  cursor:col-resize;background:transparent;border:0;padding:0;
+}
+.ic-th__resize::after{
+  content:"";position:absolute;top:20%;bottom:20%;left:2px;width:2px;
+  background:var(--ic-red);opacity:0;transition:opacity var(--ic-t);
+}
+.ic-th__resize:hover::after,.ic-th__resize[data-active="true"]::after{opacity:1}
+.ic-datatable[data-resizing="true"]{cursor:col-resize;-webkit-user-select:none;user-select:none}
+
+/* ── 拖拽框选 ───────────────────────────────────────────────
+   在数据区按下并拖动画出选框。虚线 + 极淡填充，别盖住下面的内容。 */
+.ic-marquee{
+  position:fixed;z-index:var(--ic-z-overlay);pointer-events:none;
+  border:1.5px dashed var(--ic-red);background:color-mix(in srgb, var(--ic-red) 7%, transparent);border-radius:2px;
+}
+.ic-marquee[hidden]{display:none}
+/* 框选进行中，禁掉整块的文本选中，否则会同时选中文字 */
+.ic-datatable[data-marquee="true"]{-webkit-user-select:none;user-select:none;cursor:crosshair}
+.ic-table td{padding:10px 12px;border-bottom:1px solid var(--ic-soft);vertical-align:middle}
+.ic-table tbody tr{transition:background-color var(--ic-t)}
+.ic-table tbody tr:hover{background:var(--ic-paper)}
+.ic-table tbody tr[aria-selected="true"]{background:color-mix(in srgb, var(--ic-brand) 8%, transparent)}
+/* ── 列宽：数值列收到内容宽，文本列吃掉剩余空间 ──────────────
+   width:1% 是让列收缩到内容的标准写法——浏览器会把它撑到内容最小宽度，
+   剩下的空间全归没写宽度的那列。配 white-space:nowrap 防止数字被折行。
+
+   为什么必须收窄：数值右对齐是为了个位对齐（一眼比出数量级），
+   但列一宽，列名在左、数字在右，眼睛要横跨一大段。
+   解法是收窄列宽，不是改回左对齐——对齐承载的信息量比那点眼动大。 */
+.ic-table th:has(.ic-th--num),
+.ic-table td.ic-num{width:1%;white-space:nowrap}
+.ic-table td.ic-num{font-family:var(--ic-mono);font-variant-numeric:tabular-nums;text-align:right}
+/* 状态、平台这类短枚举列同样收窄 */
+.ic-table th.ic-col-fit,.ic-table td.ic-col-fit{width:1%;white-space:nowrap}
+/* 主文本列吃掉剩余宽度，过长省略号截断——截断的是名字，不是数据。 */
+.ic-table td.ic-col-flex{max-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* 标识符列（订单号、ID、版本号）用等宽但**左对齐**：
+   它们不参与大小比较，右对齐会暗示「这些可以比大小」，
+   而 #100234 比 #99 大这件事毫无意义。 */
+.ic-table td.ic-id{font-family:var(--ic-mono);text-align:left;width:1%;white-space:nowrap}
+.ic-datatable__foot{
+  flex:none;display:flex;align-items:center;gap:var(--ic-2);
+  padding:var(--ic-2) var(--ic-3);
+  background:var(--ic-paper);border-top:var(--ic-bw) solid var(--ic-ink);
+}
+.ic-datatable__spacer{margin-left:auto}
+/* 约定 3 的反面：空态说清楚是「没有」还是「筛出来是空的」 */
+.ic-empty{padding:48px 24px;text-align:center;color:var(--ic-ink-3);font-size:var(--ic-fs-body)}
+
+/* ── 状态标签 ───────────────────────────────────────────────── */
+.ic-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font:600 var(--ic-fs-cap)/1.5 var(--ic-font);padding:2px 8px;
+  border:1.5px solid;border-radius:var(--ic-r);
+}
+.ic-badge--ok{color:var(--ic-olive);border-color:var(--ic-olive);background:color-mix(in srgb, var(--ic-olive) 10%, transparent)}
+.ic-badge--info{color:var(--ic-blue);border-color:var(--ic-blue);background:color-mix(in srgb, var(--ic-blue) 9%, transparent)}
+.ic-badge--warn{color:var(--ic-gold);border-color:var(--ic-gold);background:color-mix(in srgb, var(--ic-gold) 11%, transparent)}
+.ic-badge--err{color:var(--ic-red);border-color:var(--ic-red);background:color-mix(in srgb, var(--ic-red) 8%, transparent)}
+/* sticker 下 badge 只加深描边，不给硬阴影：硬阴影是「可以按」的信号，
+   badge 是标签不是控件。带上它，角落里一个「免费」会比这屏真正的主按钮
+   还重——层级就倒过来了。 */
+/* 素色 badge 没有填充，字跟墨色走；只有下面四个带亮色填充的才把字钉成
+   深色（--ic-on-fill）。之前一刀切成深字，暗色模式下「免费」直接变成
+   一个空白框。 */
+/* spec-ok: border-color over .ic-badge-- —— 贴纸下 badge 一律墨色描边，压掉四个语义变体各自的
+   描边色是有意的：语义靠填充色表达，描边统一才像一张贴纸。 */
+.ic-root[data-lang="sticker"] .ic-badge{color:var(--ic-ink);border-color:var(--ic-ink)}
+.ic-root[data-lang="sticker"] .ic-badge--ok{background:var(--ic-fill-ok);color:var(--ic-on-fill)}
+.ic-root[data-lang="sticker"] .ic-badge--info{background:var(--ic-fill-info);color:var(--ic-on-fill)}
+.ic-root[data-lang="sticker"] .ic-badge--warn{background:var(--ic-fill-warn);color:var(--ic-on-fill)}
+.ic-root[data-lang="sticker"] .ic-badge--err{background:var(--ic-fill-err);color:var(--ic-on-fill)}
+
+/* ── Toast ─────────────────────────────────────────────────
+   约定 6：带动作的 toast 不自动消失，且本身可点。
+   [data-persist] 的不加 auto-dismiss 动画，JS 也别设 timer。 */
+.ic-toast{
+  display:flex;align-items:center;gap:var(--ic-3);
+  padding:10px 13px;font-size:var(--ic-fs-sm);
+  background:var(--ic-surface);color:var(--ic-ink);
+  border:var(--ic-bw) solid var(--ic-soft);border-left-width:3.5px;border-radius:var(--ic-r);
+  /* 不加 --ic-pop：硬阴影是「贴在纸上的一张贴纸」的语言，toast 是浮在
+     内容之上、几秒就走的东西，两种含义打架——贴上去反而像它被钉住了。
+     描边加左侧语义色条已经够把它和底下的内容分开。 */
+  animation:ic-slide-in var(--ic-t-in) both;
+}
+.ic-toast--ok{border-left-color:var(--ic-olive)}
+.ic-toast--info{border-left-color:var(--ic-blue)}
+.ic-toast--err{border-left-color:var(--ic-red)}
+/* warn 补齐：alert 有四档语义，toast 原本只有三档，于是「进行中但要留神」
+   的状态只能挑红或蓝——红是撒谎，蓝是没说。缺的是这一档，不是用错了。 */
+.ic-toast--warn{border-left-color:var(--ic-gold)}
+/* hover 用它自己的语义色，不要洗成灰——灰化会让人以为它失效了。
+   旧写法 border-left-color:inherit 是个 bug：inherit 取的是父元素颜色，
+   不是「保持原值」，hover 时左侧色条会直接丢掉语义。 */
+.ic-toast[data-persist="true"]{cursor:pointer}
+.ic-toast--ok[data-persist="true"]:hover{border-color:var(--ic-olive);background:color-mix(in srgb, var(--ic-olive) 7%, transparent)}
+.ic-toast--info[data-persist="true"]:hover{border-color:var(--ic-blue);background:color-mix(in srgb, var(--ic-blue) 7%, transparent)}
+.ic-toast--err[data-persist="true"]:hover{border-color:var(--ic-red);background:color-mix(in srgb, var(--ic-red) 6%, transparent)}
+.ic-toast--warn[data-persist="true"]:hover{border-color:var(--ic-gold);background:color-mix(in srgb, var(--ic-gold) 8%, transparent)}
+
+/* 动作文字同样跟着 toast 的语义色，不是一律红——红在成功提示里是错的信号。 */
+.ic-toast__action{margin-left:auto;flex:none;font-weight:700;
+  text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
+.ic-toast--ok  .ic-toast__action{color:var(--ic-olive)}
+.ic-toast--info .ic-toast__action{color:var(--ic-blue)}
+.ic-toast--err .ic-toast__action{color:var(--ic-red)}
+.ic-toast--warn .ic-toast__action{color:var(--ic-gold)}
+.ic-toast[data-persist="true"]:hover .ic-toast__action{text-decoration-thickness:2px}
+.ic-toast__close{margin-left:var(--ic-2);flex:none;border:0;background:none;cursor:pointer;
+  color:var(--ic-ink-3);font-size:var(--ic-fs-h);line-height:1;padding:0 2px}
+.ic-toast__close:hover{color:var(--ic-ink)}
+
+/* 块状 toast：需要用户做决定的通知（新版本可用、连接断开、
+   有未保存草稿）。和行内 toast 的区别是它有标题、正文和两个按钮，
+   且**永远不自动消失**——它在等一个决定，不是在报告一件事。
+   按钮顺序按平台惯例：次要在左、主操作在右（约定 11）。 */
+.ic-toast--block{
+  flex-direction:column;align-items:stretch;gap:var(--ic-2);
+  max-width:380px;padding:var(--ic-3) var(--ic-4);
+}
+.ic-toast--block .ic-toast__title{font-size:var(--ic-fs-sub);font-weight:600;margin:0}
+.ic-toast--block .ic-toast__body{font-size:var(--ic-fs-sm);line-height:var(--ic-lh-sm);
+  color:var(--ic-ink-2);margin:0}
+.ic-toast--block .ic-toast__foot{display:flex;gap:var(--ic-2);justify-content:flex-end;
+  margin-top:var(--ic-1)}
+.ic-toast--block .ic-toast__close{position:absolute;top:8px;right:8px;margin:0}
+.ic-toast--block{position:relative}
+
+/* toast 容器。右下角堆叠，新的在下——用户视线在下方按钮区，
+   新消息应该出现在离视线近的地方，不是飞到屏幕顶上。 */
+.ic-toast-region{
+  position:fixed;right:var(--ic-4);bottom:var(--ic-4);z-index:var(--ic-z-toast);
+  display:flex;flex-direction:column;gap:var(--ic-2);align-items:flex-end;
+  pointer-events:none;
+}
+.ic-toast-region>*{pointer-events:auto}
+
+/* ── 分段控件 ───────────────────────────────────────────────── */
+.ic-segmented{display:inline-flex;border:var(--ic-bw) solid var(--ic-ink);
+  border-radius:var(--ic-r);overflow:hidden;box-shadow:var(--ic-pop)}
+.ic-segmented button{font:500 var(--ic-fs-body)/1 var(--ic-font);padding:7px 14px;border:0;cursor:pointer;
+  background:transparent;color:var(--ic-ink-2);transition:background-color var(--ic-t),color var(--ic-t)}
+.ic-segmented button:hover{background:var(--ic-inset)}
+.ic-segmented button+button{border-left:var(--ic-bw) solid var(--ic-ink)}
+.ic-segmented button[aria-pressed="true"]{background:var(--ic-brand);color:var(--ic-on-brand)}
+
+/* ── 动画 ───────────────────────────────────────────────────
+   只有三个。浮层进入、toast 滑入、加载骨架。
+   多一个都别加——动效多了就是 AI 味。 */
+@keyframes ic-pop-in{from{opacity:0;transform:translateY(-4px) scale(.985)}
+                     to{opacity:1;transform:none}}
+@keyframes ic-slide-in{from{opacity:0;transform:translateY(6px)}
+                       to{opacity:1;transform:none}}
+@keyframes ic-shimmer{from{background-position:-200% 0}to{background-position:200% 0}}
+.ic-skeleton{
+  border-radius:var(--ic-r);background:linear-gradient(90deg,
+    var(--ic-inset) 25%,var(--ic-soft) 50%,var(--ic-inset) 75%);
+  background-size:200% 100%;animation:ic-shimmer 1.4s linear infinite;
+}
+@media (prefers-reduced-motion:reduce){
+  .ic-root *,.ic-root *::before,.ic-root *::after{
+    animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
+
+/* ── 图标 ───────────────────────────────────────────────────
+   家族：Lucide（MIT）。只用它，绝不混第二个来源——图标排在一起吵，
+   99% 是混了家族。需要的复制 SVG 进项目，不装包不建字体。
+
+   固定规格：viewBox 24×24 · fill:none · stroke:currentColor
+             stroke-linecap:round · stroke-linejoin:round
+
+   stroke-width 不是常数，是跟着渲染尺寸变的：
+       stroke-width = 1.5 × 24 / 渲染尺寸
+   目的是让**渲染出的绝对笔画恒等于 1.5px**，也就是 --ic-bw。
+   图标常常紧挨按钮边框、表头边框，笔画和边框不一样粗就会显得虚或显得脏。
+   （Obsidian 用 stroke-2@24 是因为它的图标坐在填充瓦片里，旁边没边框可比。） */
+.ic-icon{
+  width:20px;height:20px;flex:none;display:inline-block;vertical-align:-.22em;
+  fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.ic-icon--16{width:16px;height:16px;stroke-width:2.25}
+.ic-icon--20{width:20px;height:20px;stroke-width:1.8}
+.ic-icon--24{width:24px;height:24px;stroke-width:1.5}
+
+/* 图标托底。纸底上不打光——Obsidian 那个 radial+soft-light 配方是给
+   #0f0f0f 深色底做的，搬到奶油纸上会脏。这里只用填充 + 描边。 */
+.ic-icon-tile{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:36px;height:36px;flex:none;
+  background:var(--ic-inset);color:var(--ic-ink);
+  border:var(--ic-bw) solid var(--ic-ink);border-radius:var(--ic-r);
+  box-shadow:var(--ic-pop);
+}
+.ic-icon-tile--red{background:var(--ic-red);border-color:var(--ic-red);color:var(--ic-surface)}
+.ic-icon-tile--sm{width:28px;height:28px;border-radius:calc(var(--ic-r) - 1px)}
+
+/* 按钮里的图标默认降一档，跟 13.5px 文字同高 */
+.ic-btn .ic-icon{width:16px;height:16px;stroke-width:2.25}
+
+/* ── 排印 ───────────────────────────────────────────────────
+   只有六档。多一档就是下一次「设计语言没对齐」的起点。 */
+.ic-h1{font-size:var(--ic-fs-hero);line-height:var(--ic-lh-hero);font-weight:700;
+  letter-spacing:-.02em;margin:0;text-wrap:balance}          /* 只有它调字距 */
+.ic-h2{font-size:var(--ic-fs-h);line-height:var(--ic-lh-h);font-weight:600;margin:0}
+.ic-h3{font-size:var(--ic-fs-sub);line-height:var(--ic-lh-sub);font-weight:600;margin:0}
+.ic-text{font-size:var(--ic-fs-body);line-height:var(--ic-lh-body);margin:0}
+.ic-text--sm{font-size:var(--ic-fs-sm);line-height:var(--ic-lh-sm);color:var(--ic-ink-2)}
+.ic-cap{font-size:var(--ic-fs-cap);line-height:var(--ic-lh-cap);letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ic-ink-3)}
+.ic-num{font-family:var(--ic-mono);font-variant-numeric:tabular-nums}
+
+/* ── 勾选类 ─────────────────────────────────────────────────
+   checkbox / radio 共用一套盒子，只有圆角不同。 */
+.ic-check{display:inline-flex;align-items:center;gap:var(--ic-2);cursor:pointer;
+  font-size:var(--ic-fs-body)}
+.ic-check input{position:absolute;opacity:0;width:0;height:0}
+.ic-check__box{
+  width:16px;height:16px;flex:none;border-radius:2px;
+  border:var(--ic-bw) solid var(--ic-soft);background:var(--ic-surface);
+  transition:background-color var(--ic-t),border-color var(--ic-t);
+}
+.ic-check--radio .ic-check__box{border-radius:50%}
+.ic-check:hover .ic-check__box{border-color:var(--ic-ink-3)}
+.ic-check input:checked+.ic-check__box{
+  background:var(--ic-brand);border-color:var(--ic-brand);
+}
+/* 对勾画在 ::after 上并走 mask：颜色由 --ic-paper 决定，跟得上主题。
+   直接给方块贴 background-image 的话，SVG 里那个颜色是烤死的，
+   暗色模式下方块变浅、对勾就消失了。 */
+.ic-check input:checked+.ic-check__box::after{
+  content:"";display:block;width:100%;height:100%;background:var(--ic-on-brand);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='9'%3E%3Cpath fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M1 4.5l3 3 6-6'/%3E%3C/svg%3E") center no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='9'%3E%3Cpath fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M1 4.5l3 3 6-6'/%3E%3C/svg%3E") center no-repeat;
+}
+.ic-check input:indeterminate+.ic-check__box{
+  background:var(--ic-brand);border-color:var(--ic-brand);
+}
+.ic-check input:indeterminate+.ic-check__box::after{
+  content:"";display:block;width:100%;height:100%;background:var(--ic-on-brand);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='2'%3E%3Cpath stroke='%23000' stroke-width='2' stroke-linecap='round' d='M1 1h7'/%3E%3C/svg%3E") center no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='2'%3E%3Cpath stroke='%23000' stroke-width='2' stroke-linecap='round' d='M1 1h7'/%3E%3C/svg%3E") center no-repeat;
+}
+.ic-check input:focus-visible+.ic-check__box{outline:2px solid var(--ic-red);outline-offset:2px}
+.ic-check input:disabled+.ic-check__box{background:var(--ic-inset);border-color:var(--ic-soft)}
+.ic-check input:disabled~*{color:var(--ic-ink-3)}
+
+/* Switch —— 只用于「立即生效」的开关。需要点保存的用 checkbox。 */
+.ic-switch{display:inline-flex;align-items:center;gap:var(--ic-2);cursor:pointer;
+  font-size:var(--ic-fs-body)}
+.ic-switch input{position:absolute;opacity:0;width:0;height:0}
+.ic-switch__track{
+  width:34px;height:19px;flex:none;border-radius:999px;padding:2px;
+  border:var(--ic-bw) solid var(--ic-soft);background:var(--ic-inset);
+  transition:background-color var(--ic-t),border-color var(--ic-t);
+}
+.ic-switch__track::after{
+  content:"";display:block;width:11px;height:11px;border-radius:50%;
+  background:var(--ic-ink-3);transition:transform var(--ic-t),background-color var(--ic-t);
+}
+/* 「开」用主色，不用墨黑：墨黑只说明「这里有个东西」，说不出开还是关，
+   而深色轨道在关闭态（--ic-inset）旁边只是深浅之差。Apple 和 Material
+   的开关打开都是强调色，同一个道理。 */
+.ic-switch input:checked+.ic-switch__track{background:var(--ic-brand);border-color:var(--ic-brand)}
+.ic-switch input:checked+.ic-switch__track::after{transform:translateX(15px);background:var(--ic-on-brand)}
+.ic-switch input:focus-visible+.ic-switch__track{outline:2px solid var(--ic-red);outline-offset:2px}
+
+/* ── 图标按钮 · 工具栏 ──────────────────────────────────────
+   约定 2：工具栏只放跨全表的动作；针对某行某列的挂到它自己身上。 */
+.ic-icon-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:var(--ic-h);height:var(--ic-h);flex:none;padding:0;cursor:pointer;
+  border:var(--ic-bw) solid transparent;border-radius:var(--ic-r);
+  background:transparent;color:var(--ic-ink-2);
+  transition:background-color var(--ic-t),color var(--ic-t),border-color var(--ic-t);
+}
+.ic-icon-btn:hover{background:var(--ic-inset);color:var(--ic-ink)}
+.ic-icon-btn:active{background:var(--ic-soft)}
+.ic-icon-btn[aria-pressed="true"]{background:var(--ic-brand);color:var(--ic-on-brand);border-color:var(--ic-brand)}
+.ic-icon-btn:focus-visible{outline:2px solid var(--ic-red);outline-offset:2px}
+.ic-icon-btn .ic-icon{width:18px;height:18px;stroke-width:2}
+
+.ic-toolbar{display:flex;align-items:center;gap:var(--ic-2);flex-wrap:nowrap;
+  padding:var(--ic-2) var(--ic-3);overflow-x:auto}   /* 约定 10：挤了横向滚动，不换行 */
+.ic-toolbar__sep{width:1px;height:20px;flex:none;background:var(--ic-soft);margin:0 var(--ic-1)}
+.ic-toolbar__spacer{margin-left:auto;flex:none}
+
+/* ── Pill / Chips ───────────────────────────────────────────
+   未选中无背景无边框，只有 hover 才给底——这条抄 Obsidian，
+   一排 chips 静止时不吵，是它耐看的原因。 */
+.ic-chips{display:flex;gap:var(--ic-2);flex-wrap:wrap}
+.ic-chip{
+  display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+  font-size:var(--ic-fs-body);padding:4px 12px;border-radius:999px;
+  border:var(--ic-bw) solid transparent;background:transparent;color:var(--ic-ink-2);
+  transition:background-color var(--ic-t),color var(--ic-t),border-color var(--ic-t);
+}
+.ic-chip:hover{background:var(--ic-inset);color:var(--ic-ink)}
+.ic-chip[aria-pressed="true"]{background:var(--ic-brand);border-color:var(--ic-brand);color:var(--ic-on-brand)}
+.ic-chip__num{font-family:var(--ic-mono);font-size:var(--ic-fs-cap);
+  font-variant-numeric:tabular-nums;color:var(--ic-ink-3)}
+.ic-chip[aria-pressed="true"] .ic-chip__num{color:var(--ic-soft)}
+
+/* ── Tabs ───────────────────────────────────────────────────
+   选中态用下边线，不用填充块——填充块会和上面的 segmented 撞。 */
+.ic-tabs{display:flex;gap:var(--ic-1);border-bottom:var(--ic-bw) solid var(--ic-soft);
+  overflow-x:auto}
+.ic-tab{
+  position:relative;flex:none;padding:10px 12px;cursor:pointer;white-space:nowrap;
+  font-size:var(--ic-fs-body);font-weight:500;color:var(--ic-ink-3);
+  border:0;background:none;
+  transition:color var(--ic-t);
+}
+.ic-tab:hover{color:var(--ic-ink-2)}
+/* 指示条走 ::after 而不是 border-bottom，为了两件 border 做不到的事：
+   圆头，和「比文字宽」。量的是 X 自己的实现——4px 高、圆角 999px、
+   横跨整个 tab 盒子（文字 30px 宽时指示条 56px）。直角的 2px 下划线
+   在 1.5px 描边的界面里根本标不出「当前项」。
+   字重只到 600 不到 X 的 700：PingFang SC 只有三档，700 会被合成假粗。 */
+.ic-tab::after{
+  content:"";position:absolute;left:2px;right:2px;bottom:-1.5px;height:4px;
+  border-radius:999px;background:transparent;
+  transition:background-color var(--ic-t);
+}
+.ic-tab[aria-selected="true"]{color:var(--ic-ink);font-weight:600}
+.ic-tab[aria-selected="true"]::after{background:var(--ic-brand)}
+.ic-tab:focus-visible{outline:2px solid var(--ic-red);outline-offset:-2px;border-radius:var(--ic-r)}
+.ic-tab__num{margin-left:6px;font-family:var(--ic-mono);font-size:var(--ic-fs-cap);
+  font-variant-numeric:tabular-nums;color:var(--ic-ink-3)}
+
+/* ── 侧栏 ───────────────────────────────────────────────────
+   约定 2 的落点：分组标签在上，行内的操作挂在行右侧，不进工具栏。 */
+.ic-sidebar{
+  display:flex;flex-direction:column;gap:var(--ic-4);flex:none;
+  width:236px;padding:var(--ic-3);overflow-y:auto;
+  background:var(--ic-paper);border-right:var(--ic-bw) solid var(--ic-soft);
+}
+.ic-sidebar[data-collapsed="true"]{width:52px}
+.ic-sidebar[data-collapsed="true"] .ic-sb-row span,
+.ic-sidebar[data-collapsed="true"] .ic-sb-label{display:none}
+.ic-sb-group{display:flex;flex-direction:column;gap:2px}
+.ic-sb-label{font-size:var(--ic-fs-cap);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ic-ink-3);padding:0 8px var(--ic-1)}
+.ic-sb-row{
+  display:flex;align-items:center;gap:var(--ic-2);
+  padding:7px 8px;border-radius:var(--ic-r);cursor:pointer;
+  font-size:var(--ic-fs-body);color:var(--ic-ink-2);text-decoration:none;
+  transition:background-color var(--ic-t),color var(--ic-t);
+}
+.ic-sb-row:hover{background:var(--ic-inset);color:var(--ic-ink)}
+.ic-sb-row[aria-current="true"]{background:var(--ic-ink);color:var(--ic-paper)}
+.ic-sb-row__num{margin-left:auto;font-family:var(--ic-mono);font-size:var(--ic-fs-cap);
+  font-variant-numeric:tabular-nums;opacity:.7}
+
+/* ── 右键菜单 ───────────────────────────────────────────────
+   JS 只负责定位 + 翻 data-state，样式全在这。
+   约定 5：破坏性项放最后一组，和其余项之间必须有分隔线。 */
+.ic-menu{
+  position:fixed;z-index:var(--ic-z-menu);min-width:180px;padding:var(--ic-1);
+  background:var(--ic-surface);border:var(--ic-bw) solid var(--ic-ink);
+  border-radius:var(--ic-r);box-shadow:var(--ic-pop);
+}
+.ic-menu[data-state="closed"]{display:none}
+.ic-menu[data-state="open"]{animation:ic-pop-in var(--ic-t-in) both}
+.ic-menu__item{
+  display:flex;align-items:center;gap:var(--ic-2);width:100%;
+  padding:7px 9px;border:0;background:none;cursor:pointer;text-align:left;
+  font-size:var(--ic-fs-body);color:var(--ic-ink);border-radius:calc(var(--ic-r) - 1px);
+  transition:background-color var(--ic-t);
+}
+.ic-menu__item:hover,.ic-menu__item[data-highlighted="true"]{background:var(--ic-inset)}
+.ic-menu__item[aria-disabled="true"]{color:var(--ic-ink-3);pointer-events:none}
+.ic-menu__item--danger{color:var(--ic-red)}
+.ic-menu__item--danger:hover{background:color-mix(in srgb, var(--ic-red) 8%, transparent)}
+.ic-menu__kbd{margin-left:auto;font-family:var(--ic-mono);font-size:var(--ic-fs-cap);
+  color:var(--ic-ink-3)}
+.ic-menu__sep{height:1px;margin:var(--ic-1) 4px;background:var(--ic-soft)}
+
+/* ── 对话框 ─────────────────────────────────────────────────
+   约定 5：破坏性操作和未保存离开必须走这里。
+   约定 11：按钮顺序按平台惯例——取消在左、主操作在右。 */
+.ic-overlay{
+  position:fixed;inset:0;z-index:var(--ic-z-modal);
+  display:flex;align-items:center;justify-content:center;padding:var(--ic-4);
+  background:var(--ic-scrim);animation:ic-fade-in var(--ic-t-in) both;
+}
+.ic-overlay[data-state="closed"]{display:none}
+.ic-dialog{
+  width:100%;max-width:420px;display:flex;flex-direction:column;gap:var(--ic-3);
+  padding:var(--ic-6);background:var(--ic-surface);
+  border:var(--ic-bw) solid var(--ic-ink);border-radius:var(--ic-r-lg);
+  box-shadow:var(--ic-pop);animation:ic-pop-in var(--ic-t-in) both;
+}
+.ic-dialog__title{font-size:var(--ic-fs-sub);font-weight:600;margin:0}
+.ic-dialog__body{font-size:var(--ic-fs-body);line-height:var(--ic-lh-body);
+  color:var(--ic-ink-2);margin:0}
+.ic-dialog__foot{display:flex;gap:var(--ic-2);justify-content:flex-end;margin-top:var(--ic-1)}
+
+/* ── Tooltip ────────────────────────────────────────────────
+   约定 8：hover 即出，离开即收，但移向浮层本身时不收——
+   所以 tooltip 不能设 pointer-events:none，JS 要检查 relatedTarget。 */
+.ic-tooltip{
+  position:fixed;z-index:var(--ic-z-tooltip);max-width:260px;
+  padding:6px 9px;font-size:var(--ic-fs-sm);line-height:1.45;
+  background:var(--ic-ink);color:var(--ic-paper);border-radius:var(--ic-r);
+  animation:ic-pop-in var(--ic-t-in) both;
+}
+.ic-tooltip[data-state="closed"]{display:none}
+.ic-tooltip a{color:var(--ic-surface);text-underline-offset:3px}
+
+/* ── 分页 ───────────────────────────────────────────────────
+   约定 9：翻页要清掉页内筛选，别在这层做，在 JS 换页时做。 */
+.ic-pager{display:flex;align-items:center;gap:var(--ic-1)}
+.ic-pager__info{margin-right:var(--ic-2);font-family:var(--ic-mono);
+  font-size:var(--ic-fs-cap);font-variant-numeric:tabular-nums;color:var(--ic-ink-3)}
+.ic-pager button{
+  min-width:28px;height:28px;padding:0 7px;cursor:pointer;
+  font:500 var(--ic-fs-sm)/1 var(--ic-font);font-variant-numeric:tabular-nums;
+  border:var(--ic-bw) solid transparent;border-radius:var(--ic-r);
+  background:transparent;color:var(--ic-ink-2);
+  transition:background-color var(--ic-t),color var(--ic-t),border-color var(--ic-t);
+}
+.ic-pager button:hover:not([disabled]){background:var(--ic-inset);color:var(--ic-ink)}
+.ic-pager button[aria-current="true"]{background:var(--ic-ink);border-color:var(--ic-ink);
+  color:var(--ic-paper)}
+.ic-pager button[disabled]{color:var(--ic-ink-3);cursor:not-allowed}
+
+/* ── 进度 ───────────────────────────────────────────────────
+   确定进度用它；不确定时长的用 .ic-skeleton，别用假进度条。 */
+.ic-progress{height:8px;border-radius:999px;overflow:hidden;
+  background:var(--ic-inset);border:var(--ic-bw) solid var(--ic-soft)}
+.ic-progress__fill{height:100%;background:var(--ic-brand);
+  transition:width .3s var(--ic-e)}
+
+@keyframes ic-fade-in{from{opacity:0}to{opacity:1}}
+
+/* ═══ 第二批组件（对照 shadcn/ui 2026 清单补齐）═══════════════ */
+
+/* ── 表单字段与校验 ─────────────────────────────────────────
+   结构：
+     <div class="ic-field" data-invalid="true">
+       <label class="ic-label" for="k">图床 API Key</label>
+       <input class="ic-input" id="k" aria-invalid="true" aria-describedby="k-msg">
+       <p class="ic-msg ic-msg--err" id="k-msg">…</p>
+     </div>
+
+   校验时机（有研究结论，别凭感觉）：
+     · 首次输入 → **blur 时才校验**。每次按键就报错是打断，不是引导。
+     · 已经报过错 → 改成**实时校验**，让人立刻看到修好了。
+     · 必填为空 → **只在提交时**校验，不要一聚焦离开就喊。
+   无障碍：出错时 aria-invalid="true" + aria-describedby 指向消息节点。 */
+.ic-field{display:flex;flex-direction:column;gap:var(--ic-1)}
+.ic-field__hint{font-size:var(--ic-fs-sm);color:var(--ic-ink-3);margin:0}
+.ic-msg{display:flex;align-items:flex-start;gap:5px;margin:2px 0 0;
+  font-size:var(--ic-fs-sm);line-height:var(--ic-lh-sm)}
+.ic-msg::before{content:"";width:13px;height:13px;flex:none;margin-top:2px;
+  background:currentColor;
+  -webkit-mask:var(--ic-warn) center/13px no-repeat;mask:var(--ic-warn) center/13px no-repeat}
+.ic-msg--err{color:var(--ic-red)}
+.ic-msg--warn{color:var(--ic-gold)}
+.ic-msg--ok{color:var(--ic-olive)}
+.ic-msg--ok::before{-webkit-mask:var(--ic-tick) center/13px no-repeat;mask:var(--ic-tick) center/13px no-repeat}
+.ic-input[aria-invalid="true"],.ic-textarea[aria-invalid="true"]{border-color:var(--ic-red)}
+.ic-input[aria-invalid="true"]:focus,.ic-textarea[aria-invalid="true"]:focus{border-color:var(--ic-red)}
+/* 计数器。接近上限才变色——一直红着等于没提示。 */
+.ic-field__count{margin-left:auto;font-family:var(--ic-mono);font-size:var(--ic-fs-cap);
+  font-variant-numeric:tabular-nums;color:var(--ic-ink-3)}
+.ic-field__count[data-near="true"]{color:var(--ic-gold)}
+.ic-field__count[data-over="true"]{color:var(--ic-red);font-weight:700}
+
+.ic-textarea{  /* 多行，不套 --ic-h：它本来就要能长 */
+  font:400 var(--ic-fs-body)/var(--ic-lh-body) var(--ic-font);padding:9px 11px;width:100%;
+  min-height:78px;resize:vertical;
+  background:var(--ic-surface);color:var(--ic-ink);
+  border:var(--ic-bw) solid var(--ic-soft);border-radius:var(--ic-r);
+  transition:border-color var(--ic-t);
+}
+.ic-textarea:hover{border-color:var(--ic-ink-3)}
+.ic-textarea:focus{outline:none;border-color:var(--ic-brand);box-shadow:inset 0 0 0 .5px var(--ic-brand)}
+
+/* ── 输入组：前后缀、单位、行内按钮 ────────────────────────── */
+.ic-input-group{display:flex;align-items:stretch;height:var(--ic-h);
+  border:var(--ic-bw) solid var(--ic-soft);border-radius:var(--ic-r);
+  background:var(--ic-surface);transition:border-color var(--ic-t);overflow:hidden}
+.ic-input-group:focus-within{border-color:var(--ic-brand);box-shadow:inset 0 0 0 .5px var(--ic-brand)}
+.ic-input-group[data-invalid="true"]{border-color:var(--ic-red)}
+/* :not([disabled]) 是必须的：这条 (0,2,0) 和 .ic-input[disabled] 同权重
+   但写在后面，不排除的话，输入组里被禁用的输入框会丢掉禁用底色，
+   整个组看起来还是可输入的。 */
+.ic-input-group .ic-input:not([disabled]){background:transparent}
+.ic-input-group .ic-input{border:0;border-radius:0;flex:1;min-width:0}
+/* 也要清掉 box-shadow：聚焦的加粗现在靠 inset 阴影做，不清的话组里的 input
+   会在组自己的边框里面再画一圈，变成双环。 */
+.ic-input-group .ic-input:focus{border:0;box-shadow:none}
+.ic-input-group__affix{display:flex;align-items:center;padding:0 10px;flex:none;
+  font-size:var(--ic-fs-sm);color:var(--ic-ink-3);background:var(--ic-paper)}
+.ic-input-group__btn{display:flex;align-items:center;gap:5px;padding:0 11px;flex:none;
+  border:0;border-left:var(--ic-bw) solid var(--ic-soft);cursor:pointer;
+  font:500 var(--ic-fs-sm)/1 var(--ic-font);background:var(--ic-paper);color:var(--ic-ink-2);
+  transition:background-color var(--ic-t),color var(--ic-t)}
+.ic-input-group__btn:hover{background:var(--ic-inset);color:var(--ic-ink)}
+.ic-input-group__btn[data-done="true"]{color:var(--ic-olive)}
+
+/* ── Alert · 页内常驻提示（≠ toast）───────────────────────
+   toast 是「发生了一件事」，会消失；alert 是「这个状态一直存在」，
+   常驻在它说明的那块内容旁边。别用 toast 表达常驻状态。 */
+.ic-alert{
+  display:flex;gap:var(--ic-3);padding:var(--ic-3) var(--ic-4);
+  border:var(--ic-bw) solid var(--ic-soft);border-left-width:3.5px;
+  border-radius:var(--ic-r);background:var(--ic-surface);
+}
+.ic-alert__icon{width:17px;height:17px;flex:none;margin-top:1px;background:currentColor;
+  -webkit-mask:var(--ic-warn) center/17px no-repeat;mask:var(--ic-warn) center/17px no-repeat}
+.ic-alert__title{font-size:var(--ic-fs-body);font-weight:600;margin:0 0 2px}
+.ic-alert__body{font-size:var(--ic-fs-sm);line-height:var(--ic-lh-sm);color:var(--ic-ink-2);margin:0}
+.ic-alert--info{border-left-color:var(--ic-blue)} .ic-alert--info .ic-alert__icon{color:var(--ic-blue)}
+.ic-alert--warn{border-left-color:var(--ic-gold)} .ic-alert--warn .ic-alert__icon{color:var(--ic-gold)}
+.ic-alert--err{border-left-color:var(--ic-red)}  .ic-alert--err  .ic-alert__icon{color:var(--ic-red)}
+.ic-alert--ok{border-left-color:var(--ic-olive)} .ic-alert--ok  .ic-alert__icon{color:var(--ic-olive)}
+
+/* ── 空态 ───────────────────────────────────────────────────
+   约定 3 的另一面：必须说清是「本来就没有」还是「筛出来是空的」，
+   后者要给一个清除筛选的出口，否则用户会以为数据丢了。 */
+.ic-empty{display:flex;flex-direction:column;align-items:center;gap:var(--ic-2);
+  padding:48px 24px;text-align:center;color:var(--ic-ink-3);font-size:var(--ic-fs-body)}
+.ic-empty__icon{width:30px;height:30px;opacity:.45}
+.ic-empty__title{font-size:var(--ic-fs-sub);font-weight:600;color:var(--ic-ink-2);margin:0}
+.ic-empty__body{font-size:var(--ic-fs-sm);max-width:36ch;margin:0}
+
+/* ── Card ───────────────────────────────────────────────────
+   注意：不是所有东西都是卡片。边框/填充/圆角/阴影各自表示「独立对象」，
+   全刷一遍只会把层级压平。只有真正可以被单独拿走的东西才配一张卡。 */
+.ic-card{display:flex;flex-direction:column;gap:var(--ic-2);
+  padding:var(--ic-3) var(--ic-4);background:var(--ic-surface);
+  border:var(--ic-bw) solid var(--ic-soft);border-radius:var(--ic-r)}
+.ic-card--interactive{cursor:pointer;transition:border-color var(--ic-t),background-color var(--ic-t)}
+.ic-card--interactive:hover{border-color:var(--ic-ink)}
+.ic-card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--ic-3)}
+.ic-card__title{font-size:var(--ic-fs-sub);font-weight:600;margin:0}
+.ic-card__body{font-size:var(--ic-fs-sm);line-height:var(--ic-lh-sm);color:var(--ic-ink-2);margin:0}
+
+/* ── 折叠 ───────────────────────────────────────────────────
+   用 <details>/<summary>，键盘和无障碍浏览器自带，不用写 JS。 */
+.ic-collapse{border-bottom:1px solid var(--ic-soft)}
+.ic-collapse>summary{
+  display:flex;align-items:center;gap:var(--ic-2);padding:10px 2px;cursor:pointer;
+  font-size:var(--ic-fs-body);font-weight:500;list-style:none;
+}
+.ic-collapse>summary::-webkit-details-marker{display:none}
+.ic-collapse>summary::before{
+  content:"";width:8px;height:8px;flex:none;background:currentColor;
+  transition:transform var(--ic-t);
+  -webkit-mask:var(--ic-caret) center/8px no-repeat;mask:var(--ic-caret) center/8px no-repeat;
+  transform:rotate(-90deg);
+}
+.ic-collapse[open]>summary::before{transform:rotate(0)}
+.ic-collapse>summary:hover{color:var(--ic-red)}
+.ic-collapse__body{padding:0 2px var(--ic-3) 18px;font-size:var(--ic-fs-sm);
+  line-height:var(--ic-lh-sm);color:var(--ic-ink-2)}
+
+/* ── 抽屉 ───────────────────────────────────────────────────
+   详情用抽屉不用模态：模态夺焦点、遮住上下文，而看详情时人往往要
+   对照列表。抽屉留着列表可见，还能连续翻下一条。 */
+.ic-drawer{
+  position:fixed;top:0;right:0;bottom:0;z-index:var(--ic-z-modal);
+  width:min(460px,92vw);display:flex;flex-direction:column;
+  background:var(--ic-surface);border-left:var(--ic-bw) solid var(--ic-ink);
+  animation:ic-slide-left var(--ic-t-in) both;
+}
+.ic-drawer[data-state="closed"]{display:none}
+.ic-drawer__head{display:flex;align-items:center;gap:var(--ic-3);flex:none;
+  padding:var(--ic-3) var(--ic-4);border-bottom:var(--ic-bw) solid var(--ic-soft)}
+.ic-drawer__title{font-size:var(--ic-fs-sub);font-weight:600;margin:0;flex:1;min-width:0}
+.ic-drawer__body{flex:1;overflow-y:auto;padding:var(--ic-4)}
+.ic-drawer__foot{flex:none;display:flex;gap:var(--ic-2);justify-content:flex-end;
+  padding:var(--ic-3) var(--ic-4);border-top:var(--ic-bw) solid var(--ic-soft)}
+@keyframes ic-slide-left{from{transform:translateX(16px);opacity:0}to{transform:none;opacity:1}}
+
+/* ── 头像 ───────────────────────────────────────────────────
+   无图时用首字母，不要用默认灰头像——首字母至少能区分人。 */
+.ic-avatar{
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+  width:32px;height:32px;border-radius:50%;overflow:hidden;
+  background:var(--ic-inset);border:var(--ic-bw) solid var(--ic-soft);
+  font-size:var(--ic-fs-sm);font-weight:600;color:var(--ic-ink-2);
+}
+.ic-avatar img{width:100%;height:100%;object-fit:cover}
+.ic-avatar--sm{width:24px;height:24px;font-size:var(--ic-fs-cap)}
+.ic-avatar--lg{width:44px;height:44px;font-size:var(--ic-fs-sub)}
+
+/* ── 零件 ───────────────────────────────────────────────────── */
+.ic-sep{height:1px;background:var(--ic-soft);border:0;margin:var(--ic-3) 0}
+.ic-sep--v{width:1px;height:auto;align-self:stretch;margin:0 var(--ic-2)}
+.ic-kbd{display:inline-block;padding:2px 5px;border-radius:3px;
+  font:400 var(--ic-fs-cap)/1.3 var(--ic-mono);
+  background:var(--ic-inset);border:1px solid var(--ic-soft);color:var(--ic-ink-2)}
+.ic-spinner{
+  width:14px;height:14px;flex:none;border-radius:50%;display:inline-block;
+  border:2px solid currentColor;border-right-color:transparent;
+  animation:ic-spin .6s linear infinite;
+}
+@keyframes ic-spin{to{transform:rotate(360deg)}}
+/* 滚动边缘阴影：告诉用户「下面还有」。比滚动条更早被看到。 */
+.ic-scroll-shadow{
+  background:
+    linear-gradient(var(--ic-surface) 30%,transparent) top/100% 20px no-repeat,
+    linear-gradient(transparent,var(--ic-surface) 70%) bottom/100% 20px no-repeat,
+    radial-gradient(farthest-side at 50% 0,color-mix(in srgb, var(--ic-ink) 10%, transparent),transparent) top/100% 8px no-repeat,
+    radial-gradient(farthest-side at 50% 100%,color-mix(in srgb, var(--ic-ink) 10%, transparent),transparent) bottom/100% 8px no-repeat;
+  background-attachment:local,local,scroll,scroll;
+}
