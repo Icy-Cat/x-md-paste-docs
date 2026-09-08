@@ -176,6 +176,70 @@
   --ic-scrim:rgba(0,0,0,.62);
   --ic-tick-on-brand:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8'%3E%3Cpath fill='none' stroke='%23111' stroke-width='2' d='M1 4l3 3 5-6'/%3E%3C/svg%3E");
 }
+/* ═══ 形语言 C：mac ══════════════════════════════════════════
+   `data-lang="mac"` —— 对齐 Apple HIG 的 macOS 弹出窗口。
+
+   和另外两条的根本差别是**分层手段**：paper 靠描边，sticker 靠描边加硬
+   阴影，mac 靠**底色差**——白卡片浮在浅灰的分组底上，卡片本身不描边。
+   这是 HIG 里 systemGroupedBackground 那套，也是 macOS 弹窗、设置面板、
+   iOS 分组列表共用的做法。照搬它意味着：
+
+     · 描边降到 1px 发丝线，且只用于输入类控件和组内分隔，不用于卡片
+     · 硬阴影去掉。浮层用一层很淡的柔和阴影表示「浮在上面」，仅此而已
+     · 圆角放大：控件 6px、卡片和面板 12px
+     · 主色换成系统蓝 #007AFF（暗色 #0A84FF），不是我们自己的牛仔蓝
+     · 控件高度压到 30px。popup 只有 380px 宽，34px 一行会显得笨重
+
+   语义色（红/绿/金/青）保持不变：Apple 那几个（#FF3B30 #34C759）在白底
+   上都到不了 AA，而它们在这里是**文字**色。形语言可以换，对比度不能让。
+
+   放在暗色两段之后，是因为它要压过那两段里的通用值；它自己的暗色又写在
+   更后面、权重更高的选择器上。三段的 token 必须一一对应。 */
+.ic-root[data-lang="mac"]{
+  --ic-bw:1px; --ic-r:6px; --ic-r-lg:12px; --ic-pop:none;
+  --ic-h:30px; --ic-h-sm:24px;
+  /* 分组底 + 纯白卡片。这是整条形语言的地基，改了它下面全塌。 */
+  --ic-paper:#F2F2F7; --ic-surface:#FFFFFF; --ic-inset:#E9E9EB;
+  --ic-soft:rgba(0,0,0,.12);
+  --ic-ink:#000000; --ic-ink-2:#3C3C43; --ic-ink-3:#6C6C70;
+  /* 比 Apple 的 #007AFF 深一档，是有意的偏离：白字压在 #007AFF 上只有
+     4.02:1，AA 不过；而同一个蓝还要当白底上的链接文字，那边也是 4.02:1。
+     #0068D9 两边分别是 4.9:1 和 5.3:1，肉眼仍是系统蓝。 */
+  --ic-brand:#0068D9; --ic-brand-2:#0055B3; --ic-on-brand:#FFFFFF;
+  --ic-scrim:rgba(0,0,0,.28);
+  /* 浮层的柔和阴影。popup 很小，玻璃和重投影都会让它发糊。 */
+  --ic-lift:0 8px 24px rgba(0,0,0,.14), 0 1px 3px rgba(0,0,0,.08);
+}
+@media (prefers-color-scheme: dark){
+  .ic-root[data-lang="mac"]:not([data-theme="light"]){
+    --ic-paper:#1C1C1E; --ic-surface:#2C2C2E; --ic-inset:#3A3A3C;
+    --ic-soft:rgba(255,255,255,.14);
+    --ic-ink:#FFFFFF; --ic-ink-2:#EBEBF5; --ic-ink-3:#98989F;
+    /* 这里原来照抄 macOS：#0A84FF 配白字。实测 3.65:1，AA 不过——Apple
+       自己发这个货，我们的线不在那儿。而且同一个蓝还要当**文字**用（暗底
+       上的链接），#0A84FF 对 #2C2C2E 只有 3.82:1，同样不过。
+       两个用途把颜色往相反方向拉，解法就是这套系统本来就有的那个：品牌色
+       提亮给文字用，主按钮上的字翻成深色（Material 3 的 primary/onPrimary）。
+       现在 #4DA3FF 对卡片底 5.9:1，深字对 #4DA3FF 8.6:1，两边都过。 */
+    --ic-brand:#4DA3FF; --ic-brand-2:#7CBAFF; --ic-on-brand:#0A0A0B;
+  --ic-red:#FF8A8A;
+    /* 通用暗色的 #F26A6A 对卡片底只有 4.68:1，垫上 6% 同色底就掉到 4.30。
+       红是这里唯一一个自身就贴着线的语义色，提亮到 #FF8A8A 之后是 6.14 /
+       5.51，才留出余量。 */
+    --ic-red:#FF8A8A;
+    --ic-scrim:rgba(0,0,0,.5);
+    --ic-lift:0 8px 24px rgba(0,0,0,.5), 0 1px 3px rgba(0,0,0,.4);
+  }
+}
+.ic-root[data-lang="mac"][data-theme="dark"]{
+  --ic-paper:#1C1C1E; --ic-surface:#2C2C2E; --ic-inset:#3A3A3C;
+  --ic-soft:rgba(255,255,255,.14);
+  --ic-ink:#FFFFFF; --ic-ink-2:#EBEBF5; --ic-ink-3:#98989F;
+  --ic-brand:#4DA3FF; --ic-brand-2:#7CBAFF; --ic-on-brand:#0A0A0B;
+  --ic-scrim:rgba(0,0,0,.5);
+  --ic-lift:0 8px 24px rgba(0,0,0,.5), 0 1px 3px rgba(0,0,0,.4);
+}
+
 .ic-root *,.ic-root *::before,.ic-root *::after{box-sizing:border-box}
 /* 链接：正文里的链接跟着墨色走，只靠下划线区分。
    蓝色链接是浏览器默认值，不是设计——它和这套色一个都不搭，而且蓝在这里
@@ -1139,8 +1203,15 @@
 /* ── 输入组：前后缀、单位、行内按钮 ────────────────────────── */
 .ic-input-group{display:flex;align-items:stretch;height:var(--ic-h);
   border:var(--ic-bw) solid var(--ic-soft);border-radius:var(--ic-r);
-  background:var(--ic-surface);transition:border-color var(--ic-t);overflow:hidden}
-.ic-input-group:focus-within{border-color:var(--ic-brand);box-shadow:inset 0 0 0 .5px var(--ic-brand)}
+  background:var(--ic-surface);transition:border-color var(--ic-t);overflow:hidden;
+  /* 组内分隔线的颜色走变量，不写死。分隔线在按钮上，而按钮的样式经常被产品
+     侧重写（步进器就要把「减」的分隔线从左边挪到右边），重写的那条选择器
+     权重往往和 :focus-within 打平又写在后面——于是聚焦时外框变蓝、里面的
+     分隔线还是灰的，中间那格看起来像蓝框里又套了一个盒子。自定义属性是
+     继承的，不比权重，改一处两边都跟上。 */
+  --ic-divider:var(--ic-soft)}
+.ic-input-group:focus-within{border-color:var(--ic-brand);box-shadow:inset 0 0 0 .5px var(--ic-brand);
+  --ic-divider:var(--ic-brand)}
 .ic-input-group[data-invalid="true"]{border-color:var(--ic-red)}
 /* :not([disabled]) 是必须的：这条 (0,2,0) 和 .ic-input[disabled] 同权重
    但写在后面，不排除的话，输入组里被禁用的输入框会丢掉禁用底色，
@@ -1153,7 +1224,7 @@
 .ic-input-group__affix{display:flex;align-items:center;padding:0 10px;flex:none;
   font-size:var(--ic-fs-sm);color:var(--ic-ink-3);background:var(--ic-paper)}
 .ic-input-group__btn{display:flex;align-items:center;gap:5px;padding:0 11px;flex:none;
-  border:0;border-left:var(--ic-bw) solid var(--ic-soft);cursor:pointer;
+  border:0;border-left:var(--ic-bw) solid var(--ic-divider);cursor:pointer;
   font:500 var(--ic-fs-sm)/1 var(--ic-font);background:var(--ic-paper);color:var(--ic-ink-2);
   transition:background-color var(--ic-t),color var(--ic-t)}
 .ic-input-group__btn:hover{background:var(--ic-inset);color:var(--ic-ink)}
@@ -1270,4 +1341,115 @@
     radial-gradient(farthest-side at 50% 0,color-mix(in srgb, var(--ic-ink) 10%, transparent),transparent) top/100% 8px no-repeat,
     radial-gradient(farthest-side at 50% 100%,color-mix(in srgb, var(--ic-ink) 10%, transparent),transparent) bottom/100% 8px no-repeat;
   background-attachment:local,local,scroll,scroll;
+}
+
+/* 组件层的差异。只改「形」，不改结构和行为——换了形语言之后，同一份
+   HTML 仍然是同一个组件、同一套键盘和焦点行为。 */
+
+/* 按钮：次要按钮是浅灰填充、无描边（HIG 的 bordered button），
+   hover 只压深一档；不做位移，也不翻成墨底白字。
+
+   每条都带 :not([disabled]):not([aria-disabled="true"])，不是洁癖：
+   `.ic-root[data-lang="mac"] .ic-btn` 是 (0,3,0)，压得过 `.ic-btn[disabled]`
+   的 (0,2,0)，不排除的话禁用按钮会保留正常填充，看上去还能点。
+   hover 也要带同样的 :not()，否则权重低于变体规则、整个失效。 */
+.ic-root[data-lang="mac"] .ic-btn:not([disabled]):not([aria-disabled="true"]){
+  border-color:transparent;background:var(--ic-inset);color:var(--ic-ink);
+}
+.ic-root[data-lang="mac"] .ic-btn{font-weight:500;padding:0 13px}
+.ic-root[data-lang="mac"] .ic-btn:not([disabled]):not([aria-disabled="true"]):hover{
+  background:color-mix(in srgb, var(--ic-ink) 10%, var(--ic-inset));color:var(--ic-ink);
+}
+.ic-root[data-lang="mac"] .ic-btn:active{transform:none;filter:brightness(.94)}
+.ic-root[data-lang="mac"] .ic-btn--primary:not([disabled]):not([aria-disabled="true"]){
+  background:var(--ic-brand);border-color:transparent;color:var(--ic-on-brand);
+}
+.ic-root[data-lang="mac"] .ic-btn--primary:not([disabled]):not([aria-disabled="true"]):hover{
+  background:var(--ic-brand-2);border-color:transparent;color:var(--ic-on-brand);
+}
+.ic-root[data-lang="mac"] .ic-btn--ghost:not([disabled]):not([aria-disabled="true"]){
+  background:transparent;border-color:transparent;color:var(--ic-brand);
+}
+.ic-root[data-lang="mac"] .ic-btn--ghost:not([disabled]):not([aria-disabled="true"]):hover{
+  background:var(--ic-inset);color:var(--ic-brand);
+}
+.ic-root[data-lang="mac"] .ic-btn--danger:not([disabled]):not([aria-disabled="true"]){
+  background:transparent;border-color:var(--ic-soft);color:var(--ic-red);
+}
+.ic-root[data-lang="mac"] .ic-btn--danger:not([disabled]):not([aria-disabled="true"]):hover{
+  background:var(--ic-inset);color:var(--ic-red);
+}
+
+/* 卡片不描边——分层交给底色差，这是这条形语言的全部要点。 */
+.ic-root[data-lang="mac"] .ic-card{
+  border-color:transparent;border-radius:var(--ic-r-lg);padding:var(--ic-3) var(--ic-4);
+}
+.ic-root[data-lang="mac"] .ic-card--interactive:hover{border-color:transparent;background:var(--ic-inset)}
+
+/* 浮层：柔和阴影 + 大圆角，不用硬阴影和粗描边 */
+.ic-root[data-lang="mac"] .ic-dialog,
+.ic-root[data-lang="mac"] .ic-listbox,
+.ic-root[data-lang="mac"] .ic-menu,
+.ic-root[data-lang="mac"] .ic-drawer{
+  border-color:var(--ic-soft);border-radius:var(--ic-r-lg);box-shadow:var(--ic-lift);
+}
+/* toast 不带阴影。它和上面几个不一样：dialog、菜单、抽屉是用户自己叫出来的，
+   阴影告诉他「这层盖住了下面」；toast 是不请自来地压在别人正在写的文章上，
+   再加一层阴影只会更像一块贴上去的补丁。发丝描边足够把它和页面分开。
+
+   左侧那条 3.5px 语义色带也去掉：它是给 4px 圆角设计的：细边、直角，读作
+   一条竖线。放到 12px 圆角上，3.5px 的边在两个圆角处堆成一块灰白弧形，
+   看着像卡片左边粘了个东西。语义已经由图标的颜色承担了，macOS 的通知本来
+   也没有这条色带。 */
+.ic-root[data-lang="mac"] .ic-toast{border-left-width:var(--ic-bw)}
+.ic-root[data-lang="mac"] .ic-toast--block{
+  border-color:var(--ic-soft);border-radius:var(--ic-r-lg);box-shadow:none;
+}
+
+/* badge：淡色底 + 同色字，不用 sticker 那种实心糖果块 */
+/* spec-ok: border-color over .ic-badge-- —— mac 下 badge 一律不描边，靠淡色底和
+   同色字区分语义，所以这里压掉四个语义变体各自的描边色是有意的：下面的
+   mac 变体规则只给 background 和 color，不再恢复 border-color。 */
+.ic-root[data-lang="mac"] .ic-badge{
+  border-color:transparent;border-radius:999px;padding:2px 9px;
+  background:var(--ic-inset);color:var(--ic-ink-2);
+}
+.ic-root[data-lang="mac"] .ic-badge--brand{background:var(--ic-brand);color:var(--ic-on-brand)}
+/* 淡色底和 --ic-surface 混，不和 transparent 混。混 transparent 得到的是一个
+   带 alpha 的颜色，实际观感取决于它压在什么上面——而对比度审计只能读到那个
+   半透明值本身，于是「金字压在 16% 金底上」被算成 1.00:1。混进 surface 之后
+   得到的是实色，量出来的就是看上去的。 */
+/* 底色的浓度直接决定文字对比度：字和底是同一个色相，底越浓、差越小。
+   6% 是量出来的：亮色下四个语义色分别是 4.64 / 4.66 / 4.95 / 5.62，都过
+   AA；再浓一档（8%）金色就掉到 4.50，10% 掉到 4.39。 */
+.ic-root[data-lang="mac"] .ic-badge--ok{background:color-mix(in srgb,var(--ic-olive) 6%,var(--ic-surface));color:var(--ic-olive)}
+.ic-root[data-lang="mac"] .ic-badge--info{background:color-mix(in srgb,var(--ic-blue) 6%,var(--ic-surface));color:var(--ic-blue)}
+.ic-root[data-lang="mac"] .ic-badge--warn{background:color-mix(in srgb,var(--ic-gold) 6%,var(--ic-surface));color:var(--ic-gold)}
+.ic-root[data-lang="mac"] .ic-badge--err{background:color-mix(in srgb,var(--ic-red) 6%,var(--ic-surface));color:var(--ic-red)}
+
+/* 图标托底跟着卡片走：不描边，浅灰填充 */
+.ic-root[data-lang="mac"] .ic-icon-tile{
+  border-color:transparent;background:var(--ic-inset);border-radius:8px;box-shadow:none;
+}
+
+/* tab 指示条细一档，贴合 macOS 的下划线式分段 */
+.ic-root[data-lang="mac"] .ic-tab::after{height:2px;border-radius:2px}
+
+/* 焦点环。系统其余两条形语言用红：在它们的色板里红是「强调」，而主色要留给
+   主操作，焦点用主色会和主按钮糊在一起。mac 不一样——红在这套色里只剩
+   「危险/出错」一个含义，用它描焦点等于告诉用户「你选中的这个东西有问题」。
+   macOS 自己的焦点环就是系统蓝，跟着走。
+
+   写在这里而不是靠 token：outline 的颜色是写死在七条规则里的 var(--ic-red)，
+   不是一个「焦点色」token，所以只能逐条压。压的是同一个属性、同一个状态，
+   不算语境规则压状态。 */
+/* spec-ok: outline over :focus-visible —— mac 下焦点环换成品牌色，逐条压掉
+   基础规则里写死的红，属性和状态都对得上，不是语境压意图。 */
+.ic-root[data-lang="mac"] a:focus-visible,
+.ic-root[data-lang="mac"] .ic-btn:focus-visible,
+.ic-root[data-lang="mac"] .ic-icon-btn:focus-visible,
+.ic-root[data-lang="mac"] .ic-tab:focus-visible,
+.ic-root[data-lang="mac"] .ic-check input:focus-visible+.ic-check__box,
+.ic-root[data-lang="mac"] .ic-switch input:focus-visible+.ic-switch__track{
+  outline-color:var(--ic-brand);
 }
