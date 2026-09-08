@@ -230,8 +230,10 @@ html[data-lang="en"] .hero .tagline::first-letter {
 .faq img { border: var(--ic-bw) solid var(--ic-soft); border-radius: var(--ic-r); }
 .license-steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
 
+/* 上下留白相等。原来底部多加 16px，本意是「页尾多留一口气」，但页脚上面
+   有一条分栏规、下面什么都没有，多出来的那截读不成呼吸，只读成没对齐。 */
 footer.site {
-  padding: var(--ic-6) 24px calc(var(--ic-6) + 16px); text-align: center;
+  padding: var(--ic-6) 24px; text-align: center;
   border-top: var(--rule);
   font: 400 var(--ic-fs-sm)/1.6 var(--ic-mono); color: var(--ic-ink-3);
 }
