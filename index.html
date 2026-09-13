@@ -24,8 +24,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
-  <link rel="stylesheet" href="./icycat-uiux.css?v=20260908c" />
-  <link rel="stylesheet" href="./styles.css?v=20260908c" />
+  <link rel="stylesheet" href="./icycat-uiux.css?v=20260913" />
+  <link rel="stylesheet" href="./styles.css?v=20260913" />
   <script src="./lang.js" defer></script>
   <script type="application/ld+json">
   {
@@ -220,16 +220,29 @@
         </p>
       </div>
 
+      <!-- 国内支付走 pay.icy-cat.com（license-worker）。价格不写在这里：
+           它配在那个 Worker 的 PRODUCTS 里，页面上再抄一份就会漂——站点写着
+           ¥98 而收银台收 ¥199 的情况刚刚发生过一次。这里只负责把人送过去。 -->
       <div id="cn" class="ic-card cn-card">
         <h3><span lang-zh>国内用户支持</span><span lang-en>Support for China users</span></h3>
         <p>
-          <span lang-zh>国内早鸟支持价 ¥98，买断使用。没有国际信用卡，或想进微信群交流，可以先在 X 上私信我。</span>
-          <span lang-en>China early supporter price: ¥98 lifetime. If you need local payment help or want to join the WeChat group, message me on X first.</span>
+          <span lang-zh>没有国际信用卡？用支付宝直接买，付完当场拿到激活码。月付、年付、永久三种都有。</span>
+          <span lang-en>No international card? Pay with Alipay and get your license key immediately. Monthly, yearly and lifetime plans are available.</span>
         </p>
-        <a class="ic-btn" href="https://x.com/intent/follow?screen_name=icycat" target="_blank" rel="noopener">
-          <span lang-zh>在 X 上私信我</span>
-          <span lang-en>DM me on X to join the WeChat group</span>
-        </a>
+        <div class="plan-actions">
+          <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=forever" target="_blank" rel="noopener">
+            <span lang-zh>支付宝购买 · 永久</span>
+            <span lang-en>Buy with Alipay · Lifetime</span>
+          </a>
+          <a class="ic-btn" href="https://pay.icy-cat.com/?p=xmd&amp;plan=year" target="_blank" rel="noopener">
+            <span lang-zh>看月付 / 年付</span>
+            <span lang-en>Monthly / yearly plans</span>
+          </a>
+        </div>
+        <p class="later">
+          <span lang-zh>想进微信群交流，在 X 上私信我。</span>
+          <span lang-en>Want to join the WeChat group? Message me on X.</span>
+        </p>
       </div>
     </div>
   </section>

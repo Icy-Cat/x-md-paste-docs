@@ -214,7 +214,9 @@ html[data-lang="en"] .hero .tagline::first-letter {
 }
 
 .cn-card { max-width: 520px; margin: var(--ic-6) auto 0; text-align: center; align-items: center; }
-.cn-card .ic-btn { width: 100%; justify-content: center; text-decoration: none; margin-top: var(--ic-2); }
+.cn-card .plan-actions { margin-top: var(--ic-2); }
+.cn-card .ic-btn { width: 100%; justify-content: center; text-decoration: none; }
+.cn-card .later { margin-top: var(--ic-2); }
 
 /* FAQ：一叠有边框的行，不是散开的折叠块 */
 .faq {
