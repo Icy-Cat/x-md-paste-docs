@@ -24,8 +24,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
-  <link rel="stylesheet" href="./icycat-uiux.css?v=20260913" />
-  <link rel="stylesheet" href="./styles.css?v=20260913" />
+  <link rel="stylesheet" href="./icycat-uiux.css?v=20260913b" />
+  <link rel="stylesheet" href="./styles.css?v=20260913b" />
   <script src="./lang.js" defer></script>
   <script type="application/ld+json">
   {
@@ -59,7 +59,7 @@
           "price": "29",
           "priceCurrency": "USD",
           "availability": "https://schema.org/InStock",
-          "url": "https://www.creem.io/payment/prod_5jwj6zkX0G42WgE8EfeUhD"
+          "url": "https://pay.icy-cat.com/?p=xmd&plan=forever"
         }
       }
     ]
@@ -209,7 +209,10 @@
           <li><span lang-zh>支持信用卡 / Apple Pay / Google Pay</span><span lang-en>Card / Apple Pay / Google Pay</span></li>
         </ul>
         <div class="plan-actions">
-          <a class="ic-btn ic-btn--primary" href="https://www.creem.io/payment/prod_5jwj6zkX0G42WgE8EfeUhD" target="_blank" rel="noopener">
+          <!-- 走 pay.icy-cat.com 的收银台，不再直连 creem.io：同一个页面上
+               信用卡和支付宝并排，付完由 Worker 直接发激活码，不用等 Creem
+               的确认邮件；产品和价格也只有那一处配置。 -->
+          <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=forever" target="_blank" rel="noopener">
             <span lang-zh>购买早鸟价 $29</span>
             <span lang-en>Buy early bird $29</span>
           </a>
@@ -220,29 +223,14 @@
         </p>
       </div>
 
-      <!-- 国内支付走 pay.icy-cat.com（license-worker）。价格不写在这里：
-           它配在那个 Worker 的 PRODUCTS 里，页面上再抄一份就会漂——站点写着
-           ¥98 而收银台收 ¥199 的情况刚刚发生过一次。这里只负责把人送过去。 -->
+      <!-- 国内支付走 pay.icy-cat.com（license-worker）。只放买断这一档：
+           月付/年付在收银台里点得到，不必在落地页上摊开三个价格让人挑。 -->
       <div id="cn" class="ic-card cn-card">
         <h3><span lang-zh>国内用户支持</span><span lang-en>Support for China users</span></h3>
-        <p>
-          <span lang-zh>没有国际信用卡？用支付宝直接买，付完当场拿到激活码。月付、年付、永久三种都有。</span>
-          <span lang-en>No international card? Pay with Alipay and get your license key immediately. Monthly, yearly and lifetime plans are available.</span>
-        </p>
-        <div class="plan-actions">
-          <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=forever" target="_blank" rel="noopener">
-            <span lang-zh>支付宝购买 · 永久</span>
-            <span lang-en>Buy with Alipay · Lifetime</span>
-          </a>
-          <a class="ic-btn" href="https://pay.icy-cat.com/?p=xmd&amp;plan=year" target="_blank" rel="noopener">
-            <span lang-zh>看月付 / 年付</span>
-            <span lang-en>Monthly / yearly plans</span>
-          </a>
-        </div>
-        <p class="later">
-          <span lang-zh>想进微信群交流，在 X 上私信我。</span>
-          <span lang-en>Want to join the WeChat group? Message me on X.</span>
-        </p>
+        <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=forever" target="_blank" rel="noopener">
+          <span lang-zh>支付宝购买 ¥99 · 买断</span>
+          <span lang-en>Buy with Alipay · ¥99 lifetime</span>
+        </a>
       </div>
     </div>
   </section>
