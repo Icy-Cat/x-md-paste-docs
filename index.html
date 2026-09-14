@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title data-zh="X 长文 Markdown 导入器 | Markdown 一键导入 X 长文" data-en="X Article Markdown Paste | Import Markdown into X Articles">X 长文 Markdown 导入器 | Import Markdown into X Articles</title>
-  <meta name="description" content="X 长文 Markdown 导入器，Chrome extension for importing Markdown drafts into X Articles. Supports Obsidian notes, Notion exports, local .md files, images, tables, covers, and tweet embeds." />
+  <title data-zh="Markdown 一键导入 X 长文 | X Article Markdown Paste" data-en="Markdown to X Articles | X Article Markdown Paste">Markdown to X Articles | X Article Markdown Paste</title>
+  <meta name="description" content="Chrome extension to paste Markdown into X Articles. Converts Obsidian, Notion and .md drafts to X Articles with images, tables, code blocks and tweet embeds." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="application-name" content="X Article Markdown Paste" />
   <meta name="theme-color" content="#ffffff" />
@@ -12,20 +12,24 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://xmdpaste.icy-cat.com/" />
   <meta property="og:site_name" content="X Article Markdown Paste" />
-  <meta property="og:locale" content="zh_CN" />
-  <meta property="og:locale:alternate" content="en_US" />
-  <meta property="og:title" content="X 长文 Markdown 导入器 | Import Markdown into X Articles" />
-  <meta property="og:description" content="把 Obsidian、Notion、本地 .md 和 AI 草稿导入 X 长文，自动处理图片、表格、封面和推文嵌入。" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="zh_CN" />
+  <meta property="og:title" content="Markdown to X Articles | X Article Markdown Paste" />
+  <meta property="og:description" content="Paste Markdown into X Articles. Images, tables, code blocks and tweet embeds arrive in the editor ready to publish." />
+  <meta property="og:image" content="https://xmdpaste.icy-cat.com/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://xmdpaste.icy-cat.com/og.png" />
   <meta name="twitter:creator" content="@icycat" />
-  <meta name="twitter:title" content="X 长文 Markdown 导入器 | Import Markdown into X Articles" />
-  <meta name="twitter:description" content="Chrome 扩展：把 Markdown 草稿一键导入 X 长文，支持图片、表格、封面和推文嵌入。" />
+  <meta name="twitter:title" content="Markdown to X Articles | X Article Markdown Paste" />
+  <meta name="twitter:description" content="Paste Markdown into X Articles. Images, tables, code blocks and tweet embeds arrive in the editor ready to publish." />
   <link rel="icon" type="image/png" href="./favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
   <link rel="stylesheet" href="./icycat-uiux.css?v=20260913c" />
-  <link rel="stylesheet" href="./styles.css?v=20260913c" />
+  <link rel="stylesheet" href="./styles.css?v=20260914a" />
   <script src="./lang.js" defer></script>
   <script type="application/ld+json">
   {
@@ -87,11 +91,11 @@
       </p>
       <h1>
         <span lang-zh>Markdown 草稿<br><span class="accent">一键导入 X 长文</span></span>
-        <span lang-en>Publish Markdown drafts as <span class="accent">stable X Articles</span>.</span>
+        <span lang-en>Markdown to X Articles, <span class="accent">in one paste</span>.</span>
       </h1>
       <p class="tagline">
         <span lang-zh>为 Obsidian 笔记、Notion 导出、本地 .md 和 AI 草稿准备的 Chrome 扩展。图片、表格、封面和推文嵌入会自动导入，发布前你仍然可以在 X 编辑器里检查。</span>
-        <span lang-en>A Chrome extension for Obsidian notes, Notion exports, local .md files, and AI-written drafts. Import images, tables, covers, and tweet embeds, then review everything inside X before publishing.</span>
+        <span lang-en>A Chrome extension that converts Markdown to X Articles: Obsidian notes, Notion exports, local .md files, and AI-written drafts. Images, tables, code blocks, covers, and tweet embeds import automatically, and you review everything inside X before publishing.</span>
       </p>
       <div class="cta-row">
         <a class="ic-btn ic-btn--primary" href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">
@@ -120,7 +124,7 @@
         </div>
         <div class="proof__out">
           <p class="kicker">Rendered Draft</p>
-          <h3>Launch Notes</h3>
+          <p class="proof__title">Launch Notes</p>
           <div class="proof__img"></div>
           <p>Title, cover, images, tables and embeds arrive in the editor ready for review.</p>
         </div>
@@ -133,7 +137,7 @@
       <p class="kicker">Features Desk</p>
       <h2>
         <span lang-zh>能处理什么</span>
-        <span lang-en>What it handles</span>
+        <span lang-en>What Markdown to X Articles converts</span>
       </h2>
       <p class="lead">
         <span lang-zh>它解决的不是复制粘贴本身，而是 X 编辑器改版、本地图片、表格和封面带来的不确定性。</span>
@@ -248,6 +252,13 @@
           </div>
         </details>
         <details class="ic-collapse">
+          <summary><span lang-zh>X 长文支持 Markdown 吗？</span><span lang-en>Does X Articles support Markdown?</span></summary>
+          <div class="ic-collapse__body">
+            <span lang-zh>X 长文编辑器本身不认 Markdown：直接粘贴会把图片变成一行 <code>![](url)</code>、表格塌成一堆竖线、代码块丢掉灰底。这个扩展在粘贴时把 Markdown 转成 X 编辑器接受的原生格式，图片会走 X 自己的上传通道，表格渲染成图片，代码块保留等宽格式。</span>
+            <span lang-en>Not natively. Paste Markdown into the X Articles editor and images become a line of <code>![](url)</code>, tables collapse into pipes, and code blocks lose their formatting. This extension converts Markdown to X Articles' native format on paste: images upload through X's own media pipeline, tables render as images, and code blocks keep their monospace style.</span>
+          </div>
+        </details>
+        <details class="ic-collapse">
           <summary><span lang-zh>会读取我的 X 账号或文章内容吗？</span><span lang-en>Does it leak my X account or content?</span></summary>
           <div class="ic-collapse__body">
             <span lang-zh>不会。扩展只在 <code>x.com/compose/articles/*</code> 页面工作，不读取你的 cookie 或密码，也不会上传文章内容。详见 <a href="./privacy.html">隐私政策</a>。</span>
@@ -265,7 +276,7 @@
               <li><span lang-zh><strong>① 左侧 Orders 列表</strong>：点击 "X Article Markdown Paste — Pro" 这一条订单</span><span lang-en><strong>① Orders panel on the left</strong>: click the "X Article Markdown Paste — Pro" row</span></li>
               <li><span lang-zh><strong>② 右侧 License Key 区域</strong>：复制形如 <code>5VLZ0-…-…-…-…</code> 的激活码</span><span lang-en><strong>② License Key panel on the right</strong>: copy the <code>5VLZ0-…-…-…-…</code> key</span></li>
             </ol>
-            <img src="./creem-find-license-key.png" alt="Creem dashboard: how to locate license key" style="width: 100%; max-width: 720px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(127,127,127,0.3);" />
+            <img src="./creem-find-license-key.png" alt="Creem dashboard: how to locate license key" width="1555" height="575" loading="lazy" style="width: 100%; max-width: 720px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(127,127,127,0.3);" />
             <p style="margin-top: 10px;">
               <span lang-zh>拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 <strong>License Key</strong> 输入框，然后按回车。每个早鸟激活码最多可在 5 台设备上使用。</span>
               <span lang-en>Once you have the key, click the extension icon in Chrome's toolbar, paste it into the <strong>License Key</strong> field, press Enter. Each early-bird key activates on up to 5 devices.</span>

@@ -135,7 +135,7 @@ html[data-lang="en"] .hero .tagline::first-letter {
 .proof__src strong { color: var(--ic-brand); }
 .proof__out { padding: var(--ic-4); display: flex; flex-direction: column; gap: var(--ic-3); }
 .proof__out .kicker { margin: 0; }
-.proof__out h3 { margin: 0; font-family: var(--display); font-weight: 700;
+.proof__out .proof__title { margin: 0; font-family: var(--display); font-weight: 700;
                  font-size: var(--ic-fs-h); letter-spacing: -.01em; }
 .proof__out p { margin: 0; font-size: var(--ic-fs-sm); line-height: var(--ic-lh-sm); color: var(--ic-ink-2); }
 .proof__img {
