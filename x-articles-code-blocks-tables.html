@@ -1,0 +1,123 @@
+<!doctype html>
+<html data-lang="en" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-zh="X 长文里怎么放代码块、表格和分隔线" data-en="How to add code blocks, tables and dividers to X Articles">How to add code blocks, tables and dividers to X Articles</title>
+  <meta name="description" content="X Articles has no table button and flattens pasted Markdown. Three ways to get code blocks, tables, dividers and images into an X Article, with a test document." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://xmdpaste.icy-cat.com/x-articles-code-blocks-tables.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://xmdpaste.icy-cat.com/x-articles-code-blocks-tables.html" />
+  <meta property="og:site_name" content="X Article Markdown Paste" />
+  <meta property="og:title" content="How to add code blocks, tables and dividers to X Articles" />
+  <meta property="og:description" content="X Articles has no table button and flattens pasted Markdown. Three ways to get code blocks, tables, dividers and images into an X Article, with a test document." />
+  <meta property="og:image" content="https://xmdpaste.icy-cat.com/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@icycat" />
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
+  <link rel="stylesheet" href="./icycat-uiux.css?v=20260913c" />
+  <link rel="stylesheet" href="./styles.css?v=20260914a" />
+  <script src="./lang.js" defer></script>
+</head>
+<body>
+<div class="ic-root" data-lang="mac">
+  <header class="site">
+    <a href="./" class="brand"><img class="mark" src="./favicon.png" alt="" width="128" height="128" /><span lang-zh>X 长文 Markdown 导入器</span><span lang-en>X Article Markdown Paste</span></a>
+    <nav>
+      <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener"><span lang-zh>安装</span><span lang-en>Install</span></a>
+      <a href="./#features"><span lang-zh>功能</span><span lang-en>Features</span></a>
+      <a href="./#pricing"><span lang-zh>价格</span><span lang-en>Pricing</span></a>
+      <button id="lang-toggle" class="ic-btn ic-btn--sm" type="button">中</button>
+    </nav>
+  </header>
+
+  <main class="doc">
+    <h1>How to add code blocks, tables and dividers to X Articles</h1>
+    <p class="updated">Updated September 2026 · Tested against the current X Articles editor</p>
+
+    <p>X Articles is the long-form editor that comes with X Premium. It handles headings, bold, italic, links, lists, quotes and images. It does <strong>not</strong> have a table button, and its code block and divider support only work when the content arrives in exactly the shape the editor expects. If you write in Markdown, this page shows what happens by default and the three ways to get the formatting you want.</p>
+
+    <h2>What happens when you paste Markdown into X Articles</h2>
+    <p>Pasting plain Markdown text into the editor gives you plain text. Nothing is interpreted:</p>
+    <ul>
+      <li><code>```js … ```</code> fences stay as literal backticks in a normal paragraph. The gray monospace box never appears.</li>
+      <li><code>| a | b |</code> tables collapse into a single line of pipes and dashes.</li>
+      <li><code>---</code> becomes three hyphens, not a horizontal rule.</li>
+      <li><code>![alt](https://…/image.png)</code> stays as text. The image is not fetched.</li>
+    </ul>
+    <p>Google's own "People also ask" box for this topic has the question "Does X support Markdown?" and the honest answer is: not on paste. The editor works on rich HTML in the clipboard, so the Markdown has to be converted before it lands.</p>
+
+    <h2>Option 1: Format by hand inside the editor</h2>
+    <p>Works for short posts. Type a line, select it, and use the toolbar's code style. Dividers can be inserted from the "+" menu on an empty line. Tables have no equivalent, so the usual workaround is a screenshot of the table pasted as an image.</p>
+    <p>Cost: a few minutes per code block, and every edit to a table means a new screenshot. For a 3,000-word technical post this is where most people give up.</p>
+
+    <h2>Option 2: Convert Markdown to rich text first, then paste</h2>
+    <p>Web converters like MD2X render your Markdown to HTML and put it on the clipboard. Pasting that HTML gets you headings, lists and inline code. The limits:</p>
+    <ul>
+      <li>Code blocks usually come through as pre-formatted text that X flattens, so converters turn them into images instead.</li>
+      <li>Images cannot be uploaded from a web page into your X draft. Remote image URLs stay as links, local images have to be dragged in one by one afterwards.</li>
+      <li>Tweet URLs stay as plain links rather than embedded cards.</li>
+    </ul>
+
+    <h2>Option 3: Paste with a Chrome extension that talks to the editor</h2>
+    <p><a href="./">X Article Markdown Paste</a> runs on <code>x.com/compose/articles</code> and intercepts Ctrl+V. Instead of handing the editor raw text, it builds the exact block structure X uses internally, then walks the editor's own image upload path for anything that needs media. In practice:</p>
+    <ul>
+      <li><strong>Code blocks</strong> with a language tag become X's native code block: monospace, gray background, preserved indentation.</li>
+      <li><strong>Tables</strong> are rendered to a HiDPI PNG and inserted inline at the right position, since X has no table element. Column alignment and header rows are kept.</li>
+      <li><strong>Dividers</strong> (<code>---</code>) become the real horizontal rule.</li>
+      <li><strong>Images</strong> from remote URLs are fetched and uploaded through X's media pipeline. Local paths resolve from a folder you authorize once.</li>
+      <li><strong>Tweet links</strong> on their own line become embedded cards.</li>
+    </ul>
+    <p>The flow is three steps: write in Obsidian, Notion, Typora or VS Code, copy everything, press Ctrl+V in the X editor. A progress bar shows uploads, and the draft stays a normal X draft you can still edit before publishing.</p>
+
+    <h2>A minimal test document</h2>
+    <p>Paste this into the editor with the extension enabled and you should see one code block, one table image, one divider and one embedded tweet:</p>
+<pre><code># Formatting test
+
+Inline `code` and **bold** text.
+
+```python
+def hello():
+    return "X Articles"
+```
+
+| Feature | Native X | With extension |
+| --- | --- | --- |
+| Code block | manual | automatic |
+| Table | none | image |
+
+---
+
+https://x.com/icycat/status/1
+</code></pre>
+
+    <h2>Known limits</h2>
+    <ul>
+      <li>X allows at most 25 images per article, and a table counts as one image. Long posts with many tables hit that ceiling.</li>
+      <li>Syntax highlighting is not part of X's code block. You get monospace and a gray box, not colors.</li>
+      <li>Nested tables and merged cells are rendered as-is in the image; X cannot make them interactive.</li>
+      <li>When X changes the editor internals the extension can break for a day or two. Fixes ship as normal Chrome updates.</li>
+    </ul>
+
+    <p><a class="ic-btn ic-btn--primary" href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">Install from Chrome Web Store</a></p>
+    <p>Free tier covers headings, lists, code blocks and dividers with up to 3 images and 1 table per paste. <a href="./#pricing">Pro</a> lifts the limits.</p>
+
+  </main>
+
+  <footer class="site">
+    <div class="links">
+      <a href="./"><span lang-zh>首页</span><span lang-en>Home</span></a>
+      <a href="./x-articles-code-blocks-tables.html"><span lang-zh>代码块和表格</span><span lang-en>Code blocks &amp; tables</span></a>
+      <a href="./compare.html"><span lang-zh>对比</span><span lang-en>Compare</span></a>
+      <a href="./privacy.html"><span lang-zh>隐私政策</span><span lang-en>Privacy</span></a>
+      <a href="mailto:lengkuxiaomao@gmail.com"><span lang-zh>联系</span><span lang-en>Contact</span></a>
+    </div>
+    <div>© 2026 IcyCat</div>
+  </footer>
+</div>
+</body>
+</html>

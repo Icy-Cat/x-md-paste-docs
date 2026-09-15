@@ -1,0 +1,99 @@
+<!doctype html>
+<html data-lang="en" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-zh="xPoster、MD2X 与 X 长文 Markdown 导入器对比" data-en="xPoster vs MD2X vs X Article Markdown Paste: Markdown to X Articles compared">xPoster vs MD2X vs X Article Markdown Paste: Markdown to X Articles compared</title>
+  <meta name="description" content="Side-by-side comparison of three ways to publish Markdown to X Articles: xPoster (open source extension), MD2X (web converter) and X Article Markdown Paste." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://xmdpaste.icy-cat.com/compare.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://xmdpaste.icy-cat.com/compare.html" />
+  <meta property="og:site_name" content="X Article Markdown Paste" />
+  <meta property="og:title" content="xPoster vs MD2X vs X Article Markdown Paste: Markdown to X Articles compared" />
+  <meta property="og:description" content="Side-by-side comparison of three ways to publish Markdown to X Articles: xPoster (open source extension), MD2X (web converter) and X Article Markdown Paste." />
+  <meta property="og:image" content="https://xmdpaste.icy-cat.com/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@icycat" />
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
+  <link rel="stylesheet" href="./icycat-uiux.css?v=20260913c" />
+  <link rel="stylesheet" href="./styles.css?v=20260914a" />
+  <script src="./lang.js" defer></script>
+</head>
+<body>
+<div class="ic-root" data-lang="mac">
+  <header class="site">
+    <a href="./" class="brand"><img class="mark" src="./favicon.png" alt="" width="128" height="128" /><span lang-zh>X 长文 Markdown 导入器</span><span lang-en>X Article Markdown Paste</span></a>
+    <nav>
+      <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener"><span lang-zh>安装</span><span lang-en>Install</span></a>
+      <a href="./#features"><span lang-zh>功能</span><span lang-en>Features</span></a>
+      <a href="./#pricing"><span lang-zh>价格</span><span lang-en>Pricing</span></a>
+      <button id="lang-toggle" class="ic-btn ic-btn--sm" type="button">中</button>
+    </nav>
+  </header>
+
+  <main class="doc">
+    <h1>xPoster vs MD2X vs X Article Markdown Paste</h1>
+    <p class="updated">Facts checked September 2026. If something below is out of date, <a href="mailto:lengkuxiaomao@gmail.com">tell me</a> and I will correct it.</p>
+
+    <p>Three tools show up when people search for a way to get Markdown into X Articles. They take different approaches, and the right one depends on whether you need images uploaded for you and whether you care about the tool still working next month. This page is written by the author of the third one, so read the tradeoffs with that in mind.</p>
+
+    <h2>At a glance</h2>
+    <div style="overflow-x:auto">
+    <table class="ic-table">
+      <thead><tr><th></th><th>xPoster</th><th>MD2X</th><th>X Article Markdown Paste</th></tr></thead>
+      <tbody>
+        <tr><td>Form</td><td>Chrome extension with side panel</td><td>Web app (markdown2x.com)</td><td>Chrome extension, works on Ctrl+V</td></tr>
+        <tr><td>Where you paste</td><td>Into the side panel, it writes the draft</td><td>Copy from the web app, paste into X</td><td>Directly into the X editor</td></tr>
+        <tr><td>Remote images uploaded to X</td><td>Yes</td><td>Not by the tool (clipboard only)</td><td>Yes, via X's media pipeline</td></tr>
+        <tr><td>Local images</td><td>Yes, folder access</td><td>No</td><td>Yes, folder authorized once</td></tr>
+        <tr><td>Tables</td><td>Rendered to image</td><td>Rendered to image</td><td>Rendered to HiDPI image</td></tr>
+        <tr><td>Code blocks</td><td>Native X block</td><td>Rendered to image</td><td>Native X block</td></tr>
+        <tr><td>Tweet embeds</td><td>Yes</td><td>No</td><td>Yes, three syntaxes</td></tr>
+        <tr><td>Mermaid diagrams</td><td>No</td><td>Yes, to PNG</td><td>No</td></tr>
+        <tr><td>Batch queue of drafts</td><td>Yes</td><td>No</td><td>No</td></tr>
+        <tr><td>Price</td><td>Free, open source</td><td>Free</td><td>Free tier; Pro $29 lifetime early bird</td></tr>
+        <tr><td>Last update (as of Sep 2026)</td><td>June 2026</td><td>Active</td><td>September 2026</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2>xPoster</h2>
+    <p>Open source, MIT licensed, about 670 Chrome Web Store users and 166 GitHub stars. It opens a side panel where you paste Markdown or queue several .md files, checks that the X editor is reachable, and writes the draft for you. Feature-wise it is the closest match to this extension, and it handles images and tables.</p>
+    <p>The concern is maintenance. The repository's last commit was in June 2026 and the only open issue was filed by the author's own bot. X changed the Articles editor several times over the summer, and users have reported the import no longer completing. With an editor-injection tool, no updates for three months usually means it is broken today. If you are comfortable forking and fixing it yourself, it is a good codebase to start from.</p>
+
+    <h2>MD2X</h2>
+    <p>A free web app, no install. You write or paste Markdown in its editor, it renders to rich text and copies it to your clipboard, and you paste that into X. It also has a thread splitter, Mermaid-to-PNG and code-to-image tools, a Chinese interface, and works offline as a PWA. Nothing is uploaded to a server.</p>
+    <p>The limit is structural: a web page cannot upload files into your X draft. Remote images are not uploaded for you, local images have to be added by hand afterwards, and tweet URLs stay plain links. Code blocks are turned into images so they survive the paste, which means no copyable code for readers. For text-heavy posts with one or two images this is fine. For a post with fifteen screenshots it is fifteen manual uploads.</p>
+
+    <h2>X Article Markdown Paste</h2>
+    <p>This extension runs only on <code>x.com/compose/articles</code>. You copy Markdown from wherever you write and press Ctrl+V in the X editor. It converts the content to the editor's own block format, uploads every image through X's normal media path, renders tables to images, keeps code blocks as native X code blocks, and turns tweet links into embedded cards. You can also drag a .md file onto the page to create a fresh draft, or trigger it from Obsidian, VS Code and the command line.</p>
+    <p>The free tier is enough for most posts: unlimited text formatting, code blocks and dividers, up to 3 images and 1 table per paste, with a short footer signature. Pro removes the limits and the signature. The thing Pro is really paying for is the line on the pricing card that says "compatibility maintenance when X changes the editor". Six fixes shipped in September 2026 alone; that is the cost of living inside someone else's editor.</p>
+
+    <h2>Which one</h2>
+    <ul>
+      <li><strong>Text-only posts, no install allowed</strong>: MD2X.</li>
+      <li><strong>You want to read and modify the code</strong>: xPoster, expecting to fix it first.</li>
+      <li><strong>Posts with images, tables or embeds, and you publish more than once a month</strong>: X Article Markdown Paste.</li>
+    </ul>
+
+    <p><a class="ic-btn ic-btn--primary" href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">Install from Chrome Web Store</a></p>
+
+  </main>
+
+  <footer class="site">
+    <div class="links">
+      <a href="./"><span lang-zh>首页</span><span lang-en>Home</span></a>
+      <a href="./x-articles-code-blocks-tables.html"><span lang-zh>代码块和表格</span><span lang-en>Code blocks &amp; tables</span></a>
+      <a href="./compare.html"><span lang-zh>对比</span><span lang-en>Compare</span></a>
+      <a href="./privacy.html"><span lang-zh>隐私政策</span><span lang-en>Privacy</span></a>
+      <a href="mailto:lengkuxiaomao@gmail.com"><span lang-zh>联系</span><span lang-en>Contact</span></a>
+    </div>
+    <div>© 2026 IcyCat</div>
+  </footer>
+</div>
+</body>
+</html>
