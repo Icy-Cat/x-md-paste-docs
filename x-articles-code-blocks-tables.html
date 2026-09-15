@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title data-zh="X 长文里怎么放代码块、表格和分隔线" data-en="How to add code blocks, tables and dividers to X Articles">How to add code blocks, tables and dividers to X Articles</title>
-  <meta name="description" content="X Articles has no table button and flattens pasted Markdown. Three ways to get code blocks, tables, dividers and images into an X Article, with a test document." />
+  <title data-zh="X 长文里怎么放代码块、表格和分隔线" data-en="X Articles code block, table and divider: how to add them from Markdown">X Articles code block, table and divider: how to add them from Markdown</title>
+  <meta name="description" content="X Articles code block and table support is limited and pasted Markdown is flattened. Three ways to get code blocks, tables, dividers and images into an X Article, with a test document." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <link rel="canonical" href="https://xmdpaste.icy-cat.com/x-articles-code-blocks-tables.html" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://xmdpaste.icy-cat.com/x-articles-code-blocks-tables.html" />
   <meta property="og:site_name" content="X Article Markdown Paste" />
-  <meta property="og:title" content="How to add code blocks, tables and dividers to X Articles" />
-  <meta property="og:description" content="X Articles has no table button and flattens pasted Markdown. Three ways to get code blocks, tables, dividers and images into an X Article, with a test document." />
+  <meta property="og:title" content="X Articles code block, table and divider: how to add them from Markdown" />
+  <meta property="og:description" content="X Articles code block and table support is limited and pasted Markdown is flattened. Three ways to get code blocks, tables, dividers and images into an X Article, with a test document." />
   <meta property="og:image" content="https://xmdpaste.icy-cat.com/og.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:creator" content="@icycat" />
@@ -36,12 +36,12 @@
   </header>
 
   <main class="doc">
-    <h1>How to add code blocks, tables and dividers to X Articles</h1>
+    <h1>X Articles code block, table and divider: how to add them from Markdown</h1>
     <p class="updated">Updated September 2026 · Tested against the current X Articles editor</p>
 
     <p>X Articles is the long-form editor that comes with X Premium. It handles headings, bold, italic, links, lists, quotes and images. It does <strong>not</strong> have a table button, and its code block and divider support only work when the content arrives in exactly the shape the editor expects. If you write in Markdown, this page shows what happens by default and the three ways to get the formatting you want.</p>
 
-    <h2>What happens when you paste Markdown into X Articles</h2>
+    <h2>What happens to an X Articles code block when you paste Markdown</h2>
     <p>Pasting plain Markdown text into the editor gives you plain text. Nothing is interpreted:</p>
     <ul>
       <li><code>```js … ```</code> fences stay as literal backticks in a normal paragraph. The gray monospace box never appears.</li>
@@ -63,10 +63,10 @@
       <li>Tweet URLs stay as plain links rather than embedded cards.</li>
     </ul>
 
-    <h2>Option 3: Paste with a Chrome extension that talks to the editor</h2>
+    <h2>Option 3: Get a native X Articles code block with a Chrome extension</h2>
     <p><a href="./">X Article Markdown Paste</a> runs on <code>x.com/compose/articles</code> and intercepts Ctrl+V. Instead of handing the editor raw text, it builds the exact block structure X uses internally, then walks the editor's own image upload path for anything that needs media. In practice:</p>
     <ul>
-      <li><strong>Code blocks</strong> with a language tag become X's native code block: monospace, gray background, preserved indentation.</li>
+      <li><strong>Code blocks</strong> with a language tag become the native X Articles code block: monospace, gray background, preserved indentation.</li>
       <li><strong>Tables</strong> are rendered to a HiDPI PNG and inserted inline at the right position, since X has no table element. Column alignment and header rows are kept.</li>
       <li><strong>Dividers</strong> (<code>---</code>) become the real horizontal rule.</li>
       <li><strong>Images</strong> from remote URLs are fetched and uploaded through X's media pipeline. Local paths resolve from a folder you authorize once.</li>
@@ -98,7 +98,7 @@ https://x.com/icycat/status/1
     <h2>Known limits</h2>
     <ul>
       <li>X allows at most 25 images per article, and a table counts as one image. Long posts with many tables hit that ceiling.</li>
-      <li>Syntax highlighting is not part of X's code block. You get monospace and a gray box, not colors.</li>
+      <li>Syntax highlighting is not part of the X Articles code block. You get monospace and a gray box, not colors.</li>
       <li>Nested tables and merged cells are rendered as-is in the image; X cannot make them interactive.</li>
       <li>When X changes the editor internals the extension can break for a day or two. Fixes ship as normal Chrome updates.</li>
     </ul>
