@@ -1,0 +1,196 @@
+<!doctype html>
+<html data-lang="en" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-zh="X 长文里怎么放代码块、表格和分隔线" data-en="X Articles code block, table and divider: how to add them from Markdown">X Articles code block, table and divider: how to add them from Markdown</title>
+  <meta name="description" content="X Articles code block and table support is limited and pasted Markdown is flattened. Three ways to get code blocks, tables, dividers and images into an X Article, with a test document." data-zh="X 长文不认 Markdown，代码块、表格、分隔线粘进去就散了。三种把它们放进 X 长文的办法，附一份测试文档。" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://xmdpaste.icy-cat.com/x-articles-code-blocks-tables.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://xmdpaste.icy-cat.com/x-articles-code-blocks-tables.html" />
+  <meta property="og:site_name" content="X Article Markdown Paste" />
+  <meta property="og:title" content="X Articles code block, table and divider: how to add them from Markdown" />
+  <meta property="og:description" content="X Articles code block and table support is limited and pasted Markdown is flattened. Three ways to get code blocks, tables, dividers and images into an X Article, with a test document." />
+  <meta property="og:image" content="https://xmdpaste.icy-cat.com/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@icycat" />
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
+  <link rel="stylesheet" href="./icycat-uiux.css?v=20260913c" />
+  <link rel="stylesheet" href="./styles.css?v=20260914a" />
+  <script src="./lang.js" defer></script>
+</head>
+<body>
+<div class="ic-root" data-lang="mac">
+  <header class="site">
+    <a href="./" class="brand"><img class="mark" src="./favicon.png" alt="" width="128" height="128" /><span lang-zh>X 长文 Markdown 导入器</span><span lang-en>X Article Markdown Paste</span></a>
+    <nav>
+      <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener"><span lang-zh>安装</span><span lang-en>Install</span></a>
+      <a href="./#features"><span lang-zh>功能</span><span lang-en>Features</span></a>
+      <a href="./#pricing"><span lang-zh>价格</span><span lang-en>Pricing</span></a>
+      <button id="lang-toggle" class="ic-btn ic-btn--sm" type="button">中</button>
+    </nav>
+  </header>
+
+  <main class="doc">
+    <div lang-en>
+    <h1>X Articles code block, table and divider: how to add them from Markdown</h1>
+    <p class="updated">Updated September 2026 · Tested against the current X Articles editor</p>
+
+    <p>X Articles is the long-form editor that comes with X Premium. It handles headings, bold, italic, links, lists, quotes and images. It does <strong>not</strong> have a table button, and its code block and divider support only work when the content arrives in exactly the shape the editor expects. If you write in Markdown, this page shows what happens by default and the three ways to get the formatting you want.</p>
+
+    <h2>What happens to an X Articles code block when you paste Markdown</h2>
+    <p>Pasting plain Markdown text into the editor gives you plain text. Nothing is interpreted:</p>
+    <ul>
+      <li><code>```js … ```</code> fences stay as literal backticks in a normal paragraph. The gray monospace box never appears.</li>
+      <li><code>| a | b |</code> tables collapse into a single line of pipes and dashes.</li>
+      <li><code>---</code> becomes three hyphens, not a horizontal rule.</li>
+      <li><code>![alt](https://…/image.png)</code> stays as text. The image is not fetched.</li>
+    </ul>
+    <p>Google's own "People also ask" box for this topic has the question "Does X support Markdown?" and the honest answer is: not on paste. The editor works on rich HTML in the clipboard, so the Markdown has to be converted before it lands.</p>
+
+    <h2>Option 1: Format by hand inside the editor</h2>
+    <p>Works for short posts. Type a line, select it, and use the toolbar's code style. Dividers can be inserted from the "+" menu on an empty line. Tables have no equivalent, so the usual workaround is a screenshot of the table pasted as an image.</p>
+    <p>Cost: a few minutes per code block, and every edit to a table means a new screenshot. For a 3,000-word technical post this is where most people give up.</p>
+
+    <h2>Option 2: Convert Markdown to rich text first, then paste</h2>
+    <p>Web converters like MD2X render your Markdown to HTML and put it on the clipboard. Pasting that HTML gets you headings, lists and inline code. The limits:</p>
+    <ul>
+      <li>Code blocks usually come through as pre-formatted text that X flattens, so converters turn them into images instead.</li>
+      <li>Images cannot be uploaded from a web page into your X draft. Remote image URLs stay as links, local images have to be dragged in one by one afterwards.</li>
+      <li>Tweet URLs stay as plain links rather than embedded cards.</li>
+    </ul>
+
+    <h2>Option 3: Get a native X Articles code block with a Chrome extension</h2>
+    <p><a href="./">X Article Markdown Paste</a> runs on <code>x.com/compose/articles</code> and intercepts Ctrl+V. Instead of handing the editor raw text, it builds the exact block structure X uses internally, then walks the editor's own image upload path for anything that needs media. In practice:</p>
+    <ul>
+      <li><strong>Code blocks</strong> with a language tag become the native X Articles code block: monospace, gray background, preserved indentation.</li>
+      <li><strong>Tables</strong> are rendered to a HiDPI PNG and inserted inline at the right position, since X has no table element. Column alignment and header rows are kept.</li>
+      <li><strong>Dividers</strong> (<code>---</code>) become the real horizontal rule.</li>
+      <li><strong>Images</strong> from remote URLs are fetched and uploaded through X's media pipeline. Local paths resolve from a folder you authorize once.</li>
+      <li><strong>Tweet links</strong> on their own line become embedded cards.</li>
+    </ul>
+    <p>The flow is three steps: write in Obsidian, Notion, Typora or VS Code, copy everything, press Ctrl+V in the X editor. A progress bar shows uploads, and the draft stays a normal X draft you can still edit before publishing.</p>
+
+    <h2>A minimal test document</h2>
+    <p>Paste this into the editor with the extension enabled and you should see one code block, one table image, one divider and one embedded tweet:</p>
+<pre><code># Formatting test
+
+Inline `code` and **bold** text.
+
+```python
+def hello():
+    return "X Articles"
+```
+
+| Feature | Native X | With extension |
+| --- | --- | --- |
+| Code block | manual | automatic |
+| Table | none | image |
+
+---
+
+https://x.com/icycat/status/1
+</code></pre>
+
+    <h2>Known limits</h2>
+    <ul>
+      <li>X allows at most 25 images per article, and a table counts as one image. Long posts with many tables hit that ceiling.</li>
+      <li>Syntax highlighting is not part of the X Articles code block. You get monospace and a gray box, not colors.</li>
+      <li>Nested tables and merged cells are rendered as-is in the image; X cannot make them interactive.</li>
+      <li>When X changes the editor internals the extension can break for a day or two. Fixes ship as normal Chrome updates.</li>
+    </ul>
+
+    <p><a class="ic-btn ic-btn--primary" href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">Install from Chrome Web Store</a></p>
+    <p>Free tier covers headings, lists, code blocks and dividers with up to 3 images and 1 table per paste. <a href="./#pricing">Pro</a> lifts the limits.</p>
+
+    </div>
+    <div lang-zh>
+    <h1>X 长文里怎么放代码块、表格和分隔线</h1>
+    <p class="updated">2026 年 9 月更新 · 按当前 X 长文编辑器实测</p>
+
+    <p>X 长文（X Articles）是 X Premium 自带的长文编辑器。它支持标题、加粗、斜体、链接、列表、引用和图片，<strong>没有</strong>表格按钮，代码块和分隔线只有在内容以编辑器认得的形态进来时才会生效。如果你用 Markdown 写作，这一页讲清楚默认会发生什么，以及三种拿到正确排版的办法。</p>
+
+    <h2>把 Markdown 直接粘进 X 长文会怎样</h2>
+    <p>把 Markdown 纯文本粘进编辑器，得到的就是纯文本，什么都不会被解释：</p>
+    <ul>
+      <li><code>```js … ```</code> 围栏原样留成反引号，落在普通段落里，灰底等宽的代码框不会出现。</li>
+      <li><code>| a | b |</code> 表格塌成一行竖线和横线。</li>
+      <li><code>---</code> 就是三个连字符，不是分隔线。</li>
+      <li><code>![alt](https://…/image.png)</code> 留成文字，图片不会被取回。</li>
+    </ul>
+    <p>Google 在这个话题的「其他人还问了」里有一条「X 支持 Markdown 吗」，老实的回答是：粘贴时不支持。编辑器吃的是剪贴板里的富文本 HTML，Markdown 得先转换才能落地。</p>
+
+    <h2>办法一：在编辑器里手动排</h2>
+    <p>短文可行。打一行，选中，用工具栏的代码样式；空行上按「+」能插分隔线。表格没有对应功能，通常的替代是把表格截图当图片贴进去。</p>
+    <p>代价：每个代码块几分钟，表格每改一次就要重新截图。三千字的技术文一般在这一步放弃。</p>
+
+    <h2>办法二：先把 Markdown 转成富文本，再粘</h2>
+    <p>MD2X 这类网页转换器把 Markdown 渲染成 HTML 放进剪贴板，粘过去能得到标题、列表和行内代码。限制在于：</p>
+    <ul>
+      <li>代码块通常以预格式化文本进来，X 会把它压平，所以转换器一般把代码块转成图片。</li>
+      <li>网页没法把图片上传进你的 X 草稿。远程图片链接留成链接，本地图片事后要一张张拖。</li>
+      <li>推文链接留成普通链接，不会变成嵌入卡片。</li>
+    </ul>
+
+    <h2>办法三：用一个和编辑器对话的 Chrome 扩展来粘</h2>
+    <p><a href="./">X 长文 Markdown 导入器</a>运行在 <code>x.com/compose/articles</code> 上，接管 Ctrl+V。它不把原始文本交给编辑器，而是按 X 内部使用的块结构把内容组装好，需要媒体的地方走编辑器自己的图片上传通道。实际效果：</p>
+    <ul>
+      <li><strong>代码块</strong>带语言标记的会变成 X 原生代码块：等宽、灰底、缩进保留。</li>
+      <li><strong>表格</strong>渲染成高清 PNG，插在原位。X 没有表格元素，列对齐和表头会保留。</li>
+      <li><strong>分隔线</strong>（<code>---</code>）变成真正的水平线。</li>
+      <li><strong>图片</strong>远程链接会被取回并通过 X 的媒体通道上传；本地路径从你授权过一次的文件夹解析。</li>
+      <li><strong>推文链接</strong>单独成行的会变成嵌入卡片。</li>
+    </ul>
+    <p>流程就三步：在 Obsidian、Notion、Typora 或 VS Code 里写，全选复制，到 X 编辑器里按 Ctrl+V。进度条显示上传进度，草稿仍是普通的 X 草稿，发布前可以继续编辑。</p>
+
+    <h2>一份最小测试文档</h2>
+    <p>开着扩展把下面这段粘进编辑器，应该看到一个代码块、一张表格图、一条分隔线和一个推文嵌入：</p>
+<pre><code># 排版测试
+
+行内 `code` 和 **加粗** 文本。
+
+```python
+def hello():
+    return "X Articles"
+```
+
+| 功能 | X 原生 | 用扩展 |
+| --- | --- | --- |
+| 代码块 | 手动 | 自动 |
+| 表格 | 无 | 图片 |
+
+---
+
+https://x.com/icycat/status/1
+</code></pre>
+
+    <h2>已知限制</h2>
+    <ul>
+      <li>X 每篇文章最多 25 张图，一张表格算一张图。表格很多的长文会撞到这个上限。</li>
+      <li>X 的代码块没有语法高亮，只有等宽和灰底，没有颜色。</li>
+      <li>嵌套表格和合并单元格按原样渲染进图片，X 不会让它们可交互。</li>
+      <li>X 改编辑器内部结构时，扩展可能失效一两天，修复随普通 Chrome 更新推送。</li>
+    </ul>
+
+    <p><a class="ic-btn ic-btn--primary" href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">从 Chrome 应用商店安装</a></p>
+    <p>免费版包含标题、列表、代码块和分隔线，每次粘贴最多 3 张图、1 张表格。<a href="./#pricing">Pro</a> 解除限制。</p>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="links">
+      <a href="./"><span lang-zh>首页</span><span lang-en>Home</span></a>
+      <a href="./x-articles-code-blocks-tables.html"><span lang-zh>代码块和表格</span><span lang-en>Code blocks &amp; tables</span></a>
+      <a href="./compare.html"><span lang-zh>对比</span><span lang-en>Compare</span></a>
+      <a href="./privacy.html"><span lang-zh>隐私政策</span><span lang-en>Privacy</span></a>
+      <a href="mailto:lengkuxiaomao@gmail.com"><span lang-zh>联系</span><span lang-en>Contact</span></a>
+    </div>
+    <div>© 2026 IcyCat</div>
+  </footer>
+</div>
+</body>
+</html>

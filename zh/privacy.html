@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>隐私政策 · X 文章 Markdown 一键导入</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
+  <link rel="stylesheet" href="/icycat-uiux.css?v=20260913c" />
+  <link rel="stylesheet" href="/styles.css?v=20260913c" />
+  <script src="/lang.js"></script>
+</head>
+<body>
+<div class="ic-root" data-lang="mac">
+  <header class="site">
+    <a href="/zh/" class="brand"><img class="mark" src="/favicon.png" alt="" width="128" height="128" />X 文章 Markdown 一键导入</a>
+    <nav>
+      <a href="/zh/#features">功能</a>
+      <a href="/zh/#pricing">价格</a>
+      <a id="lang-toggle" class="ic-btn ic-btn--sm" href="/privacy.html" hreflang="en" data-lang-to="en">EN</a>
+    </nav>
+  </header>
+
+  <main class="doc">
+    
+
+    
+      <h1>隐私政策</h1>
+      <p class="updated">最后更新：2026 年 5 月</p>
+
+      <h2>我们收集的数据</h2>
+      <p>X 文章 Markdown 一键导入扩展<strong>不</strong>收集、存储或将任何个人数据、浏览数据或文章内容传输到我们的服务器。</p>
+
+      <h2>扩展访问什么</h2>
+      <ul>
+        <li><strong>在 <code>x.com/compose/articles/*</code> 上的剪贴板</strong>：你在 X 文章编辑器里按 Ctrl+V 时，扩展读取剪贴板中的 Markdown 文本。所有解析和渲染完全在你浏览器内完成。</li>
+        <li><strong>你粘贴的图片 URL</strong>：如果 Markdown 含 <code>http(s)</code> 图片链接，扩展的 background 脚本会下载这些图片，再走 X 自己的媒体上传通道传入文章。仅下载你 Markdown 里写的 URL。</li>
+        <li><strong>本地图片文件（可选）</strong>：如果你通过 File System Access API 授权了本地目录，扩展只在需要时读取该目录里被引用的图片文件。目录句柄存在 IndexedDB，文件本身只在 X 上传时离开你的设备。</li>
+        <li><strong>chrome.storage.local</strong>：仅存激活状态、设备 ID 和一些非敏感的 UI 偏好。仅本地存储。</li>
+      </ul>
+
+      <h2>激活码校验</h2>
+      <p>激活码通过我们的 Cloudflare Worker 代理向支付平台（Creem）校验。Worker 只看到激活码和随机生成的设备 ID——不会拿到你的姓名、邮箱、IP 推断的位置或任何使用数据。</p>
+
+      <h2>扩展不会做什么</h2>
+      <ul>
+        <li>不收集任何个人信息</li>
+        <li>不读取你的 X 账号密码、Cookie 或会话</li>
+        <li>不追踪浏览历史</li>
+        <li>不访问 <code>x.com/*</code> 和 <code>twitter.com/*</code> 之外的页面</li>
+        <li>不注入广告或第三方统计</li>
+        <li>不向任何第三方传输你的文章内容</li>
+      </ul>
+
+      <h2>第三方服务</h2>
+      <ul>
+        <li><strong>X（Twitter）</strong>：文章写作完全通过 X 自己的编辑器和你的登录态完成，扩展不冒充或绕过 X。</li>
+        <li><strong>图片托管方</strong>：你粘贴外链图片时，对方服务器会看到一次 HTTP 请求——跟你直接在浏览器打开该图片 URL 相同。</li>
+        <li><strong>Creem（支付平台）</strong>：处理购买和激活码签发。见 <a href="https://www.creem.io/legal/privacy-policy" target="_blank" rel="noopener">Creem 隐私政策</a>。</li>
+      </ul>
+
+      <h2>删除数据</h2>
+      <p>到 <code>chrome://extensions</code> 卸载扩展即可清除所有本地数据（激活码、设备 ID、UI 偏好）。如需服务端吊销激活码，请邮件 <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a>。</p>
+
+      <h2>联系</h2>
+      <p>关于本隐私政策的问题，请邮件 <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a>。</p>
+    
+  </main>
+
+  <footer class="site">
+    <div class="links">
+      <a href="/zh/">首页</a>
+      <a href="/zh/terms.html">服务条款</a>
+      <a href="mailto:lengkuxiaomao@gmail.com">联系</a>
+    </div>
+    <div>© 2026 IcyCat</div>
+  </footer>
+</div>
+</body>
+</html>

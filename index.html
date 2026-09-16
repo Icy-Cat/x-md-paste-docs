@@ -1,21 +1,24 @@
 <!doctype html>
-<html data-lang="en" lang="en">
+<html lang="en" data-lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title data-zh="Markdown 一键导入 X 长文 | X Article Markdown Paste" data-en="Markdown to X Articles | X Article Markdown Paste">Markdown to X Articles | X Article Markdown Paste</title>
+  <title>Markdown to X Articles | X Article Markdown Paste</title>
   <meta name="description" content="Chrome extension to paste Markdown into X Articles. Converts Obsidian, Notion and .md drafts to X Articles with images, tables, code blocks and tweet embeds." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="application-name" content="X Article Markdown Paste" />
   <meta name="theme-color" content="#ffffff" />
   <link rel="canonical" href="https://xmdpaste.icy-cat.com/" />
+  <link rel="alternate" hreflang="en" href="https://xmdpaste.icy-cat.com/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://xmdpaste.icy-cat.com/zh/" />
+  <link rel="alternate" hreflang="x-default" href="https://xmdpaste.icy-cat.com/" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://xmdpaste.icy-cat.com/" />
   <meta property="og:site_name" content="X Article Markdown Paste" />
   <meta property="og:locale" content="en_US" />
   <meta property="og:locale:alternate" content="zh_CN" />
   <meta property="og:title" content="Markdown to X Articles | X Article Markdown Paste" />
-  <meta property="og:description" content="Paste Markdown into X Articles. Images, tables, code blocks and tweet embeds arrive in the editor ready to publish." />
+  <meta property="og:description" content="Chrome extension to paste Markdown into X Articles. Converts Obsidian, Notion and .md drafts to X Articles with images, tables, code blocks and tweet embeds." />
   <meta property="og:image" content="https://xmdpaste.icy-cat.com/og.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -23,18 +26,19 @@
   <meta name="twitter:image" content="https://xmdpaste.icy-cat.com/og.png" />
   <meta name="twitter:creator" content="@icycat" />
   <meta name="twitter:title" content="Markdown to X Articles | X Article Markdown Paste" />
-  <meta name="twitter:description" content="Paste Markdown into X Articles. Images, tables, code blocks and tweet embeds arrive in the editor ready to publish." />
-  <link rel="icon" type="image/png" href="./favicon.png" />
+  <meta name="twitter:description" content="Chrome extension to paste Markdown into X Articles. Converts Obsidian, Notion and .md drafts to X Articles with images, tables, code blocks and tweet embeds." />
+  <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
-  <link rel="stylesheet" href="./icycat-uiux.css?v=20260913c" />
-  <link rel="stylesheet" href="./styles.css?v=20260914a" />
-  <script src="./lang.js" defer></script>
+  <link rel="stylesheet" href="/icycat-uiux.css?v=20260913c" />
+  <link rel="stylesheet" href="/styles.css?v=20260914a" />
+  <script src="/lang.js" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
+      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I install and use it?","acceptedAnswer":{"@type":"Answer","text":"Install from the Chrome Web Store , open the X article editor , then Ctrl+V your Markdown. Or drag a .md file onto the browser to create a fresh draft."}},{"@type":"Question","name":"Does X Articles support Markdown?","acceptedAnswer":{"@type":"Answer","text":"Not natively. Paste Markdown into the X Articles editor and images become a line of ![](url) , tables collapse into pipes, and code blocks lose their formatting. This extension converts Markdown to X Articles' native format on paste: images upload through X's own media pipeline, tables render as images, and code blocks keep their monospace style."}},{"@type":"Question","name":"Does it leak my X account or content?","acceptedAnswer":{"@type":"Answer","text":"No. The extension only runs on x.com/compose/articles/* , doesn't read your cookies or password, and uploads zero article content. See Privacy Policy ."}},{"@type":"Question","name":"Where do I find the license key after purchase?","acceptedAnswer":{"@type":"Answer","text":"Creem sends an order confirmation email (subject roughly Your X Article Markdown Paste order ) to the address you entered at checkout. Click the \"View Order\" link inside the email to open your order page on Creem: ① Orders panel on the left : click the \"X Article Markdown Paste — Pro\" row ② License Key panel on the right : copy the 5VLZ0-…-…-…-… key Once you have the key, click the extension icon in Chrome's toolbar, paste it into the License Key field, press Enter. Each early-bird key activates on up to 5 devices."}},{"@type":"Question","name":"Can I get a refund?","acceptedAnswer":{"@type":"Answer","text":"Yes — within 7 days of purchase if you're not satisfied. Email lengkuxiaomao@gmail.com with your order ID."}},{"@type":"Question","name":"Does it break when X updates its UI?","acceptedAnswer":{"@type":"Answer","text":"Occasionally yes, but we monitor closely — usually fixed and pushed within 24-48 hours of breakage. Chrome auto-updates the extension."}},{"@type":"Question","name":"Firefox / Edge / Safari support?","acceptedAnswer":{"@type":"Answer","text":"Currently Chrome and Chromium-based browsers (Edge, Brave, Arc) only. Firefox and Safari are on the v1.5 roadmap."}}],"@id":"https://xmdpaste.icy-cat.com/#faq"},
       {
         "@type": "WebSite",
         "@id": "https://xmdpaste.icy-cat.com/#website",
@@ -43,7 +47,6 @@
         "url": "https://xmdpaste.icy-cat.com/",
         "inLanguage": ["zh-CN", "en"]
       },
-      {"@type": "FAQPage", "@id": "https://xmdpaste.icy-cat.com/#faq", "mainEntity": [{"@type": "Question", "name": "How do I install and use it?", "acceptedAnswer": {"@type": "Answer", "text": "Install from the Chrome Web Store, open the X article editor, then Ctrl+V your Markdown. Or drag a .md file onto the browser to create a fresh draft."}}, {"@type": "Question", "name": "Does X Articles support Markdown?", "acceptedAnswer": {"@type": "Answer", "text": "Not natively. Paste Markdown into the X Articles editor and images become a line of ![](url), tables collapse into pipes, and code blocks lose their formatting. This extension converts Markdown to X Articles' native format on paste: images upload through X's own media pipeline, tables render as images, and code blocks keep their monospace style."}}, {"@type": "Question", "name": "Does it leak my X account or content?", "acceptedAnswer": {"@type": "Answer", "text": "No. The extension only runs on x.com/compose/articles/*, doesn't read your cookies or password, and uploads zero article content. See Privacy Policy."}}, {"@type": "Question", "name": "Where do I find the license key after purchase?", "acceptedAnswer": {"@type": "Answer", "text": "Creem sends an order confirmation email (subject roughly Your X Article Markdown Paste order) to the address you entered at checkout. Click the \"View Order\" link inside the email to open your order page on Creem: ① Orders panel on the left: click the \"X Article Markdown Paste — Pro\" row ② License Key panel on the right: copy the 5VLZ0-…-…-…-… key Once you have the key, click the extension icon in Chrome's toolbar, paste it into the License Key field, press Enter. Each early-bird key activates on up to 5 devices."}}, {"@type": "Question", "name": "Can I get a refund?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — within 7 days of purchase if you're not satisfied. Email lengkuxiaomao@gmail.com with your order ID."}}, {"@type": "Question", "name": "Does it break when X updates its UI?", "acceptedAnswer": {"@type": "Answer", "text": "Occasionally yes, but we monitor closely — usually fixed and pushed within 24-48 hours of breakage. Chrome auto-updates the extension."}}, {"@type": "Question", "name": "Firefox / Edge / Safari support?", "acceptedAnswer": {"@type": "Answer", "text": "Currently Chrome and Chromium-based browsers (Edge, Brave, Arc) only. Firefox and Safari are on the v1.5 roadmap."}}]},
       {
         "@type": "SoftwareApplication",
         "@id": "https://xmdpaste.icy-cat.com/#software",
@@ -74,38 +77,38 @@
 <body>
 <div class="ic-root" data-lang="mac">
   <header class="site">
-    <a href="./" class="brand"><img class="mark" src="./favicon.png" alt="" width="128" height="128" /><span lang-zh>X 长文 Markdown 导入器</span><span lang-en>X Article Markdown Paste</span></a>
+    <a href="/" class="brand"><img class="mark" src="/favicon.png" alt="" width="128" height="128" />X Article Markdown Paste</a>
     <nav>
-      <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener"><span lang-zh>安装</span><span lang-en>Install</span></a>
-      <a href="#features"><span lang-zh>功能</span><span lang-en>Features</span></a>
-      <a href="#pricing"><span lang-zh>价格</span><span lang-en>Pricing</span></a>
-      <a href="#faq"><span lang-zh>FAQ</span><span lang-en>FAQ</span></a>
-      <button id="lang-toggle" class="ic-btn ic-btn--sm" type="button">中</button>
+      <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">Install</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a id="lang-toggle" class="ic-btn ic-btn--sm" href="/zh/" hreflang="zh-CN" data-lang-to="zh">中</a>
     </nav>
   </header>
 
   <section class="hero">
     <div class="hero-copy">
       <p class="kicker">
-        <span lang-zh>第 1 版 · Chrome 扩展 · X 长文</span>
-        <span lang-en>Vol. 1 · Chrome Extension · X Articles</span>
+        
+        Vol. 1 · Chrome Extension · X Articles
       </p>
       <h1>
-        <span lang-zh>Markdown 草稿<br><span class="accent">一键导入 X 长文</span></span>
-        <span lang-en>Markdown to X Articles, <span class="accent">in one paste</span>.</span>
+        
+        Markdown to X Articles, <span class="accent">in one paste</span>.
       </h1>
       <p class="tagline">
-        <span lang-zh>为 Obsidian 笔记、Notion 导出、本地 .md 和 AI 草稿准备的 Chrome 扩展。图片、表格、封面和推文嵌入会自动导入，发布前你仍然可以在 X 编辑器里检查。</span>
-        <span lang-en>A Chrome extension that converts Markdown to X Articles: Obsidian notes, Notion exports, local .md files, and AI-written drafts. Images, tables, code blocks, covers, and tweet embeds import automatically, and you review everything inside X before publishing.</span>
+        
+        A Chrome extension that converts Markdown to X Articles: Obsidian notes, Notion exports, local .md files, and AI-written drafts. Images, tables, code blocks, covers, and tweet embeds import automatically, and you review everything inside X before publishing.
       </p>
       <div class="cta-row">
         <a class="ic-btn ic-btn--primary" href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">
-          <span lang-zh>安装 Chrome 插件</span>
-          <span lang-en>Install from Chrome Web Store</span>
+          
+          Install from Chrome Web Store
         </a>
         <a class="ic-btn" href="#pricing">
-          <span lang-zh>查看 Pro 方案</span>
-          <span lang-en>See Pro plans</span>
+          
+          See Pro plans
         </a>
       </div>
     </div>
@@ -137,48 +140,48 @@
     <div class="container">
       <p class="kicker">Features Desk</p>
       <h2>
-        <span lang-zh>能处理什么</span>
-        <span lang-en>What Markdown to X Articles converts</span>
+        
+        What Markdown to X Articles converts
       </h2>
       <p class="lead">
-        <span lang-zh>它解决的不是复制粘贴本身，而是 X 编辑器改版、本地图片、表格和封面带来的不确定性。</span>
-        <span lang-en>The point is not just pasting. It is reducing publishing risk around X editor changes, local images, tables, and cover handling.</span>
+        
+        The point is not just pasting. It is reducing publishing risk around X editor changes, local images, tables, and cover handling.
       </p>
       <div class="features">
         <div class="feature">
           <span class="ic-icon-tile">01</span>
-          <h3><span lang-zh>图片自动上传</span><span lang-en>Auto-uploads images</span></h3>
-          <p><span lang-zh>外链图片会自动下载，并通过 X 自己的媒体通道上传。本地图片授权目录后也能直接引用。</span><span lang-en>External URLs are fetched + uploaded via X's own media pipeline. Local images work with directory access.</span></p>
+          <h3>Auto-uploads images</h3>
+          <p>External URLs are fetched + uploaded via X's own media pipeline. Local images work with directory access.</p>
         </div>
         <div class="feature">
           <span class="ic-icon-tile">02</span>
-          <h3><span lang-zh>标题和封面自动识别</span><span lang-en>Title &amp; cover auto-detected</span></h3>
-          <p><span lang-zh>第一个 H1 会作为文章标题，第一张图片会作为封面。也可以在 frontmatter 里用 <code>title:</code>、<code>cover:</code>（或 <code>标题:</code>、<code>封面:</code>）指定。</span><span lang-en>First H1 becomes the article title, first image becomes the cover. Override explicitly via frontmatter <code>title:</code> / <code>cover:</code>.</span></p>
+          <h3>Title &amp; cover auto-detected</h3>
+          <p>First H1 becomes the article title, first image becomes the cover. Override explicitly via frontmatter <code>title:</code> / <code>cover:</code>.</p>
         </div>
         <div class="feature">
           <span class="ic-icon-tile">03</span>
-          <h3><span lang-zh>表格 → 图片</span><span lang-en>Tables → images</span></h3>
-          <p><span lang-zh>X 文章不支持表格，扩展会把表格渲染成清晰的 PNG，再自动插入正文。</span><span lang-en>X doesn't support tables? We render to PNG and embed inline at HiDPI quality.</span></p>
+          <h3>Tables → images</h3>
+          <p>X doesn't support tables? We render to PNG and embed inline at HiDPI quality.</p>
         </div>
         <div class="feature">
           <span class="ic-icon-tile">04</span>
-          <h3><span lang-zh>代码块保留格式</span><span lang-en>Code blocks</span></h3>
-          <p><span lang-zh>带语言标记的代码块会转成 X 原生代码样式，保留等宽字体和灰底格式。</span><span lang-en>Fenced code with language tag → X native code block (mono, gray bg).</span></p>
+          <h3>Code blocks</h3>
+          <p>Fenced code with language tag → X native code block (mono, gray bg).</p>
         </div>
         <div class="feature">
           <span class="ic-icon-tile">05</span>
-          <h3><span lang-zh>推文链接自动嵌入</span><span lang-en>Tweet embeds</span></h3>
-          <p><span lang-zh>正文里的 X 推文链接会自动变成嵌入卡片，效果和在 X 网页里直接粘贴一致。</span><span lang-en>Tweet URLs are auto-converted to embed cards, just like pasting them on x.com.</span></p>
+          <h3>Tweet embeds</h3>
+          <p>Tweet URLs are auto-converted to embed cards, just like pasting them on x.com.</p>
         </div>
         <div class="feature">
           <span class="ic-icon-tile">06</span>
-          <h3><span lang-zh>拖入 .md 文件</span><span lang-en>Drag & drop .md</span></h3>
-          <p><span lang-zh>不用先复制全文，直接把 .md 文件拖进浏览器，扩展会新建草稿并填入内容。</span><span lang-en>Drag a .md file onto the browser — extension creates a fresh draft and fills it in.</span></p>
+          <h3>Drag & drop .md</h3>
+          <p>Drag a .md file onto the browser — extension creates a fresh draft and fills it in.</p>
         </div>
       </div>
       <p class="feature-note">
-        <span lang-zh><strong>隐私原则：</strong>不接入统计，不读取 cookie，也不上传文章内容。所有处理都在你的浏览器里完成。</span>
-        <span lang-en><strong>Privacy principle:</strong> no analytics, no cookies read, no article content sent anywhere. Everything happens in your browser.</span>
+        
+        <strong>Privacy principle:</strong> no analytics, no cookies read, no article content sent anywhere. Everything happens in your browser.
       </p>
     </div>
   </section>
@@ -187,54 +190,51 @@
     <div class="container">
       <p class="kicker center">Subscription Notice</p>
       <h2 class="center">
-        <span lang-zh>早鸟价 $29，买断使用</span>
-        <span lang-en>Early bird $29, lifetime access</span>
+        
+        Early bird $29, lifetime access
       </h2>
       <p class="lead center">
-        <span lang-zh>当前线上版本仍是 $29 一次性买断早鸟价。用户数量超过 300 后，将转为订阅制。</span>
-        <span lang-en>The current live version is still a $29 lifetime early-bird license. After the user count exceeds 300, Pro will move to a subscription model.</span>
+        
+        The current live version is still a $29 lifetime early-bird license. After the user count exceeds 300, Pro will move to a subscription model.
       </p>
 
       <div class="ic-card price-card">
         <span class="ic-badge">
-          <span lang-zh>推荐</span>
-          <span lang-en>Recommended</span>
+          
+          Recommended
         </span>
         <div class="amount"><span class="currency">$</span>29</div>
         <span class="period">
-          <span lang-zh>一次性买断 · 早鸟价 · 最多支持 5 台设备</span>
-          <span lang-en>One-time payment · early bird · up to 5 devices</span>
+          
+          One-time payment · early bird · up to 5 devices
         </span>
         <ul>
-          <li><span lang-zh>无限图片、表格、推文嵌入</span><span lang-en>Unlimited images, tables, tweet embeds</span></li>
-          <li><span lang-zh>本地图片目录支持</span><span lang-en>Local image directory support</span></li>
-          <li><span lang-zh>自动识别标题、封面和 frontmatter</span><span lang-en>Title, cover, and frontmatter auto-detection</span></li>
-          <li><span lang-zh>X 编辑器改版后的兼容维护</span><span lang-en>Compatibility maintenance when X changes the editor</span></li>
-          <li><span lang-zh>去除文末签名</span><span lang-en>No footer watermark</span></li>
-          <li><span lang-zh>支持信用卡 / Apple Pay / Google Pay</span><span lang-en>Card / Apple Pay / Google Pay</span></li>
+          <li>Unlimited images, tables, tweet embeds</li>
+          <li>Local image directory support</li>
+          <li>Title, cover, and frontmatter auto-detection</li>
+          <li>Compatibility maintenance when X changes the editor</li>
+          <li>No footer watermark</li>
+          <li>Card / Apple Pay / Google Pay</li>
         </ul>
         <div class="plan-actions">
-          <!-- 走 pay.icy-cat.com 的收银台，不再直连 creem.io：同一个页面上
-               信用卡和支付宝并排，付完由 Worker 直接发激活码，不用等 Creem
-               的确认邮件；产品和价格也只有那一处配置。 -->
+          
           <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=forever" target="_blank" rel="noopener">
-            <span lang-zh>购买早鸟价 $29</span>
-            <span lang-en>Buy early bird $29</span>
+            
+            Buy early bird $29
           </a>
         </div>
         <p class="later">
-          <span lang-zh>这是当前早鸟买断价。超过 300 位用户后，新用户将按订阅制购买；已购买的早鸟授权不受影响。</span>
-          <span lang-en>This is the current lifetime early-bird price. After 300 users, new purchases will move to subscriptions; existing early-bird licenses are not affected.</span>
+          
+          This is the current lifetime early-bird price. After 300 users, new purchases will move to subscriptions; existing early-bird licenses are not affected.
         </p>
       </div>
 
-      <!-- 国内支付走 pay.icy-cat.com（license-worker）。只放买断这一档：
-           月付/年付在收银台里点得到，不必在落地页上摊开三个价格让人挑。 -->
+      
       <div id="cn" class="ic-card cn-card">
-        <h3><span lang-zh>国内用户支持</span><span lang-en>Support for China users</span></h3>
+        <h3>Support for China users</h3>
         <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=forever" target="_blank" rel="noopener">
-          <span lang-zh>支付宝购买 ¥199 · 买断</span>
-          <span lang-en>Buy with Alipay · ¥199 lifetime</span>
+          
+          Buy with Alipay · ¥199 lifetime
         </a>
       </div>
     </div>
@@ -243,66 +243,66 @@
   <section id="faq" class="alt">
     <div class="container">
       <p class="kicker center">Reader Questions</p>
-      <h2 class="center"><span lang-zh>常见问题</span><span lang-en>FAQ</span></h2>
+      <h2 class="center">FAQ</h2>
       <div class="faq">
         <details class="ic-collapse">
-          <summary><span lang-zh>安装后怎么用？</span><span lang-en>How do I install and use it?</span></summary>
+          <summary>How do I install and use it?</summary>
           <div class="ic-collapse__body">
-            <span lang-zh>先从 <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">Chrome Web Store</a> 安装插件，再打开 <a href="https://x.com/compose/articles" target="_blank" rel="noopener">X 文章编辑器</a>，用 <kbd class="ic-kbd">Ctrl+V</kbd> 粘贴 Markdown 即可。也可以把 <code>.md</code> 文件直接拖进浏览器，让扩展自动新建草稿。</span>
-            <span lang-en>Install from the <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">Chrome Web Store</a>, open the <a href="https://x.com/compose/articles" target="_blank" rel="noopener">X article editor</a>, then <kbd class="ic-kbd">Ctrl+V</kbd> your Markdown. Or drag a <code>.md</code> file onto the browser to create a fresh draft.</span>
+            
+            Install from the <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">Chrome Web Store</a>, open the <a href="https://x.com/compose/articles" target="_blank" rel="noopener">X article editor</a>, then <kbd class="ic-kbd">Ctrl+V</kbd> your Markdown. Or drag a <code>.md</code> file onto the browser to create a fresh draft.
           </div>
         </details>
         <details class="ic-collapse">
-          <summary><span lang-zh>X 长文支持 Markdown 吗？</span><span lang-en>Does X Articles support Markdown?</span></summary>
+          <summary>Does X Articles support Markdown?</summary>
           <div class="ic-collapse__body">
-            <span lang-zh>X 长文编辑器本身不认 Markdown：直接粘贴会把图片变成一行 <code>![](url)</code>、表格塌成一堆竖线、代码块丢掉灰底。这个扩展在粘贴时把 Markdown 转成 X 编辑器接受的原生格式，图片会走 X 自己的上传通道，表格渲染成图片，代码块保留等宽格式。</span>
-            <span lang-en>Not natively. Paste Markdown into the X Articles editor and images become a line of <code>![](url)</code>, tables collapse into pipes, and code blocks lose their formatting. This extension converts Markdown to X Articles' native format on paste: images upload through X's own media pipeline, tables render as images, and code blocks keep their monospace style.</span>
+            
+            Not natively. Paste Markdown into the X Articles editor and images become a line of <code>![](url)</code>, tables collapse into pipes, and code blocks lose their formatting. This extension converts Markdown to X Articles' native format on paste: images upload through X's own media pipeline, tables render as images, and code blocks keep their monospace style.
           </div>
         </details>
         <details class="ic-collapse">
-          <summary><span lang-zh>会读取我的 X 账号或文章内容吗？</span><span lang-en>Does it leak my X account or content?</span></summary>
+          <summary>Does it leak my X account or content?</summary>
           <div class="ic-collapse__body">
-            <span lang-zh>不会。扩展只在 <code>x.com/compose/articles/*</code> 页面工作，不读取你的 cookie 或密码，也不会上传文章内容。详见 <a href="./privacy.html">隐私政策</a>。</span>
-            <span lang-en>No. The extension only runs on <code>x.com/compose/articles/*</code>, doesn't read your cookies or password, and uploads zero article content. See <a href="./privacy.html">Privacy Policy</a>.</span>
+            
+            No. The extension only runs on <code>x.com/compose/articles/*</code>, doesn't read your cookies or password, and uploads zero article content. See <a href="/privacy.html">Privacy Policy</a>.
           </div>
         </details>
         <details id="find-license-key" class="ic-collapse">
-          <summary><span lang-zh>付款后去哪找激活码？</span><span lang-en>Where do I find the license key after purchase?</span></summary>
+          <summary>Where do I find the license key after purchase?</summary>
           <div class="ic-collapse__body">
             <p>
-              <span lang-zh>付款后，Creem 会向你购买时填写的邮箱发送订单确认邮件（标题大致是 <em>Your X Article Markdown Paste order</em>）。点击邮件里的 <strong>"View Order"</strong> / <strong>查看订单</strong>，进入 Creem 订单页：</span>
-              <span lang-en>Creem sends an order confirmation email (subject roughly <em>Your X Article Markdown Paste order</em>) to the address you entered at checkout. Click the <strong>"View Order"</strong> link inside the email to open your order page on Creem:</span>
+              
+              Creem sends an order confirmation email (subject roughly <em>Your X Article Markdown Paste order</em>) to the address you entered at checkout. Click the <strong>"View Order"</strong> link inside the email to open your order page on Creem:
             </p>
             <ol class="license-steps">
-              <li><span lang-zh><strong>① 左侧 Orders 列表</strong>：点击 "X Article Markdown Paste — Pro" 这一条订单</span><span lang-en><strong>① Orders panel on the left</strong>: click the "X Article Markdown Paste — Pro" row</span></li>
-              <li><span lang-zh><strong>② 右侧 License Key 区域</strong>：复制形如 <code>5VLZ0-…-…-…-…</code> 的激活码</span><span lang-en><strong>② License Key panel on the right</strong>: copy the <code>5VLZ0-…-…-…-…</code> key</span></li>
+              <li><strong>① Orders panel on the left</strong>: click the "X Article Markdown Paste — Pro" row</li>
+              <li><strong>② License Key panel on the right</strong>: copy the <code>5VLZ0-…-…-…-…</code> key</li>
             </ol>
-            <img src="./creem-find-license-key.png" alt="Creem dashboard: how to locate license key" width="1555" height="575" loading="lazy" style="width: 100%; max-width: 720px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(127,127,127,0.3);" />
+            <img src="/creem-find-license-key.png" alt="Creem dashboard: how to locate license key" width="1555" height="575" loading="lazy" style="width: 100%; max-width: 720px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(127,127,127,0.3);" />
             <p style="margin-top: 10px;">
-              <span lang-zh>拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 <strong>License Key</strong> 输入框，然后按回车。每个早鸟激活码最多可在 5 台设备上使用。</span>
-              <span lang-en>Once you have the key, click the extension icon in Chrome's toolbar, paste it into the <strong>License Key</strong> field, press Enter. Each early-bird key activates on up to 5 devices.</span>
+              
+              Once you have the key, click the extension icon in Chrome's toolbar, paste it into the <strong>License Key</strong> field, press Enter. Each early-bird key activates on up to 5 devices.
             </p>
           </div>
         </details>
         <details class="ic-collapse">
-          <summary><span lang-zh>能退款吗？</span><span lang-en>Can I get a refund?</span></summary>
+          <summary>Can I get a refund?</summary>
           <div class="ic-collapse__body">
-            <span lang-zh>购买后 7 天内如果不满意，可以申请全额退款。请把订单号发到 <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a>。</span>
-            <span lang-en>Yes — within 7 days of purchase if you're not satisfied. Email <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a> with your order ID.</span>
+            
+            Yes — within 7 days of purchase if you're not satisfied. Email <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a> with your order ID.
           </div>
         </details>
         <details class="ic-collapse">
-          <summary><span lang-zh>X 改版后会不会失效？</span><span lang-en>Does it break when X updates its UI?</span></summary>
+          <summary>Does it break when X updates its UI?</summary>
           <div class="ic-collapse__body">
-            <span lang-zh>有可能。X 的编辑器改版时，扩展偶尔会失效。发现问题后，我会尽量在 24-48 小时内修复并推送更新，Chrome 会自动安装新版扩展。</span>
-            <span lang-en>Occasionally yes, but we monitor closely — usually fixed and pushed within 24-48 hours of breakage. Chrome auto-updates the extension.</span>
+            
+            Occasionally yes, but we monitor closely — usually fixed and pushed within 24-48 hours of breakage. Chrome auto-updates the extension.
           </div>
         </details>
         <details class="ic-collapse">
-          <summary><span lang-zh>支持 Firefox / Edge / Safari 吗？</span><span lang-en>Firefox / Edge / Safari support?</span></summary>
+          <summary>Firefox / Edge / Safari support?</summary>
           <div class="ic-collapse__body">
-            <span lang-zh>目前支持 Chrome，以及 Edge、Brave、Arc 等基于 Chromium 的浏览器。Firefox 和 Safari 会放在后续版本规划里。</span>
-            <span lang-en>Currently Chrome and Chromium-based browsers (Edge, Brave, Arc) only. Firefox and Safari are on the v1.5 roadmap.</span>
+            
+            Currently Chrome and Chromium-based browsers (Edge, Brave, Arc) only. Firefox and Safari are on the v1.5 roadmap.
           </div>
         </details>
       </div>
@@ -311,14 +311,14 @@
 
   <footer class="site">
     <div class="links">
-      <a href="./x-articles-code-blocks-tables.html"><span lang-zh>X 长文里放代码块和表格</span><span lang-en>Code blocks &amp; tables in X Articles</span></a>
-      <a href="./compare.html"><span lang-zh>对比 xPoster / MD2X</span><span lang-en>vs xPoster &amp; MD2X</span></a>
-      <a href="./privacy.html"><span lang-zh>隐私政策</span><span lang-en>Privacy</span></a>
-      <a href="./terms.html"><span lang-zh>服务条款</span><span lang-en>Terms</span></a>
-      <a href="mailto:lengkuxiaomao@gmail.com"><span lang-zh>联系</span><span lang-en>Contact</span></a>
+      <a href="/x-articles-code-blocks-tables.html">Code blocks &amp; tables in X Articles</a>
+      <a href="/compare.html">vs xPoster &amp; MD2X</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="mailto:lengkuxiaomao@gmail.com">Contact</a>
       <a href="https://x.com/intent/follow?screen_name=icycat" target="_blank" rel="noopener">@icycat</a>
     </div>
-    <div>© 2026 IcyCat · <span lang-zh>独立开发者作品</span><span lang-en>Built solo</span></div>
+    <div>© 2026 IcyCat · Built solo</div>
   </footer>
 </div>
 </body>

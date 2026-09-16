@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>X 长文里怎么放代码块、表格和分隔线</title>
+  <meta name="description" content="X 长文不认 Markdown，代码块、表格、分隔线粘进去就散了。三种把它们放进 X 长文的办法，附一份测试文档。" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://xmdpaste.icy-cat.com/zh/x-articles-code-blocks-tables.html" />
+  <link rel="alternate" hreflang="en" href="https://xmdpaste.icy-cat.com/x-articles-code-blocks-tables.html" />
+  <link rel="alternate" hreflang="zh-CN" href="https://xmdpaste.icy-cat.com/zh/x-articles-code-blocks-tables.html" />
+  <link rel="alternate" hreflang="x-default" href="https://xmdpaste.icy-cat.com/x-articles-code-blocks-tables.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://xmdpaste.icy-cat.com/zh/x-articles-code-blocks-tables.html" />
+  <meta property="og:site_name" content="X Article Markdown Paste" />
+  <meta property="og:title" content="X 长文里怎么放代码块、表格和分隔线" />
+  <meta property="og:description" content="X 长文不认 Markdown，代码块、表格、分隔线粘进去就散了。三种把它们放进 X 长文的办法，附一份测试文档。" />
+  <meta property="og:image" content="https://xmdpaste.icy-cat.com/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@icycat" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
+  <link rel="stylesheet" href="/icycat-uiux.css?v=20260913c" />
+  <link rel="stylesheet" href="/styles.css?v=20260914a" />
+  <script src="/lang.js" defer></script>
+</head>
+<body>
+<div class="ic-root" data-lang="mac">
+  <header class="site">
+    <a href="/zh/" class="brand"><img class="mark" src="/favicon.png" alt="" width="128" height="128" />X 长文 Markdown 导入器</a>
+    <nav>
+      <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">安装</a>
+      <a href="/zh/#features">功能</a>
+      <a href="/zh/#pricing">价格</a>
+      <a id="lang-toggle" class="ic-btn ic-btn--sm" href="/x-articles-code-blocks-tables.html" hreflang="en" data-lang-to="en">EN</a>
+    </nav>
+  </header>
+
+  <main class="doc">
+    
+    
+    <h1>X 长文里怎么放代码块、表格和分隔线</h1>
+    <p class="updated">2026 年 9 月更新 · 按当前 X 长文编辑器实测</p>
+
+    <p>X 长文（X Articles）是 X Premium 自带的长文编辑器。它支持标题、加粗、斜体、链接、列表、引用和图片，<strong>没有</strong>表格按钮，代码块和分隔线只有在内容以编辑器认得的形态进来时才会生效。如果你用 Markdown 写作，这一页讲清楚默认会发生什么，以及三种拿到正确排版的办法。</p>
+
+    <h2>把 Markdown 直接粘进 X 长文会怎样</h2>
+    <p>把 Markdown 纯文本粘进编辑器，得到的就是纯文本，什么都不会被解释：</p>
+    <ul>
+      <li><code>```js … ```</code> 围栏原样留成反引号，落在普通段落里，灰底等宽的代码框不会出现。</li>
+      <li><code>| a | b |</code> 表格塌成一行竖线和横线。</li>
+      <li><code>---</code> 就是三个连字符，不是分隔线。</li>
+      <li><code>![alt](https://…/image.png)</code> 留成文字，图片不会被取回。</li>
+    </ul>
+    <p>Google 在这个话题的「其他人还问了」里有一条「X 支持 Markdown 吗」，老实的回答是：粘贴时不支持。编辑器吃的是剪贴板里的富文本 HTML，Markdown 得先转换才能落地。</p>
+
+    <h2>办法一：在编辑器里手动排</h2>
+    <p>短文可行。打一行，选中，用工具栏的代码样式；空行上按「+」能插分隔线。表格没有对应功能，通常的替代是把表格截图当图片贴进去。</p>
+    <p>代价：每个代码块几分钟，表格每改一次就要重新截图。三千字的技术文一般在这一步放弃。</p>
+
+    <h2>办法二：先把 Markdown 转成富文本，再粘</h2>
+    <p>MD2X 这类网页转换器把 Markdown 渲染成 HTML 放进剪贴板，粘过去能得到标题、列表和行内代码。限制在于：</p>
+    <ul>
+      <li>代码块通常以预格式化文本进来，X 会把它压平，所以转换器一般把代码块转成图片。</li>
+      <li>网页没法把图片上传进你的 X 草稿。远程图片链接留成链接，本地图片事后要一张张拖。</li>
+      <li>推文链接留成普通链接，不会变成嵌入卡片。</li>
+    </ul>
+
+    <h2>办法三：用一个和编辑器对话的 Chrome 扩展来粘</h2>
+    <p><a href="/zh/">X 长文 Markdown 导入器</a>运行在 <code>x.com/compose/articles</code> 上，接管 Ctrl+V。它不把原始文本交给编辑器，而是按 X 内部使用的块结构把内容组装好，需要媒体的地方走编辑器自己的图片上传通道。实际效果：</p>
+    <ul>
+      <li><strong>代码块</strong>带语言标记的会变成 X 原生代码块：等宽、灰底、缩进保留。</li>
+      <li><strong>表格</strong>渲染成高清 PNG，插在原位。X 没有表格元素，列对齐和表头会保留。</li>
+      <li><strong>分隔线</strong>（<code>---</code>）变成真正的水平线。</li>
+      <li><strong>图片</strong>远程链接会被取回并通过 X 的媒体通道上传；本地路径从你授权过一次的文件夹解析。</li>
+      <li><strong>推文链接</strong>单独成行的会变成嵌入卡片。</li>
+    </ul>
+    <p>流程就三步：在 Obsidian、Notion、Typora 或 VS Code 里写，全选复制，到 X 编辑器里按 Ctrl+V。进度条显示上传进度，草稿仍是普通的 X 草稿，发布前可以继续编辑。</p>
+
+    <h2>一份最小测试文档</h2>
+    <p>开着扩展把下面这段粘进编辑器，应该看到一个代码块、一张表格图、一条分隔线和一个推文嵌入：</p>
+<pre><code># 排版测试
+
+行内 `code` 和 **加粗** 文本。
+
+```python
+def hello():
+    return "X Articles"
+```
+
+| 功能 | X 原生 | 用扩展 |
+| --- | --- | --- |
+| 代码块 | 手动 | 自动 |
+| 表格 | 无 | 图片 |
+
+---
+
+https://x.com/icycat/status/1
+</code></pre>
+
+    <h2>已知限制</h2>
+    <ul>
+      <li>X 每篇文章最多 25 张图，一张表格算一张图。表格很多的长文会撞到这个上限。</li>
+      <li>X 的代码块没有语法高亮，只有等宽和灰底，没有颜色。</li>
+      <li>嵌套表格和合并单元格按原样渲染进图片，X 不会让它们可交互。</li>
+      <li>X 改编辑器内部结构时，扩展可能失效一两天，修复随普通 Chrome 更新推送。</li>
+    </ul>
+
+    <p><a class="ic-btn ic-btn--primary" href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">从 Chrome 应用商店安装</a></p>
+    <p>免费版包含标题、列表、代码块和分隔线，每次粘贴最多 3 张图、1 张表格。<a href="/zh/#pricing">Pro</a> 解除限制。</p>
+    
+  </main>
+
+  <footer class="site">
+    <div class="links">
+      <a href="/zh/">首页</a>
+      <a href="/zh/x-articles-code-blocks-tables.html">代码块和表格</a>
+      <a href="/zh/compare.html">对比</a>
+      <a href="/zh/privacy.html">隐私政策</a>
+      <a href="mailto:lengkuxiaomao@gmail.com">联系</a>
+    </div>
+    <div>© 2026 IcyCat</div>
+  </footer>
+</div>
+</body>
+</html>

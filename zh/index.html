@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Markdown 一键导入 X 长文 | X Article Markdown Paste</title>
+  <meta name="description" content="Chrome 扩展：把 Markdown 一键导入 X 长文。Obsidian、Notion、本地 .md 草稿直接变成 X 文章，图片、表格、代码块、推文嵌入自动处理。" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="application-name" content="X Article Markdown Paste" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="canonical" href="https://xmdpaste.icy-cat.com/zh/" />
+  <link rel="alternate" hreflang="en" href="https://xmdpaste.icy-cat.com/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://xmdpaste.icy-cat.com/zh/" />
+  <link rel="alternate" hreflang="x-default" href="https://xmdpaste.icy-cat.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://xmdpaste.icy-cat.com/zh/" />
+  <meta property="og:site_name" content="X Article Markdown Paste" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:title" content="Markdown 一键导入 X 长文 | X Article Markdown Paste" />
+  <meta property="og:description" content="Chrome 扩展：把 Markdown 一键导入 X 长文。Obsidian、Notion、本地 .md 草稿直接变成 X 文章，图片、表格、代码块、推文嵌入自动处理。" />
+  <meta property="og:image" content="https://xmdpaste.icy-cat.com/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://xmdpaste.icy-cat.com/og.png" />
+  <meta name="twitter:creator" content="@icycat" />
+  <meta name="twitter:title" content="Markdown 一键导入 X 长文 | X Article Markdown Paste" />
+  <meta name="twitter:description" content="Chrome 扩展：把 Markdown 一键导入 X 长文。Obsidian、Notion、本地 .md 草稿直接变成 X 文章，图片、表格、代码块、推文嵌入自动处理。" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
+  <link rel="stylesheet" href="/icycat-uiux.css?v=20260913c" />
+  <link rel="stylesheet" href="/styles.css?v=20260914a" />
+  <script src="/lang.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"安装后怎么用？","acceptedAnswer":{"@type":"Answer","text":"先从 Chrome Web Store 安装插件，再打开 X 文章编辑器 ，用 Ctrl+V 粘贴 Markdown 即可。也可以把 .md 文件直接拖进浏览器，让扩展自动新建草稿。"}},{"@type":"Question","name":"X 长文支持 Markdown 吗？","acceptedAnswer":{"@type":"Answer","text":"X 长文编辑器本身不认 Markdown：直接粘贴会把图片变成一行 ![](url) 、表格塌成一堆竖线、代码块丢掉灰底。这个扩展在粘贴时把 Markdown 转成 X 编辑器接受的原生格式，图片会走 X 自己的上传通道，表格渲染成图片，代码块保留等宽格式。"}},{"@type":"Question","name":"会读取我的 X 账号或文章内容吗？","acceptedAnswer":{"@type":"Answer","text":"不会。扩展只在 x.com/compose/articles/* 页面工作，不读取你的 cookie 或密码，也不会上传文章内容。详见 隐私政策 。"}},{"@type":"Question","name":"付款后去哪找激活码？","acceptedAnswer":{"@type":"Answer","text":"付款后，Creem 会向你购买时填写的邮箱发送订单确认邮件（标题大致是 Your X Article Markdown Paste order ）。点击邮件里的 \"View Order\" / 查看订单 ，进入 Creem 订单页： ① 左侧 Orders 列表 ：点击 \"X Article Markdown Paste — Pro\" 这一条订单 ② 右侧 License Key 区域 ：复制形如 5VLZ0-…-…-…-… 的激活码 拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 License Key 输入框，然后按回车。每个早鸟激活码最多可在 5 台设备上使用。"}},{"@type":"Question","name":"能退款吗？","acceptedAnswer":{"@type":"Answer","text":"购买后 7 天内如果不满意，可以申请全额退款。请把订单号发到 lengkuxiaomao@gmail.com 。"}},{"@type":"Question","name":"X 改版后会不会失效？","acceptedAnswer":{"@type":"Answer","text":"有可能。X 的编辑器改版时，扩展偶尔会失效。发现问题后，我会尽量在 24-48 小时内修复并推送更新，Chrome 会自动安装新版扩展。"}},{"@type":"Question","name":"支持 Firefox / Edge / Safari 吗？","acceptedAnswer":{"@type":"Answer","text":"目前支持 Chrome，以及 Edge、Brave、Arc 等基于 Chromium 的浏览器。Firefox 和 Safari 会放在后续版本规划里。"}}],"@id":"https://xmdpaste.icy-cat.com/zh/#faq"},
+      {
+        "@type": "WebSite",
+        "@id": "https://xmdpaste.icy-cat.com/#website",
+        "name": "X Article Markdown Paste",
+        "alternateName": "X 长文 Markdown 导入器",
+        "url": "https://xmdpaste.icy-cat.com/",
+        "inLanguage": ["zh-CN", "en"]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://xmdpaste.icy-cat.com/#software",
+        "name": "X Article Markdown Paste",
+        "alternateName": "X 长文 Markdown 导入器",
+        "applicationCategory": "BrowserApplication",
+        "operatingSystem": "Chrome, Chromium",
+        "url": "https://xmdpaste.icy-cat.com/",
+        "description": "A Chrome extension for importing Markdown drafts from Obsidian, Notion exports, local .md files, and AI drafts into X Articles with images, tables, covers, and tweet embeds.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "IcyCat",
+          "url": "https://xmdpaste.icy-cat.com/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "name": "Pro Lifetime Early Bird",
+          "price": "29",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://pay.icy-cat.com/?p=xmd&plan=forever"
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+<div class="ic-root" data-lang="mac">
+  <header class="site">
+    <a href="/zh/" class="brand"><img class="mark" src="/favicon.png" alt="" width="128" height="128" />X 长文 Markdown 导入器</a>
+    <nav>
+      <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">安装</a>
+      <a href="#features">功能</a>
+      <a href="#pricing">价格</a>
+      <a href="#faq">FAQ</a>
+      <a id="lang-toggle" class="ic-btn ic-btn--sm" href="/" hreflang="en" data-lang-to="en">EN</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="kicker">
+        第 1 版 · Chrome 扩展 · X 长文
+        
+      </p>
+      <h1>
+        Markdown 草稿<br><span class="accent">一键导入 X 长文</span>
+        
+      </h1>
+      <p class="tagline">
+        为 Obsidian 笔记、Notion 导出、本地 .md 和 AI 草稿准备的 Chrome 扩展。图片、表格、封面和推文嵌入会自动导入，发布前你仍然可以在 X 编辑器里检查。
+        
+      </p>
+      <div class="cta-row">
+        <a class="ic-btn ic-btn--primary" href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">
+          安装 Chrome 插件
+          
+        </a>
+        <a class="ic-btn" href="#pricing">
+          查看 Pro 方案
+          
+        </a>
+      </div>
+    </div>
+    <div class="proof" aria-label="Markdown to X article preview">
+      <div class="proof__bar">
+        <span>MARKDOWN</span>
+        <span>X ARTICLE</span>
+      </div>
+      <div class="proof__grid">
+        <div class="proof__src">
+          <strong># Launch Notes</strong>
+          <span>cover: ./hero.png</span>
+          <span>![chart](table.md)</span>
+          <span>```js</span>
+          <span>publish(draft)</span>
+          <span>```</span>
+        </div>
+        <div class="proof__out">
+          <p class="kicker">Rendered Draft</p>
+          <p class="proof__title">Launch Notes</p>
+          <div class="proof__img"></div>
+          <p>Title, cover, images, tables and embeds arrive in the editor ready for review.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="alt">
+    <div class="container">
+      <p class="kicker">Features Desk</p>
+      <h2>
+        能处理什么
+        
+      </h2>
+      <p class="lead">
+        它解决的不是复制粘贴本身，而是 X 编辑器改版、本地图片、表格和封面带来的不确定性。
+        
+      </p>
+      <div class="features">
+        <div class="feature">
+          <span class="ic-icon-tile">01</span>
+          <h3>图片自动上传</h3>
+          <p>外链图片会自动下载，并通过 X 自己的媒体通道上传。本地图片授权目录后也能直接引用。</p>
+        </div>
+        <div class="feature">
+          <span class="ic-icon-tile">02</span>
+          <h3>标题和封面自动识别</h3>
+          <p>第一个 H1 会作为文章标题，第一张图片会作为封面。也可以在 frontmatter 里用 <code>title:</code>、<code>cover:</code>（或 <code>标题:</code>、<code>封面:</code>）指定。</p>
+        </div>
+        <div class="feature">
+          <span class="ic-icon-tile">03</span>
+          <h3>表格 → 图片</h3>
+          <p>X 文章不支持表格，扩展会把表格渲染成清晰的 PNG，再自动插入正文。</p>
+        </div>
+        <div class="feature">
+          <span class="ic-icon-tile">04</span>
+          <h3>代码块保留格式</h3>
+          <p>带语言标记的代码块会转成 X 原生代码样式，保留等宽字体和灰底格式。</p>
+        </div>
+        <div class="feature">
+          <span class="ic-icon-tile">05</span>
+          <h3>推文链接自动嵌入</h3>
+          <p>正文里的 X 推文链接会自动变成嵌入卡片，效果和在 X 网页里直接粘贴一致。</p>
+        </div>
+        <div class="feature">
+          <span class="ic-icon-tile">06</span>
+          <h3>拖入 .md 文件</h3>
+          <p>不用先复制全文，直接把 .md 文件拖进浏览器，扩展会新建草稿并填入内容。</p>
+        </div>
+      </div>
+      <p class="feature-note">
+        <strong>隐私原则：</strong>不接入统计，不读取 cookie，也不上传文章内容。所有处理都在你的浏览器里完成。
+        
+      </p>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="container">
+      <p class="kicker center">Subscription Notice</p>
+      <h2 class="center">
+        早鸟价 $29，买断使用
+        
+      </h2>
+      <p class="lead center">
+        当前线上版本仍是 $29 一次性买断早鸟价。用户数量超过 300 后，将转为订阅制。
+        
+      </p>
+
+      <div class="ic-card price-card">
+        <span class="ic-badge">
+          推荐
+          
+        </span>
+        <div class="amount"><span class="currency">$</span>29</div>
+        <span class="period">
+          一次性买断 · 早鸟价 · 最多支持 5 台设备
+          
+        </span>
+        <ul>
+          <li>无限图片、表格、推文嵌入</li>
+          <li>本地图片目录支持</li>
+          <li>自动识别标题、封面和 frontmatter</li>
+          <li>X 编辑器改版后的兼容维护</li>
+          <li>去除文末签名</li>
+          <li>支持信用卡 / Apple Pay / Google Pay</li>
+        </ul>
+        <div class="plan-actions">
+          
+          <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=forever" target="_blank" rel="noopener">
+            购买早鸟价 $29
+            
+          </a>
+        </div>
+        <p class="later">
+          这是当前早鸟买断价。超过 300 位用户后，新用户将按订阅制购买；已购买的早鸟授权不受影响。
+          
+        </p>
+      </div>
+
+      
+      <div id="cn" class="ic-card cn-card">
+        <h3>国内用户支持</h3>
+        <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=forever" target="_blank" rel="noopener">
+          支付宝购买 ¥199 · 买断
+          
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="alt">
+    <div class="container">
+      <p class="kicker center">Reader Questions</p>
+      <h2 class="center">常见问题</h2>
+      <div class="faq">
+        <details class="ic-collapse">
+          <summary>安装后怎么用？</summary>
+          <div class="ic-collapse__body">
+            先从 <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">Chrome Web Store</a> 安装插件，再打开 <a href="https://x.com/compose/articles" target="_blank" rel="noopener">X 文章编辑器</a>，用 <kbd class="ic-kbd">Ctrl+V</kbd> 粘贴 Markdown 即可。也可以把 <code>.md</code> 文件直接拖进浏览器，让扩展自动新建草稿。
+            
+          </div>
+        </details>
+        <details class="ic-collapse">
+          <summary>X 长文支持 Markdown 吗？</summary>
+          <div class="ic-collapse__body">
+            X 长文编辑器本身不认 Markdown：直接粘贴会把图片变成一行 <code>![](url)</code>、表格塌成一堆竖线、代码块丢掉灰底。这个扩展在粘贴时把 Markdown 转成 X 编辑器接受的原生格式，图片会走 X 自己的上传通道，表格渲染成图片，代码块保留等宽格式。
+            
+          </div>
+        </details>
+        <details class="ic-collapse">
+          <summary>会读取我的 X 账号或文章内容吗？</summary>
+          <div class="ic-collapse__body">
+            不会。扩展只在 <code>x.com/compose/articles/*</code> 页面工作，不读取你的 cookie 或密码，也不会上传文章内容。详见 <a href="/zh/privacy.html">隐私政策</a>。
+            
+          </div>
+        </details>
+        <details id="find-license-key" class="ic-collapse">
+          <summary>付款后去哪找激活码？</summary>
+          <div class="ic-collapse__body">
+            <p>
+              付款后，Creem 会向你购买时填写的邮箱发送订单确认邮件（标题大致是 <em>Your X Article Markdown Paste order</em>）。点击邮件里的 <strong>"View Order"</strong> / <strong>查看订单</strong>，进入 Creem 订单页：
+              
+            </p>
+            <ol class="license-steps">
+              <li><strong>① 左侧 Orders 列表</strong>：点击 "X Article Markdown Paste — Pro" 这一条订单</li>
+              <li><strong>② 右侧 License Key 区域</strong>：复制形如 <code>5VLZ0-…-…-…-…</code> 的激活码</li>
+            </ol>
+            <img src="/creem-find-license-key.png" alt="Creem dashboard: how to locate license key" width="1555" height="575" loading="lazy" style="width: 100%; max-width: 720px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(127,127,127,0.3);" />
+            <p style="margin-top: 10px;">
+              拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 <strong>License Key</strong> 输入框，然后按回车。每个早鸟激活码最多可在 5 台设备上使用。
+              
+            </p>
+          </div>
+        </details>
+        <details class="ic-collapse">
+          <summary>能退款吗？</summary>
+          <div class="ic-collapse__body">
+            购买后 7 天内如果不满意，可以申请全额退款。请把订单号发到 <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a>。
+            
+          </div>
+        </details>
+        <details class="ic-collapse">
+          <summary>X 改版后会不会失效？</summary>
+          <div class="ic-collapse__body">
+            有可能。X 的编辑器改版时，扩展偶尔会失效。发现问题后，我会尽量在 24-48 小时内修复并推送更新，Chrome 会自动安装新版扩展。
+            
+          </div>
+        </details>
+        <details class="ic-collapse">
+          <summary>支持 Firefox / Edge / Safari 吗？</summary>
+          <div class="ic-collapse__body">
+            目前支持 Chrome，以及 Edge、Brave、Arc 等基于 Chromium 的浏览器。Firefox 和 Safari 会放在后续版本规划里。
+            
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site">
+    <div class="links">
+      <a href="/zh/x-articles-code-blocks-tables.html">X 长文里放代码块和表格</a>
+      <a href="/zh/compare.html">对比 xPoster / MD2X</a>
+      <a href="/zh/privacy.html">隐私政策</a>
+      <a href="/zh/terms.html">服务条款</a>
+      <a href="mailto:lengkuxiaomao@gmail.com">联系</a>
+      <a href="https://x.com/intent/follow?screen_name=icycat" target="_blank" rel="noopener">@icycat</a>
+    </div>
+    <div>© 2026 IcyCat · 独立开发者作品</div>
+  </footer>
+</div>
+</body>
+</html>
