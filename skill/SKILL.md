@@ -11,19 +11,44 @@ One command. The extension does the rendering and the image uploads.
 node "<SKILL_DIR>/xmdpaste.mjs" "<absolute path to file.md>"
 ```
 
-That serves the file on `127.0.0.1` and opens
-`https://x.com/compose/articles?xmdSrc=…` in the default browser. The extension
-picks the parameter up, creates a fresh draft, renders the Markdown and uploads
-every image to X's CDN. Nothing is written to the user's account until they hit
-Publish — the result is a draft.
+That serves the file on `127.0.0.1`, finds a browser that has the extension, and
+opens `https://x.com/compose/articles?xmdSrc=…` there. The extension picks the
+document up, creates a fresh draft, renders the Markdown and uploads every image
+to X's CDN. Nothing is published — the result is a draft.
 
-Then tell the user to look at the browser. Do not try to drive the page.
+Read the command's output before saying anything to the user:
+
+- `opening in <browser> · <profile> · …` then `picked up by …` → it arrived. Tell
+  the user to look at that browser (it may be asking them to pick a cover).
+- exit code **3** with `nobody picked the document up` → nothing arrived. Relay
+  the list it prints (which browsers/profiles have the extension, which are too
+  old) and the fix it suggests. Do not retry blindly.
+
+Do not try to drive the page.
 
 ## Requirements
 
-- The **X Article Markdown Paste** extension installed in the default browser,
-  and the user logged in to x.com in it.
+- The **X Article Markdown Paste** extension, **1.4.0 or newer**, in any Chromium
+  browser (Chrome, Edge, Brave, Arc, Chromium, Vivaldi), logged in to x.com.
 - Node 20+.
+
+## Which browser it uses
+
+The command scans each browser's profile folders for the extension and picks:
+the default browser if its copy is usable, otherwise a browser whose copy is;
+within a browser, the last-used profile. Store copies older than 1.4.0 are not
+usable. Unpacked dev builds are always considered usable, but only run new code
+after being reloaded in chrome://extensions.
+
+If the extension is installed in several places the output says so; to choose,
+pass `--browser chrome|edge|brave|arc|chromium|vivaldi` and/or
+`--profile "Profile 2"`. A browser started with a custom data dir needs
+`--user-data-dir DIR`.
+
+The document is served **once**. If two copies of the extension could take it
+(two browsers, or a store build next to a dev build), the first wins and the
+other is refused, so there is never a second draft. Inside one browser, copies
+elect a single owner per page.
 
 ## Options
 
@@ -31,25 +56,37 @@ Then tell the user to look at the browser. Do not try to drive the page.
   ancestor containing `.obsidian`, else the file's own folder. **Obsidian
   wikilinks (`![[附件/图/a.png]]`) resolve from the vault root**, so for a vault
   note the root must be the vault root — the default already does this.
-- `--print-url` — print the URL instead of opening it. For hosts that open URLs
-  themselves.
-- `--idle SEC` — shut the server down this long after the last request
-  (default 30). Images are fetched one at a time during the upload, so don't go
-  below ~15.
+- `--browser NAME`, `--profile DIR`, `--user-data-dir DIR` — see above.
+- `--print-url` — print the URL instead of opening it, for hosts that open URLs
+  themselves. The command still waits for the pick-up and exits 3 without one.
+- `--wait SEC` — how long to wait for the pick-up (default 25).
+- `--idle SEC` — after the pick-up, exit this long after the last request
+  (default 30). Images are fetched during the upload, so don't go below ~6.
+
+## Image paths it understands
+
+Relative (`img/a.png`, `img\a.png`, `../附件/图 片.png` — bare spaces are fine),
+Obsidian wikilinks, and absolute paths in any OS style (`/Users/me/v/a.png`,
+`C:\v\a.png`, `file:///C:/v/a.png`). Every file must be **under `--root`**;
+anything outside it is refused and shows up as a failed image, never as a
+folder-access prompt. Remote `https://` images are fetched as usual.
 
 ## What the user sees
 
-A banner across the top of x.com: 检测到 Markdown → 上传图片 n/N → ✅ 粘贴完成.
-If the document has more than one image, a cover-image dialog appears first —
-the user picks a cover or clicks 不设置封面; the upload continues either way.
+A banner on x.com: 下载图片 → 上传图片 n/N → ✅ 粘贴完成. If the document has
+images, a cover dialog may appear — the user picks a cover or 不设置封面.
 
 ## When it fails
 
-- **Nothing happens after the browser opens** — the extension isn't installed in
-  *that* browser, or the user isn't on x.com. The URL parameter is consumed on
-  load, so re-run the command rather than reloading the tab.
-- **`Local import failed: not_loopback`** — the served URL wasn't
-  localhost/127.0.0.1. Only loopback is allowed.
-- **Images stay as text URLs** — the free tier caps images per paste. That's a
-  license tier, not an error.
-- **`http_404` for images** — wrong `--root`. Point it at the vault root.
+- **Exit 3, nobody picked it up** — see the printed list. Usual causes: the
+  extension is older than 1.4.0, disabled, in a different profile, or the
+  browser that opened isn't logged in to x.com.
+- **Banner: `already picked up`** — the same link was opened twice, or by a
+  second copy. Run the command again for a new link.
+- **Banner: `the local tool is not running any more`** — the command exited
+  (idle) before the tab loaded, e.g. a reused old link. Run it again.
+- **Banner: `only localhost / 127.0.0.1`** — a hand-made `xmdSrc` pointed
+  elsewhere. Only loopback is accepted.
+- **`… 张图片上传失败` (some images failed)** — a path outside `--root`, a
+  missing file, or the free tier's per-paste image cap.
+- **Banner: `larger than 16 MB`** — split the document.

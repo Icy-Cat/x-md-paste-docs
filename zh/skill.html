@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>在 Claude Code、Codex 等 AI 助手里把 Markdown 发到 X 长文 | 安装 skill</title>
+  <meta name="description" content="安装 x-md-paste skill，让 Claude Code、Codex 等 AI 助手通过 X 长文 Markdown 导入器，把本地 Markdown 直接建成 X 长文草稿。" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://xmdpaste.icy-cat.com/zh/skill.html" />
+  <link rel="alternate" hreflang="en" href="https://xmdpaste.icy-cat.com/skill.html" />
+  <link rel="alternate" hreflang="zh-CN" href="https://xmdpaste.icy-cat.com/zh/skill.html" />
+  <link rel="alternate" hreflang="x-default" href="https://xmdpaste.icy-cat.com/skill.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://xmdpaste.icy-cat.com/zh/skill.html" />
+  <meta property="og:site_name" content="X Article Markdown Paste" />
+  <meta property="og:title" content="在 Claude Code、Codex 等 AI 助手里把 Markdown 发到 X 长文 | 安装 skill" />
+  <meta property="og:description" content="安装 x-md-paste skill，让 Claude Code、Codex 等 AI 助手通过 X 长文 Markdown 导入器，把本地 Markdown 直接建成 X 长文草稿。" />
+  <meta property="og:image" content="https://xmdpaste.icy-cat.com/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@icycat" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
+  <link rel="stylesheet" href="/icycat-uiux.css?v=20260913c" />
+  <link rel="stylesheet" href="/styles.css?v=20260917a" />
+  <script src="/lang.js" defer></script>
+</head>
+<body>
+<div class="ic-root" data-lang="mac">
+  <header class="site">
+    <a href="/zh/" class="brand"><img class="mark" src="/favicon.png" alt="" width="128" height="128" />X 长文 Markdown 导入器</a>
+    <nav>
+      <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">安装</a>
+      <a href="/zh/#features">功能</a>
+      <a href="/zh/skill.html">AI 助手</a>
+      <a href="/zh/#pricing">价格</a>
+      <a id="lang-toggle" class="ic-btn ic-btn--sm" href="/skill.html" hreflang="en" data-lang-to="en">EN</a>
+    </nav>
+  </header>
+
+  <main class="doc">
+    
+    <h1>在 AI 助手里把 Markdown 发到 X 长文</h1>
+    <p class="updated">适用于插件 1.4.0 及以上 · 2026 年 9 月</p>
+
+    <p>装上 <code>x-md-paste</code> skill 后，你可以在 Claude Code、Codex 等 AI 助手里直接说「把这篇发到 X 长文」。它会在本机临时把这篇 Markdown 和里面的图片提供给浏览器里的 X 长文 Markdown 导入器，由插件新建草稿、渲染格式、上传图片。结果是一篇草稿，发不发由你在 X 上决定。</p>
+
+    <h2>准备</h2>
+    <ul>
+      <li><strong>浏览器插件 1.4.0 或更新版本</strong>，从 <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">Chrome 应用商店</a>或 <a href="https://microsoftedge.microsoft.com/addons/detail/olmcdmippmodgejpdicafcbcoegopken" target="_blank" rel="noopener">Edge 扩展商店</a>安装，并在这个浏览器里登录 x.com。</li>
+      <li><strong>Node.js 20 或更新版本。</strong>skill 附带的脚本只用 Node 自带模块，不需要 npm 安装任何东西。</li>
+      <li>一个能读 skill 的 AI 助手，比如 Claude Code。</li>
+    </ul>
+
+    <h2>安装方式一：让 AI 助手自己装（推荐）</h2>
+    <p>把下面这段话发给你的 AI 助手。不分操作系统，也不限于某一个 AI 工具。插件弹窗里的「复制安装提示词」按钮复制的就是这段。</p>
+    <pre class="skill-prompt"><code>请帮我安装「x-md-paste」skill，用来把本地 Markdown 发成 X 长文草稿：
+1. 下载这两个文件：
+   https://xmdpaste.icy-cat.com/skill/SKILL.md
+   https://xmdpaste.icy-cat.com/skill/xmdpaste.mjs
+2. 放进你的 skills 目录下名为 x-md-paste 的文件夹（Claude Code 是 ~/.claude/skills/x-md-paste/，其他工具用它自己的 skills 目录），文件名保持不变。
+3. 检查本机有 Node.js 20 或更新版本，没有就告诉我。
+4. 读一遍 SKILL.md。以后我说「把这篇发到 X 长文」时按它执行。
+前提：浏览器里装了 X Article Markdown Paste 插件 1.4.0 以上，并已登录 x.com。安装说明：https://xmdpaste.icy-cat.com/zh/skill.html</code></pre>
+
+    <h2>安装方式二：一条命令</h2>
+    <p>macOS / Linux，在终端里运行：</p>
+<pre><code>curl -fsSL https://xmdpaste.icy-cat.com/skill.sh | sh</code></pre>
+    <p>Windows，在 PowerShell 里运行：</p>
+<pre><code>irm https://xmdpaste.icy-cat.com/skill.ps1 | iex</code></pre>
+    <p>两条命令都只会往 <code>~/.claude/skills/x-md-paste/</code>（Windows 是 <code>%USERPROFILE%\.claude\skills\x-md-paste\</code>）写入两个文件，不碰别的地方。运行前可以先打开 <a href="/skill.sh">skill.sh</a> 或 <a href="/skill.ps1">skill.ps1</a> 看一眼内容。</p>
+
+    <h2>安装方式三：手动</h2>
+    <p>下载 <a href="/skill/SKILL.md">SKILL.md</a> 和 <a href="/skill/xmdpaste.mjs">xmdpaste.mjs</a>，放进 skills 目录下的 <code>x-md-paste</code> 文件夹，文件名不变。</p>
+
+    <h2>怎么用</h2>
+    <p>在 AI 助手里打开或提到一个 <code>.md</code> 文件，说「把这篇发到 X 长文」。接下来：</p>
+    <ol>
+      <li>脚本找到装了插件的浏览器，在里面打开 X 长文编辑器。</li>
+      <li>插件取走文档，新建草稿，渲染标题、列表、代码块、表格和推文嵌入，上传图片。</li>
+      <li>文章里有图片时会弹出封面选择框，选一张或点「不设置封面」。</li>
+      <li>检查草稿，满意后在 X 上发布。</li>
+    </ol>
+    <p>Obsidian 笔记会自动以 vault 根目录为准，<code>![[附件/图.png]]</code> 这类写法也能找到图片。相对路径、绝对路径、Windows 路径都支持，但图片必须在这个根目录之内。</p>
+
+    <h2>装了多个浏览器怎么办</h2>
+    <p>脚本会检查 Chrome、Edge、Brave、Arc、Chromium、Vivaldi 各个 profile 里的插件，优先用默认浏览器里版本够新的那份。想指定时，让 AI 助手在命令后面加上 <code>--browser edge</code> 或 <code>--profile "Profile 2"</code>。文档只交付一次，所以不会在两个浏览器里各建一篇。</p>
+
+    <h2>常见问题</h2>
+    <ul>
+      <li><strong>命令说「nobody picked the document up」并退出：</strong>浏览器里没有可用的插件。它会列出找到的每一份插件和原因，常见的是版本低于 1.4.0、插件被停用、装在另一个 profile，或者没登录 x.com。</li>
+      <li><strong>X 页面提示「already picked up」：</strong>同一个链接被打开了第二次。重新让 AI 助手执行一次即可。</li>
+      <li><strong>提示「the local tool is not running any more」：</strong>脚本已经空闲退出，通常是打开了一个旧链接。重新执行一次。</li>
+      <li><strong>提示部分图片上传失败：</strong>图片不在根目录内、文件不存在，或者超出了免费版每次的图片数量。</li>
+      <li><strong>X 页面一直空白：</strong>X 自己的页面没加载出来，刷新 x.com 后重新执行。</li>
+    </ul>
+
+    <h2>更新与卸载</h2>
+    <p>更新：重新运行一次安装命令或安装提示词，会覆盖那两个文件。卸载：删除 <code>x-md-paste</code> 文件夹。</p>
+    
+
+    
+  </main>
+
+  <footer class="site">
+    <div class="links">
+      <a href="/zh/">首页</a>
+      <a href="/zh/skill.html">AI 助手 skill</a>
+      <a href="/zh/x-articles-code-blocks-tables.html">代码块和表格</a>
+      <a href="/zh/compare.html">对比</a>
+      <a href="/zh/privacy.html">隐私政策</a>
+      <a href="mailto:lengkuxiaomao@gmail.com">联系</a>
+    </div>
+    <div>© 2026 IcyCat</div>
+  </footer>
+</div>
+</body>
+</html>

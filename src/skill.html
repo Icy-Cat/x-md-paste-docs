@@ -1,0 +1,174 @@
+<!doctype html>
+<html data-lang="en" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-zh="在 Claude Code、Codex 等 AI 助手里把 Markdown 发到 X 长文 | 安装 skill" data-en="Publish Markdown to X Articles from Claude Code, Codex and other AI assistants | Skill install">Publish Markdown to X Articles from Claude Code, Codex and other AI assistants | Skill install</title>
+  <meta name="description" content="Install the x-md-paste skill so Claude Code, Codex or another AI assistant can turn a local Markdown file into an X Article draft through the X Article Markdown Paste extension." data-zh="安装 x-md-paste skill，让 Claude Code、Codex 等 AI 助手通过 X 长文 Markdown 导入器，把本地 Markdown 直接建成 X 长文草稿。" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://xmdpaste.icy-cat.com/skill.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://xmdpaste.icy-cat.com/skill.html" />
+  <meta property="og:site_name" content="X Article Markdown Paste" />
+  <meta property="og:title" content="Publish Markdown to X Articles from Claude Code, Codex and other AI assistants" />
+  <meta property="og:description" content="Install the x-md-paste skill so your AI assistant can turn a local Markdown file into an X Article draft." />
+  <meta property="og:image" content="https://xmdpaste.icy-cat.com/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:creator" content="@icycat" />
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
+  <link rel="stylesheet" href="./icycat-uiux.css?v=20260913c" />
+  <link rel="stylesheet" href="./styles.css?v=20260917a" />
+  <script src="./lang.js" defer></script>
+</head>
+<body>
+<div class="ic-root" data-lang="mac">
+  <header class="site">
+    <a href="./" class="brand"><img class="mark" src="./favicon.png" alt="" width="128" height="128" /><span lang-zh>X 长文 Markdown 导入器</span><span lang-en>X Article Markdown Paste</span></a>
+    <nav>
+      <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener"><span lang-zh>安装</span><span lang-en>Install</span></a>
+      <a href="./#features"><span lang-zh>功能</span><span lang-en>Features</span></a>
+      <a href="./skill.html"><span lang-zh>AI 助手</span><span lang-en>AI skill</span></a>
+      <a href="./#pricing"><span lang-zh>价格</span><span lang-en>Pricing</span></a>
+      <button id="lang-toggle" class="ic-btn ic-btn--sm" type="button">中</button>
+    </nav>
+  </header>
+
+  <main class="doc">
+    <div lang-zh>
+    <h1>在 AI 助手里把 Markdown 发到 X 长文</h1>
+    <p class="updated">适用于插件 1.4.0 及以上 · 2026 年 9 月</p>
+
+    <p>装上 <code>x-md-paste</code> skill 后，你可以在 Claude Code、Codex 等 AI 助手里直接说「把这篇发到 X 长文」。它会在本机临时把这篇 Markdown 和里面的图片提供给浏览器里的 X 长文 Markdown 导入器，由插件新建草稿、渲染格式、上传图片。结果是一篇草稿，发不发由你在 X 上决定。</p>
+
+    <h2>准备</h2>
+    <ul>
+      <li><strong>浏览器插件 1.4.0 或更新版本</strong>，从 <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">Chrome 应用商店</a>或 <a href="https://microsoftedge.microsoft.com/addons/detail/olmcdmippmodgejpdicafcbcoegopken" target="_blank" rel="noopener">Edge 扩展商店</a>安装，并在这个浏览器里登录 x.com。</li>
+      <li><strong>Node.js 20 或更新版本。</strong>skill 附带的脚本只用 Node 自带模块，不需要 npm 安装任何东西。</li>
+      <li>一个能读 skill 的 AI 助手，比如 Claude Code。</li>
+    </ul>
+
+    <h2>安装方式一：让 AI 助手自己装（推荐）</h2>
+    <p>把下面这段话发给你的 AI 助手。不分操作系统，也不限于某一个 AI 工具。插件弹窗里的「复制安装提示词」按钮复制的就是这段。</p>
+    <!-- skill-prompt:zh --><pre class="skill-prompt"><code>请帮我安装「x-md-paste」skill，用来把本地 Markdown 发成 X 长文草稿：
+1. 下载这两个文件：
+   https://xmdpaste.icy-cat.com/skill/SKILL.md
+   https://xmdpaste.icy-cat.com/skill/xmdpaste.mjs
+2. 放进你的 skills 目录下名为 x-md-paste 的文件夹（Claude Code 是 ~/.claude/skills/x-md-paste/，其他工具用它自己的 skills 目录），文件名保持不变。
+3. 检查本机有 Node.js 20 或更新版本，没有就告诉我。
+4. 读一遍 SKILL.md。以后我说「把这篇发到 X 长文」时按它执行。
+前提：浏览器里装了 X Article Markdown Paste 插件 1.4.0 以上，并已登录 x.com。安装说明：https://xmdpaste.icy-cat.com/zh/skill.html</code></pre><!-- /skill-prompt:zh -->
+
+    <h2>安装方式二：一条命令</h2>
+    <p>macOS / Linux，在终端里运行：</p>
+<pre><code>curl -fsSL https://xmdpaste.icy-cat.com/skill.sh | sh</code></pre>
+    <p>Windows，在 PowerShell 里运行：</p>
+<pre><code>irm https://xmdpaste.icy-cat.com/skill.ps1 | iex</code></pre>
+    <p>两条命令都只会往 <code>~/.claude/skills/x-md-paste/</code>（Windows 是 <code>%USERPROFILE%\.claude\skills\x-md-paste\</code>）写入两个文件，不碰别的地方。运行前可以先打开 <a href="./skill.sh">skill.sh</a> 或 <a href="./skill.ps1">skill.ps1</a> 看一眼内容。</p>
+
+    <h2>安装方式三：手动</h2>
+    <p>下载 <a href="./skill/SKILL.md">SKILL.md</a> 和 <a href="./skill/xmdpaste.mjs">xmdpaste.mjs</a>，放进 skills 目录下的 <code>x-md-paste</code> 文件夹，文件名不变。</p>
+
+    <h2>怎么用</h2>
+    <p>在 AI 助手里打开或提到一个 <code>.md</code> 文件，说「把这篇发到 X 长文」。接下来：</p>
+    <ol>
+      <li>脚本找到装了插件的浏览器，在里面打开 X 长文编辑器。</li>
+      <li>插件取走文档，新建草稿，渲染标题、列表、代码块、表格和推文嵌入，上传图片。</li>
+      <li>文章里有图片时会弹出封面选择框，选一张或点「不设置封面」。</li>
+      <li>检查草稿，满意后在 X 上发布。</li>
+    </ol>
+    <p>Obsidian 笔记会自动以 vault 根目录为准，<code>![[附件/图.png]]</code> 这类写法也能找到图片。相对路径、绝对路径、Windows 路径都支持，但图片必须在这个根目录之内。</p>
+
+    <h2>装了多个浏览器怎么办</h2>
+    <p>脚本会检查 Chrome、Edge、Brave、Arc、Chromium、Vivaldi 各个 profile 里的插件，优先用默认浏览器里版本够新的那份。想指定时，让 AI 助手在命令后面加上 <code>--browser edge</code> 或 <code>--profile "Profile 2"</code>。文档只交付一次，所以不会在两个浏览器里各建一篇。</p>
+
+    <h2>常见问题</h2>
+    <ul>
+      <li><strong>命令说「nobody picked the document up」并退出：</strong>浏览器里没有可用的插件。它会列出找到的每一份插件和原因，常见的是版本低于 1.4.0、插件被停用、装在另一个 profile，或者没登录 x.com。</li>
+      <li><strong>X 页面提示「already picked up」：</strong>同一个链接被打开了第二次。重新让 AI 助手执行一次即可。</li>
+      <li><strong>提示「the local tool is not running any more」：</strong>脚本已经空闲退出，通常是打开了一个旧链接。重新执行一次。</li>
+      <li><strong>提示部分图片上传失败：</strong>图片不在根目录内、文件不存在，或者超出了免费版每次的图片数量。</li>
+      <li><strong>X 页面一直空白：</strong>X 自己的页面没加载出来，刷新 x.com 后重新执行。</li>
+    </ul>
+
+    <h2>更新与卸载</h2>
+    <p>更新：重新运行一次安装命令或安装提示词，会覆盖那两个文件。卸载：删除 <code>x-md-paste</code> 文件夹。</p>
+    </div>
+
+    <div lang-en>
+    <h1>Publish Markdown to X Articles from your AI assistant</h1>
+    <p class="updated">For extension 1.4.0 and newer · September 2026</p>
+
+    <p>With the <code>x-md-paste</code> skill installed, you can tell Claude Code, Codex or a similar AI assistant "post this to X as an article". It serves that Markdown file and its images locally, for a moment, to the X Article Markdown Paste extension in your browser, which creates a draft, renders the formatting and uploads the images. You get a draft; publishing is still your call on X.</p>
+
+    <h2>What you need</h2>
+    <ul>
+      <li><strong>The browser extension, 1.4.0 or newer</strong>, from the <a href="https://chromewebstore.google.com/detail/jpgelgkhcegcoblmekgacjmagkanpenn" target="_blank" rel="noopener">Chrome Web Store</a> or <a href="https://microsoftedge.microsoft.com/addons/detail/olmcdmippmodgejpdicafcbcoegopken" target="_blank" rel="noopener">Edge Add-ons</a>, with x.com signed in in that browser.</li>
+      <li><strong>Node.js 20 or newer.</strong> The skill's script uses only Node's built-in modules; nothing to npm install.</li>
+      <li>An AI assistant that reads skills, such as Claude Code.</li>
+    </ul>
+
+    <h2>Install option 1: let your AI assistant do it (recommended)</h2>
+    <p>Send this to your AI assistant. It works on any OS and with any assistant. The extension popup's "Copy install prompt" button copies exactly this.</p>
+    <!-- skill-prompt:en --><pre class="skill-prompt"><code>Please install the "x-md-paste" skill, which turns a local Markdown file into an X Article draft:
+1. Download these two files:
+   https://xmdpaste.icy-cat.com/skill/SKILL.md
+   https://xmdpaste.icy-cat.com/skill/xmdpaste.mjs
+2. Put them in a folder named x-md-paste inside your skills directory (for Claude Code: ~/.claude/skills/x-md-paste/; other tools: their own skills directory). Keep the file names.
+3. Check that Node.js 20 or newer is installed; tell me if it is not.
+4. Read SKILL.md. When I say "post this to X as an article", follow it.
+Requires the X Article Markdown Paste extension 1.4.0+ in the browser, signed in to x.com. Guide: https://xmdpaste.icy-cat.com/skill.html</code></pre><!-- /skill-prompt:en -->
+
+    <h2>Install option 2: one command</h2>
+    <p>macOS / Linux, in a terminal:</p>
+<pre><code>curl -fsSL https://xmdpaste.icy-cat.com/skill.sh | sh</code></pre>
+    <p>Windows, in PowerShell:</p>
+<pre><code>irm https://xmdpaste.icy-cat.com/skill.ps1 | iex</code></pre>
+    <p>Both only write two files into <code>~/.claude/skills/x-md-paste/</code> (on Windows, <code>%USERPROFILE%\.claude\skills\x-md-paste\</code>) and touch nothing else. You can read <a href="./skill.sh">skill.sh</a> or <a href="./skill.ps1">skill.ps1</a> first.</p>
+
+    <h2>Install option 3: by hand</h2>
+    <p>Download <a href="./skill/SKILL.md">SKILL.md</a> and <a href="./skill/xmdpaste.mjs">xmdpaste.mjs</a> into a folder named <code>x-md-paste</code> inside your skills directory, keeping the file names.</p>
+
+    <h2>Using it</h2>
+    <p>Open or mention a <code>.md</code> file in your AI assistant and say "post this to X as an article". Then:</p>
+    <ol>
+      <li>The script finds a browser with the extension and opens the X Articles editor there.</li>
+      <li>The extension picks up the document, creates a draft, renders headings, lists, code blocks, tables and tweet embeds, and uploads the images.</li>
+      <li>If the article has images, a cover dialog appears: pick one or choose no cover.</li>
+      <li>Review the draft and publish it on X when you are happy with it.</li>
+    </ol>
+    <p>Obsidian notes are served from the vault root automatically, so <code>![[attachments/pic.png]]</code> links resolve. Relative, absolute and Windows paths all work, as long as the images are inside that root.</p>
+
+    <h2>Several browsers installed?</h2>
+    <p>The script checks every profile of Chrome, Edge, Brave, Arc, Chromium and Vivaldi and prefers a new-enough copy in your default browser. To choose, ask your assistant to add <code>--browser edge</code> or <code>--profile "Profile 2"</code>. The document is handed over only once, so you never get a draft in two browsers.</p>
+
+    <h2>Troubleshooting</h2>
+    <ul>
+      <li><strong>The command says "nobody picked the document up" and exits:</strong> no usable extension answered. It lists every copy it found and why; usually the version is below 1.4.0, the extension is disabled or in another profile, or x.com is not signed in.</li>
+      <li><strong>X shows "already picked up":</strong> the same link was opened twice. Ask your assistant to run it again.</li>
+      <li><strong>"the local tool is not running any more":</strong> the script exited after going idle, usually because an old link was opened. Run it again.</li>
+      <li><strong>Some images failed to upload:</strong> the image is outside the root, missing, or over the free plan's per-paste image limit.</li>
+      <li><strong>The X page stays blank:</strong> X's own page did not load. Reload x.com and run it again.</li>
+    </ul>
+
+    <h2>Updating and removing</h2>
+    <p>Update by running the install command or prompt again; it overwrites the two files. Remove it by deleting the <code>x-md-paste</code> folder.</p>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="links">
+      <a href="./"><span lang-zh>首页</span><span lang-en>Home</span></a>
+      <a href="./skill.html"><span lang-zh>AI 助手 skill</span><span lang-en>AI assistant skill</span></a>
+      <a href="./x-articles-code-blocks-tables.html"><span lang-zh>代码块和表格</span><span lang-en>Code blocks &amp; tables</span></a>
+      <a href="./compare.html"><span lang-zh>对比</span><span lang-en>Compare</span></a>
+      <a href="./privacy.html"><span lang-zh>隐私政策</span><span lang-en>Privacy</span></a>
+      <a href="mailto:lengkuxiaomao@gmail.com"><span lang-zh>联系</span><span lang-en>Contact</span></a>
+    </div>
+    <div>© 2026 IcyCat</div>
+  </footer>
+</div>
+</body>
+</html>

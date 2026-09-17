@@ -71,7 +71,8 @@ function unwrap(html, tag) {
   return html;
 }
 
-const ASSET = /\.(css|js|png|jpg|svg|ico|xml|txt|webp)(\?|$)/;
+// Files served as-is from the site root: never language-prefixed.
+const ASSET = /\.(css|js|mjs|png|jpg|svg|ico|xml|txt|webp|sh|ps1|md)(\?|$)/;
 function rewriteLinks(html, lang) {
   const prefix = '/' + LANGS[lang].dir;
   return html.replace(/(href|src)="\.\/([^"]*)"/g, (m, attr, rest) => {
