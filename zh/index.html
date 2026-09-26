@@ -38,7 +38,7 @@
   {
     "@context": "https://schema.org",
     "@graph": [
-      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"安装后怎么用？","acceptedAnswer":{"@type":"Answer","text":"先从 Chrome Web Store 安装插件，再打开 X 文章编辑器 ，用 Ctrl+V 粘贴 Markdown 即可。也可以把 .md 文件直接拖进浏览器，让扩展自动新建草稿。"}},{"@type":"Question","name":"X 长文支持 Markdown 吗？","acceptedAnswer":{"@type":"Answer","text":"X 长文编辑器本身不认 Markdown：直接粘贴会把图片变成一行 ![](url) 、表格塌成一堆竖线、代码块丢掉灰底。这个扩展在粘贴时把 Markdown 转成 X 编辑器接受的原生格式，图片会走 X 自己的上传通道，表格渲染成图片，代码块保留等宽格式。"}},{"@type":"Question","name":"会读取我的 X 账号或文章内容吗？","acceptedAnswer":{"@type":"Answer","text":"不会。扩展只在 x.com/compose/articles/* 页面工作，不读取你的 cookie 或密码，也不会上传文章内容。详见 隐私政策 。"}},{"@type":"Question","name":"付款后去哪找激活码？","acceptedAnswer":{"@type":"Answer","text":"付款后，Creem 会向你购买时填写的邮箱发送订单确认邮件（标题大致是 Your X Article Markdown Paste order ）。点击邮件里的 \"View Order\" / 查看订单 ，进入 Creem 订单页： ① 左侧 Orders 列表 ：点击 \"X Article Markdown Paste — Pro\" 这一条订单 ② 右侧 License Key 区域 ：复制形如 5VLZ0-…-…-…-… 的激活码 拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 License Key 输入框，然后按回车。每个早鸟激活码最多可在 5 台设备上使用。"}},{"@type":"Question","name":"能退款吗？","acceptedAnswer":{"@type":"Answer","text":"购买后 7 天内如果不满意，可以申请全额退款。请把订单号发到 lengkuxiaomao@gmail.com 。"}},{"@type":"Question","name":"X 改版后会不会失效？","acceptedAnswer":{"@type":"Answer","text":"有可能。X 的编辑器改版时，扩展偶尔会失效。发现问题后，我会尽量在 24-48 小时内修复并推送更新，Chrome 会自动安装新版扩展。"}},{"@type":"Question","name":"支持 Firefox / Edge / Safari 吗？","acceptedAnswer":{"@type":"Answer","text":"目前支持 Chrome，以及 Edge、Brave、Arc 等基于 Chromium 的浏览器。Firefox 和 Safari 会放在后续版本规划里。"}}],"@id":"https://xmdpaste.icy-cat.com/zh/#faq"},
+      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"安装后怎么用？","acceptedAnswer":{"@type":"Answer","text":"先从 Chrome Web Store 安装插件，再打开 X 文章编辑器 ，用 Ctrl+V 粘贴 Markdown 即可。也可以把 .md 文件直接拖进浏览器，让扩展自动新建草稿。"}},{"@type":"Question","name":"X 长文支持 Markdown 吗？","acceptedAnswer":{"@type":"Answer","text":"X 长文编辑器本身不认 Markdown：直接粘贴会把图片变成一行 ![](url) 、表格塌成一堆竖线、代码块丢掉灰底。这个扩展在粘贴时把 Markdown 转成 X 编辑器接受的原生格式，图片会走 X 自己的上传通道，表格渲染成图片，代码块保留等宽格式。"}},{"@type":"Question","name":"会读取我的 X 账号或文章内容吗？","acceptedAnswer":{"@type":"Answer","text":"不会。扩展只在 x.com/compose/articles/* 页面工作，不读取你的 cookie 或密码，也不会上传文章内容。详见 隐私政策 。"}},{"@type":"Question","name":"付款后去哪找激活码？","acceptedAnswer":{"@type":"Answer","text":"付款后，Creem 会向你购买时填写的邮箱发送订单确认邮件（标题大致是 Your X Article Markdown Paste order ）。点击邮件里的 \"View Order\" / 查看订单 ，进入 Creem 订单页： ① 左侧 Orders 列表 ：点击 \"X Article Markdown Paste — Pro\" 这一条订单 ② 右侧 License Key 区域 ：复制形如 5VLZ0-…-…-…-… 的激活码 拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 License Key 输入框，然后按回车。每个激活码最多可在 5 台设备上使用。"}},{"@type":"Question","name":"能退款吗？","acceptedAnswer":{"@type":"Answer","text":"购买后 7 天内如果不满意，可以申请全额退款。请把订单号发到 lengkuxiaomao@gmail.com 。"}},{"@type":"Question","name":"X 改版后会不会失效？","acceptedAnswer":{"@type":"Answer","text":"有可能。X 的编辑器改版时，扩展偶尔会失效。发现问题后，我会尽量在 24-48 小时内修复并推送更新，Chrome 会自动安装新版扩展。"}},{"@type":"Question","name":"支持 Firefox / Edge / Safari 吗？","acceptedAnswer":{"@type":"Answer","text":"目前支持 Chrome，以及 Edge、Brave、Arc 等基于 Chromium 的浏览器。Firefox 和 Safari 会放在后续版本规划里。"}}],"@id":"https://xmdpaste.icy-cat.com/zh/#faq"},
       {
         "@type": "WebSite",
         "@id": "https://xmdpaste.icy-cat.com/#website",
@@ -61,14 +61,24 @@
           "name": "IcyCat",
           "url": "https://xmdpaste.icy-cat.com/"
         },
-        "offers": {
-          "@type": "Offer",
-          "name": "Pro Lifetime Early Bird",
-          "price": "29",
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/InStock",
-          "url": "https://pay.icy-cat.com/?p=xmd&plan=forever"
-        }
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Pro monthly",
+            "price": "4.90",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://pay.icy-cat.com/?p=xmd&plan=month"
+          },
+          {
+            "@type": "Offer",
+            "name": "Pro yearly",
+            "price": "49.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://pay.icy-cat.com/?p=xmd&plan=year"
+          }
+        ]
       }
     ]
   }
@@ -203,24 +213,24 @@
 
   <section id="pricing">
     <div class="container">
-      <p class="kicker center">Subscription Notice</p>
+      <p class="kicker center">Pricing</p>
       <h2 class="center">
-        早鸟价 $29，买断使用
+        免费用，Pro 按月或按年订阅
         
       </h2>
       <p class="lead center">
-        当前线上版本仍是 $29 一次性买断早鸟价。用户数量超过 300 后，将转为订阅制。
+        装上即带 14 天完整 Pro 试用，无需注册或信用卡；试用结束自动回到免费版，已导入的文章不受影响。
         
       </p>
 
       <div class="ic-card price-card">
         <span class="ic-badge">
-          推荐
+          Pro
           
         </span>
-        <div class="amount"><span class="currency">$</span>29</div>
+        <div class="amount"><span class="currency">$</span>4.9</div>
         <span class="period">
-          一次性买断 · 早鸟价 · 最多支持 5 台设备
+          每月 · 或 $49 / 年（约省 17%）· 最多支持 5 台设备
           
         </span>
         <ul>
@@ -233,22 +243,29 @@
         </ul>
         <div class="plan-actions">
           
-          <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=forever" target="_blank" rel="noopener">
-            购买早鸟价 $29
+          <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=month" target="_blank" rel="noopener">
+            月付 $4.9
+            
+          </a>
+          <a class="ic-btn" href="https://pay.icy-cat.com/?p=xmd&amp;plan=year" target="_blank" rel="noopener">
+            年付 $49
             
           </a>
         </div>
         <p class="later">
-          这是当前早鸟买断价。超过 300 位用户后，新用户将按订阅制购买；已购买的早鸟授权不受影响。
+          之前购买的早鸟买断授权继续长期有效，不受影响。
           
         </p>
       </div>
 
-      
       <div id="cn" class="ic-card cn-card">
         <h3>国内用户支持</h3>
-        <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=forever" target="_blank" rel="noopener">
-          支付宝购买 ¥199 · 买断
+        <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=month" target="_blank" rel="noopener">
+          支付宝月付 ¥19
+          
+        </a>
+        <a class="ic-btn" href="https://pay.icy-cat.com/?p=xmd&amp;plan=year" target="_blank" rel="noopener">
+          支付宝年付 ¥99
           
         </a>
       </div>
@@ -294,7 +311,7 @@
             </ol>
             <img src="/creem-find-license-key.png" alt="Creem dashboard: how to locate license key" width="1555" height="575" loading="lazy" style="width: 100%; max-width: 720px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(127,127,127,0.3);" />
             <p style="margin-top: 10px;">
-              拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 <strong>License Key</strong> 输入框，然后按回车。每个早鸟激活码最多可在 5 台设备上使用。
+              拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 <strong>License Key</strong> 输入框，然后按回车。每个激活码最多可在 5 台设备上使用。
               
             </p>
           </div>

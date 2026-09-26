@@ -38,7 +38,7 @@
   {
     "@context": "https://schema.org",
     "@graph": [
-      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I install and use it?","acceptedAnswer":{"@type":"Answer","text":"Install from the Chrome Web Store , open the X article editor , then Ctrl+V your Markdown. Or drag a .md file onto the browser to create a fresh draft."}},{"@type":"Question","name":"Does X Articles support Markdown?","acceptedAnswer":{"@type":"Answer","text":"Not natively. Paste Markdown into the X Articles editor and images become a line of ![](url) , tables collapse into pipes, and code blocks lose their formatting. This extension converts Markdown to X Articles' native format on paste: images upload through X's own media pipeline, tables render as images, and code blocks keep their monospace style."}},{"@type":"Question","name":"Does it leak my X account or content?","acceptedAnswer":{"@type":"Answer","text":"No. The extension only runs on x.com/compose/articles/* , doesn't read your cookies or password, and uploads zero article content. See Privacy Policy ."}},{"@type":"Question","name":"Where do I find the license key after purchase?","acceptedAnswer":{"@type":"Answer","text":"Creem sends an order confirmation email (subject roughly Your X Article Markdown Paste order ) to the address you entered at checkout. Click the \"View Order\" link inside the email to open your order page on Creem: ① Orders panel on the left : click the \"X Article Markdown Paste — Pro\" row ② License Key panel on the right : copy the 5VLZ0-…-…-…-… key Once you have the key, click the extension icon in Chrome's toolbar, paste it into the License Key field, press Enter. Each early-bird key activates on up to 5 devices."}},{"@type":"Question","name":"Can I get a refund?","acceptedAnswer":{"@type":"Answer","text":"Yes — within 7 days of purchase if you're not satisfied. Email lengkuxiaomao@gmail.com with your order ID."}},{"@type":"Question","name":"Does it break when X updates its UI?","acceptedAnswer":{"@type":"Answer","text":"Occasionally yes, but we monitor closely — usually fixed and pushed within 24-48 hours of breakage. Chrome auto-updates the extension."}},{"@type":"Question","name":"Firefox / Edge / Safari support?","acceptedAnswer":{"@type":"Answer","text":"Currently Chrome and Chromium-based browsers (Edge, Brave, Arc) only. Firefox and Safari are on the v1.5 roadmap."}}],"@id":"https://xmdpaste.icy-cat.com/#faq"},
+      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I install and use it?","acceptedAnswer":{"@type":"Answer","text":"Install from the Chrome Web Store , open the X article editor , then Ctrl+V your Markdown. Or drag a .md file onto the browser to create a fresh draft."}},{"@type":"Question","name":"Does X Articles support Markdown?","acceptedAnswer":{"@type":"Answer","text":"Not natively. Paste Markdown into the X Articles editor and images become a line of ![](url) , tables collapse into pipes, and code blocks lose their formatting. This extension converts Markdown to X Articles' native format on paste: images upload through X's own media pipeline, tables render as images, and code blocks keep their monospace style."}},{"@type":"Question","name":"Does it leak my X account or content?","acceptedAnswer":{"@type":"Answer","text":"No. The extension only runs on x.com/compose/articles/* , doesn't read your cookies or password, and uploads zero article content. See Privacy Policy ."}},{"@type":"Question","name":"Where do I find the license key after purchase?","acceptedAnswer":{"@type":"Answer","text":"Creem sends an order confirmation email (subject roughly Your X Article Markdown Paste order ) to the address you entered at checkout. Click the \"View Order\" link inside the email to open your order page on Creem: ① Orders panel on the left : click the \"X Article Markdown Paste — Pro\" row ② License Key panel on the right : copy the 5VLZ0-…-…-…-… key Once you have the key, click the extension icon in Chrome's toolbar, paste it into the License Key field, press Enter. Each key activates on up to 5 devices."}},{"@type":"Question","name":"Can I get a refund?","acceptedAnswer":{"@type":"Answer","text":"Yes — within 7 days of purchase if you're not satisfied. Email lengkuxiaomao@gmail.com with your order ID."}},{"@type":"Question","name":"Does it break when X updates its UI?","acceptedAnswer":{"@type":"Answer","text":"Occasionally yes, but we monitor closely — usually fixed and pushed within 24-48 hours of breakage. Chrome auto-updates the extension."}},{"@type":"Question","name":"Firefox / Edge / Safari support?","acceptedAnswer":{"@type":"Answer","text":"Currently Chrome and Chromium-based browsers (Edge, Brave, Arc) only. Firefox and Safari are on the v1.5 roadmap."}}],"@id":"https://xmdpaste.icy-cat.com/#faq"},
       {
         "@type": "WebSite",
         "@id": "https://xmdpaste.icy-cat.com/#website",
@@ -61,14 +61,24 @@
           "name": "IcyCat",
           "url": "https://xmdpaste.icy-cat.com/"
         },
-        "offers": {
-          "@type": "Offer",
-          "name": "Pro Lifetime Early Bird",
-          "price": "29",
-          "priceCurrency": "USD",
-          "availability": "https://schema.org/InStock",
-          "url": "https://pay.icy-cat.com/?p=xmd&plan=forever"
-        }
+        "offers": [
+          {
+            "@type": "Offer",
+            "name": "Pro monthly",
+            "price": "4.90",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://pay.icy-cat.com/?p=xmd&plan=month"
+          },
+          {
+            "@type": "Offer",
+            "name": "Pro yearly",
+            "price": "49.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://pay.icy-cat.com/?p=xmd&plan=year"
+          }
+        ]
       }
     ]
   }
@@ -203,25 +213,25 @@
 
   <section id="pricing">
     <div class="container">
-      <p class="kicker center">Subscription Notice</p>
+      <p class="kicker center">Pricing</p>
       <h2 class="center">
         
-        Early bird $29, lifetime access
+        Free to use. Pro is a monthly or yearly subscription
       </h2>
       <p class="lead center">
         
-        The current live version is still a $29 lifetime early-bird license. After the user count exceeds 300, Pro will move to a subscription model.
+        Every install starts with a 14-day full Pro trial, no sign-up or card needed. When it ends you drop back to the free tier; articles you already imported are not affected.
       </p>
 
       <div class="ic-card price-card">
         <span class="ic-badge">
           
-          Recommended
+          Pro
         </span>
-        <div class="amount"><span class="currency">$</span>29</div>
+        <div class="amount"><span class="currency">$</span>4.9</div>
         <span class="period">
           
-          One-time payment · early bird · up to 5 devices
+          per month · or $49 / year (about 17% off) · up to 5 devices
         </span>
         <ul>
           <li>Unlimited images, tables, tweet embeds</li>
@@ -233,23 +243,30 @@
         </ul>
         <div class="plan-actions">
           
-          <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=forever" target="_blank" rel="noopener">
+          <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=month" target="_blank" rel="noopener">
             
-            Buy early bird $29
+            Monthly $4.9
+          </a>
+          <a class="ic-btn" href="https://pay.icy-cat.com/?p=xmd&amp;plan=year" target="_blank" rel="noopener">
+            
+            Yearly $49
           </a>
         </div>
         <p class="later">
           
-          This is the current lifetime early-bird price. After 300 users, new purchases will move to subscriptions; existing early-bird licenses are not affected.
+          Lifetime early-bird licenses bought earlier stay valid and are not affected.
         </p>
       </div>
 
-      
       <div id="cn" class="ic-card cn-card">
         <h3>Support for China users</h3>
-        <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=forever" target="_blank" rel="noopener">
+        <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=month" target="_blank" rel="noopener">
           
-          Buy with Alipay · ¥199 lifetime
+          Alipay monthly ¥19
+        </a>
+        <a class="ic-btn" href="https://pay.icy-cat.com/?p=xmd&amp;plan=year" target="_blank" rel="noopener">
+          
+          Alipay yearly ¥99
         </a>
       </div>
     </div>
@@ -295,7 +312,7 @@
             <img src="/creem-find-license-key.png" alt="Creem dashboard: how to locate license key" width="1555" height="575" loading="lazy" style="width: 100%; max-width: 720px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(127,127,127,0.3);" />
             <p style="margin-top: 10px;">
               
-              Once you have the key, click the extension icon in Chrome's toolbar, paste it into the <strong>License Key</strong> field, press Enter. Each early-bird key activates on up to 5 devices.
+              Once you have the key, click the extension icon in Chrome's toolbar, paste it into the <strong>License Key</strong> field, press Enter. Each key activates on up to 5 devices.
             </p>
           </div>
         </details>
