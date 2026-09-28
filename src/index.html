@@ -354,5 +354,26 @@
     <div>© 2026 IcyCat · <span lang-zh>独立开发者作品</span><span lang-en>Built solo</span></div>
   </footer>
 </div>
+<!-- 收银台页内弹层：pay.icy-cat.com 的 frame-ancestors 已放行 *.icy-cat.com，
+     链接照旧保留 href，JS 失效或被拦时就是普通新标签页。 -->
+<dialog id="pay-dialog" class="pay-dialog">
+  <button type="button" class="pay-close" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
+  <iframe title="Checkout" referrerpolicy="origin"></iframe>
+</dialog>
+<script>
+  (() => {
+    const dlg = document.getElementById('pay-dialog');
+    const frame = dlg.querySelector('iframe');
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest && e.target.closest('a[href^="https://pay.icy-cat.com/"]');
+      if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      frame.src = a.href;
+      dlg.showModal();
+    });
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener('close', () => frame.removeAttribute('src'));
+  })();
+</script>
 </body>
 </html>

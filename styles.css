@@ -299,3 +299,10 @@ html[data-lang="en"] [lang-en] { display: revert; }
            overflow-x: auto; font-size: var(--ic-fs-sm); line-height: 1.6; }
 .doc pre code { background: none; padding: 0; }
 .doc pre.skill-prompt { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* 页内收银台弹层 */
+.pay-dialog { width: min(520px, calc(100vw - 32px)); height: min(760px, calc(100vh - 32px)); padding: 0; border: 0; border-radius: var(--ic-r-lg); background: var(--ic-surface); box-shadow: var(--ic-pop); overflow: hidden; }
+.pay-dialog::backdrop { background: var(--ic-scrim, rgba(0,0,0,.45)); }
+.pay-dialog iframe { width: 100%; height: 100%; border: 0; display: block; }
+.pay-close { position: absolute; top: 8px; right: 8px; z-index: 1; width: 32px; height: 32px; border: 0; border-radius: 50%; background: var(--ic-surface-2, rgba(127,127,127,.15)); color: inherit; font-size: 20px; line-height: 1; cursor: pointer; }
+@media (max-width: 480px) { .pay-dialog { width: 100vw; height: 100dvh; max-width: none; max-height: none; border-radius: 0; } }
