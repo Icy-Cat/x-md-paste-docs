@@ -1,0 +1,15 @@
+# 官网部署在 Cloudflare Workers 静态资源上（2026-09-28 从 GitHub Pages 迁来）。
+#   npx wrangler deploy        # 先 node build.mjs；push main 时 GitHub Actions 自动跑
+name = "xmdpaste-site"
+main = "worker.js"
+account_id = "cadc5ca42f2cb6aa28d0301ffeed8ad1"
+compatibility_date = "2026-06-18"
+
+[assets]
+directory = "."
+binding = "ASSETS"
+html_handling = "none"
+
+[[routes]]
+pattern = "xmdpaste.icy-cat.com"
+custom_domain = true

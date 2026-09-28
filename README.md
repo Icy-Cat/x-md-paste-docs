@@ -1,7 +1,8 @@
 # X Article Markdown Paste — Public site
 
 Marketing page + legal docs for the [X Article Markdown Paste](https://xmdpaste.icy-cat.com)
-Chrome extension. Hosted via GitHub Pages, served from `xmdpaste.icy-cat.com`.
+Chrome extension. Served from `xmdpaste.icy-cat.com` by a Cloudflare Worker with static assets
+(`wrangler.toml`, `worker.js`); every push to `main` deploys via `.github/workflows/deploy.yml`.
 
 The extension's source is private; this repo holds only the public-facing site.
 

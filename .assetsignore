@@ -1,0 +1,13 @@
+.git
+.github
+src
+build.mjs
+README.md
+wrangler.toml
+.assetsignore
+.wrangler
+CNAME
+.nojekyll
+node_modules
+worker.js
+.gitignore

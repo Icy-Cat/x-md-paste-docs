@@ -1,0 +1,19 @@
+# push main → 部署到 Cloudflare（xmdpaste.icy-cat.com）。
+# 构建产物照旧提交在仓库里，这里只校验没过期，不重新生成。
+name: deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node build.mjs --check
+      - run: npx -y wrangler@4 deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
