@@ -372,7 +372,12 @@
       dlg.showModal();
     });
     dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
-    dlg.addEventListener('close', () => frame.removeAttribute('src'));
+    dlg.addEventListener('close', () => { frame.removeAttribute('src'); frame.style.height = ''; });
+    // 收银台在 iframe 里上报自己的内容高度，弹层跟着缩放，不留大块空白。
+    addEventListener('message', (e) => {
+      if (e.origin !== 'https://pay.icy-cat.com' || e.source !== frame.contentWindow) return;
+      if (e.data && e.data.type === 'checkout-height') frame.style.height = e.data.height + 'px';
+    });
   })();
 </script>
 </body>
