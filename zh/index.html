@@ -39,7 +39,7 @@
   {
     "@context": "https://schema.org",
     "@graph": [
-      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"安装后怎么用？","acceptedAnswer":{"@type":"Answer","text":"先从 Chrome Web Store 安装插件，再打开 X 文章编辑器 ，用 Ctrl+V 粘贴 Markdown 即可。也可以把 .md 文件直接拖进浏览器，让扩展自动新建草稿。"}},{"@type":"Question","name":"X 长文支持 Markdown 吗？","acceptedAnswer":{"@type":"Answer","text":"X 长文编辑器本身不认 Markdown：直接粘贴会把图片变成一行 ![](url) 、表格塌成一堆竖线、代码块丢掉灰底。这个扩展在粘贴时把 Markdown 转成 X 编辑器接受的原生格式，图片会走 X 自己的上传通道，表格渲染成图片，代码块保留等宽格式。"}},{"@type":"Question","name":"会读取我的 X 账号或文章内容吗？","acceptedAnswer":{"@type":"Answer","text":"不会。扩展只在 x.com/compose/articles/* 页面工作，不读取你的 cookie 或密码，也不会上传文章内容。详见 隐私政策 。"}},{"@type":"Question","name":"付款后去哪找激活码？","acceptedAnswer":{"@type":"Answer","text":"付款后，Creem 会向你购买时填写的邮箱发送订单确认邮件（标题大致是 Your X Article Markdown Paste order ）。点击邮件里的 \"View Order\" / 查看订单 ，进入 Creem 订单页： ① 左侧 Orders 列表 ：点击 \"X Article Markdown Paste — Pro\" 这一条订单 ② 右侧 License Key 区域 ：复制形如 5VLZ0-…-…-…-… 的激活码 拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 License Key 输入框，然后按回车。每个激活码最多可在 5 台设备上使用。"}},{"@type":"Question","name":"能退款吗？","acceptedAnswer":{"@type":"Answer","text":"购买后 7 天内如果不满意，可以申请全额退款。请把订单号发到 lengkuxiaomao@gmail.com 。"}},{"@type":"Question","name":"X 改版后会不会失效？","acceptedAnswer":{"@type":"Answer","text":"有可能。X 的编辑器改版时，扩展偶尔会失效。发现问题后，我会尽量在 24-48 小时内修复并推送更新，Chrome 会自动安装新版扩展。"}},{"@type":"Question","name":"支持 Firefox / Edge / Safari 吗？","acceptedAnswer":{"@type":"Answer","text":"目前支持 Chrome，以及 Edge、Brave、Arc 等基于 Chromium 的浏览器。Firefox 和 Safari 会放在后续版本规划里。"}}],"@id":"https://xmdpaste.icy-cat.com/zh/#faq"},
+      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"安装后怎么用？","acceptedAnswer":{"@type":"Answer","text":"先从 Chrome Web Store 安装插件，再打开 X 文章编辑器 ，用 Ctrl+V 粘贴 Markdown 即可。也可以把 .md 文件直接拖进浏览器，让扩展自动新建草稿。"}},{"@type":"Question","name":"X 长文支持 Markdown 吗？","acceptedAnswer":{"@type":"Answer","text":"X 长文编辑器本身不认 Markdown：直接粘贴会把图片变成一行 ![](url) 、表格塌成一堆竖线、代码块丢掉灰底。这个扩展在粘贴时把 Markdown 转成 X 编辑器接受的原生格式，图片会走 X 自己的上传通道，表格渲染成图片，代码块保留等宽格式。"}},{"@type":"Question","name":"会读取我的 X 账号或文章内容吗？","acceptedAnswer":{"@type":"Answer","text":"不会。扩展只在 x.com/compose/articles/* 页面工作，不读取你的 cookie 或密码，也不会上传文章内容。详见 隐私政策 。"}},{"@type":"Question","name":"付款后去哪找激活码？","acceptedAnswer":{"@type":"Answer","text":"付款后，Creem 会向你购买时填写的邮箱发送订单确认邮件（标题大致是 Your X Article Markdown Paste order ）。点击邮件里的 \"View Order\" / 查看订单 ，进入 Creem 订单页： ① 左侧 Orders 列表 ：点击 \"X Article Markdown Paste — Pro\" 这一条订单 ② 右侧 License Key 区域 ：复制形如 5VLZ0-…-…-…-… 的激活码 拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 License Key 输入框，然后按回车。每个激活码最多可在 5 台设备上使用。"}},{"@type":"Question","name":"能退款吗？","acceptedAnswer":{"@type":"Answer","text":"购买后 7 天内如果不满意，可以申请全额退款。请把订单号发到 中文 lengkuxiaomao@gmail.com 。"}},{"@type":"Question","name":"X 改版后会不会失效？","acceptedAnswer":{"@type":"Answer","text":"有可能。X 的编辑器改版时，扩展偶尔会失效。发现问题后，我会尽量在 24-48 小时内修复并推送更新，Chrome 会自动安装新版扩展。"}},{"@type":"Question","name":"支持 Firefox / Edge / Safari 吗？","acceptedAnswer":{"@type":"Answer","text":"目前支持 Chrome，以及 Edge、Brave、Arc 等基于 Chromium 的浏览器。Firefox 和 Safari 会放在后续版本规划里。"}}],"@id":"https://xmdpaste.icy-cat.com/zh/#faq"},
       {
         "@type": "WebSite",
         "@id": "https://xmdpaste.icy-cat.com/#website",
@@ -343,7 +343,8 @@
         <details class="ic-collapse">
           <summary>能退款吗？</summary>
           <div class="ic-collapse__body">
-            购买后 7 天内如果不满意，可以申请全额退款。请把订单号发到 <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a>。
+            购买后 7 天内如果不满意，可以申请全额退款。请把订单号发到 <a href="/zh/zh/">中文</a>
+      <a href="mailto:lengkuxiaomao@gmail.com">lengkuxiaomao@gmail.com</a>。
             
           </div>
         </details>
