@@ -14,7 +14,7 @@
   gtag('config', ID);
 
   const STORE = /chromewebstore\.google\.com|microsoftedge\.microsoft\.com/;
-  const CHECKOUT = /pay\.icy-cat\.com|creem\.io/;
+  const CHECKOUT = /xmdpaste-pay\.icy-cat\.com|checkout\.stripe\.com/;
   const tagStoreLinks = () => document.querySelectorAll('a[href]').forEach((a) => {
     if (!STORE.test(a.href) || a.href.includes('utm_source=')) return;
     const u = new URL(a.href);
@@ -26,6 +26,11 @@
   else tagStoreLinks();
 
   document.addEventListener('click', (e) => {
+    const checkout = e.target.closest && e.target.closest('[data-checkout-plan]');
+    if (checkout) {
+      gtag('event', 'checkout_click', { plan: checkout.dataset.checkoutPlan });
+      return;
+    }
     const a = e.target.closest && e.target.closest('a[href]');
     if (!a) return;
     if (STORE.test(a.href)) gtag('event', 'install_click', { store: a.href.includes('microsoftedge') ? 'edge' : 'chrome', link_url: a.href });

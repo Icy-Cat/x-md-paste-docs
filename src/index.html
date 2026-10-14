@@ -32,6 +32,7 @@
   <link rel="stylesheet" href="./styles.css?v=20260928a" />
   <script src="./lang.js" defer></script>
   <script src="./analytics.js" defer></script>
+  <script src="./checkout.js" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -65,7 +66,7 @@
             "price": "4.90",
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
-            "url": "https://pay.icy-cat.com/?p=xmd&plan=month"
+            "url": "https://xmdpaste.icy-cat.com/#pricing"
           },
           {
             "@type": "Offer",
@@ -73,7 +74,7 @@
             "price": "49.00",
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
-            "url": "https://pay.icy-cat.com/?p=xmd&plan=year"
+            "url": "https://xmdpaste.icy-cat.com/#pricing"
           }
         ]
       }
@@ -239,16 +240,14 @@
           <li><span lang-zh>支持信用卡 / Apple Pay / Google Pay</span><span lang-en>Card / Apple Pay / Google Pay</span></li>
         </ul>
         <div class="plan-actions">
-          <!-- 走 pay.icy-cat.com 的收银台（license-worker wrangler.pay.toml 里的 xmd month/year），
-               信用卡和支付宝并排，付完由 Worker 直接发激活码。 -->
-          <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=month" target="_blank" rel="noopener">
+          <button class="ic-btn ic-btn--primary" type="button" data-checkout-plan="month">
             <span lang-zh>月付 $4.9</span>
             <span lang-en>Monthly $4.9</span>
-          </a>
-          <a class="ic-btn" href="https://pay.icy-cat.com/?p=xmd&amp;plan=year" target="_blank" rel="noopener">
+          </button>
+          <button class="ic-btn" type="button" data-checkout-plan="year">
             <span lang-zh>年付 $49</span>
             <span lang-en>Yearly $49</span>
-          </a>
+          </button>
         </div>
         <p class="later">
           <span lang-zh>之前购买的早鸟买断授权继续长期有效，不受影响。</span>
@@ -256,17 +255,6 @@
         </p>
       </div>
 
-      <div id="cn" class="ic-card cn-card">
-        <h3><span lang-zh>国内用户支持</span><span lang-en>Support for China users</span></h3>
-        <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=month" target="_blank" rel="noopener">
-          <span lang-zh>支付宝月付 ¥19</span>
-          <span lang-en>Alipay monthly ¥19</span>
-        </a>
-        <a class="ic-btn" href="https://pay.icy-cat.com/?p=xmd&amp;plan=year" target="_blank" rel="noopener">
-          <span lang-zh>支付宝年付 ¥99</span>
-          <span lang-en>Alipay yearly ¥99</span>
-        </a>
-      </div>
     </div>
   </section>
 
@@ -323,17 +311,16 @@
           <summary><span lang-zh>付款后去哪找激活码？</span><span lang-en>Where do I find the license key after purchase?</span></summary>
           <div class="ic-collapse__body">
             <p>
-              <span lang-zh>付款后，Creem 会向你购买时填写的邮箱发送订单确认邮件（标题大致是 <em>Your X Article Markdown Paste order</em>）。点击邮件里的 <strong>"View Order"</strong> / <strong>查看订单</strong>，进入 Creem 订单页：</span>
-              <span lang-en>Creem sends an order confirmation email (subject roughly <em>Your X Article Markdown Paste order</em>) to the address you entered at checkout. Click the <strong>"View Order"</strong> link inside the email to open your order page on Creem:</span>
+              <span lang-zh>Stripe 确认付款后会自动回到激活码页面。请先复制并保存页面上形如 <code>XMP-…-…-…-…</code> 的激活码：</span>
+              <span lang-en>After Stripe confirms payment, Checkout redirects you to a page showing an <code>XMP-…-…-…-…</code> license key. Copy and save it:</span>
             </p>
             <ol class="license-steps">
-              <li><span lang-zh><strong>① 左侧 Orders 列表</strong>：点击 "X Article Markdown Paste — Pro" 这一条订单</span><span lang-en><strong>① Orders panel on the left</strong>: click the "X Article Markdown Paste — Pro" row</span></li>
-              <li><span lang-zh><strong>② 右侧 License Key 区域</strong>：复制形如 <code>5VLZ0-…-…-…-…</code> 的激活码</span><span lang-en><strong>② License Key panel on the right</strong>: copy the <code>5VLZ0-…-…-…-…</code> key</span></li>
+              <li><span lang-zh><strong>① 复制激活码</strong>：在付款成功页点击“复制激活码”</span><span lang-en><strong>① Copy the key</strong>: click “Copy license key” on the payment success page</span></li>
+              <li><span lang-zh><strong>② 打开扩展</strong>：点击 Chrome 工具栏里的扩展图标</span><span lang-en><strong>② Open the extension</strong>: click its icon in the Chrome toolbar</span></li>
             </ol>
-            <img src="./creem-find-license-key.png" alt="Creem dashboard: how to locate license key" width="1555" height="575" loading="lazy" style="width: 100%; max-width: 720px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(127,127,127,0.3);" />
             <p style="margin-top: 10px;">
-              <span lang-zh>拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 <strong>License Key</strong> 输入框，然后按回车。每个激活码最多可在 5 台设备上使用。</span>
-              <span lang-en>Once you have the key, click the extension icon in Chrome's toolbar, paste it into the <strong>License Key</strong> field, press Enter. Each key activates on up to 5 devices.</span>
+              <span lang-zh>把激活码粘贴到 <strong>License Key</strong> 输入框并按回车。每个激活码最多可在 5 台设备上使用；如果付款后没有看到激活码，请带上 Stripe 付款邮箱联系支持。</span>
+              <span lang-en>Paste it into the <strong>License Key</strong> field and press Enter. Each key activates on up to 5 devices. If the success page did not appear, contact support using the email from your Stripe payment.</span>
             </p>
           </div>
         </details>
@@ -378,31 +365,18 @@
     <div>© 2026 IcyCat · <span lang-zh>独立开发者作品</span><span lang-en>Built solo</span></div>
   </footer>
 </div>
-<!-- 收银台页内弹层：pay.icy-cat.com 的 frame-ancestors 已放行 *.icy-cat.com，
-     链接照旧保留 href，JS 失效或被拦时就是普通新标签页。 -->
-<dialog id="pay-dialog" class="pay-dialog">
-  <button type="button" class="pay-close" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
-  <iframe title="Checkout" referrerpolicy="origin"></iframe>
+<dialog id="pay-dialog" class="pay-dialog ic-root" aria-labelledby="pay-title">
+  <section class="pay-panel">
+    <header class="pay-head">
+      <div>
+        <p class="kicker">Stripe Checkout</p>
+        <h2 id="pay-title"><span lang-zh>完成 Pro 订阅</span><span lang-en>Complete your Pro subscription</span></h2>
+      </div>
+      <button type="button" class="pay-close" aria-label="Close checkout">×</button>
+    </header>
+    <div id="pay-status" class="pay-status" role="status" aria-live="polite"></div>
+    <div id="stripe-checkout"></div>
+  </section>
 </dialog>
-<script>
-  (() => {
-    const dlg = document.getElementById('pay-dialog');
-    const frame = dlg.querySelector('iframe');
-    document.addEventListener('click', (e) => {
-      const a = e.target.closest && e.target.closest('a[href^="https://pay.icy-cat.com/"]');
-      if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
-      e.preventDefault();
-      frame.src = a.href;
-      dlg.showModal();
-    });
-    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
-    dlg.addEventListener('close', () => { frame.removeAttribute('src'); frame.style.height = ''; });
-    // 收银台在 iframe 里上报自己的内容高度，弹层跟着缩放，不留大块空白。
-    addEventListener('message', (e) => {
-      if (e.origin !== 'https://pay.icy-cat.com' || e.source !== frame.contentWindow) return;
-      if (e.data && e.data.type === 'checkout-height') frame.style.height = e.data.height + 'px';
-    });
-  })();
-</script>
 </body>
 </html>

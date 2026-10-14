@@ -35,11 +35,12 @@
   <link rel="stylesheet" href="/styles.css?v=20260928a" />
   <script src="/lang.js" defer></script>
   <script src="/analytics.js" defer></script>
+  <script src="/checkout.js" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
-      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"安装后怎么用？","acceptedAnswer":{"@type":"Answer","text":"先从 Chrome Web Store 安装插件，再打开 X 文章编辑器 ，用 Ctrl+V 粘贴 Markdown 即可。也可以把 .md 文件直接拖进浏览器，让扩展自动新建草稿。"}},{"@type":"Question","name":"X 长文支持 Markdown 吗？","acceptedAnswer":{"@type":"Answer","text":"X 长文编辑器本身不认 Markdown：直接粘贴会把图片变成一行 ![](url) 、表格塌成一堆竖线、代码块丢掉灰底。这个扩展在粘贴时把 Markdown 转成 X 编辑器接受的原生格式，图片会走 X 自己的上传通道，表格渲染成图片，代码块保留等宽格式。"}},{"@type":"Question","name":"会读取我的 X 账号或文章内容吗？","acceptedAnswer":{"@type":"Answer","text":"不会。扩展只在 x.com/compose/articles/* 页面工作，不读取你的 cookie 或密码，也不会上传文章内容。详见 隐私政策 。"}},{"@type":"Question","name":"付款后去哪找激活码？","acceptedAnswer":{"@type":"Answer","text":"付款后，Creem 会向你购买时填写的邮箱发送订单确认邮件（标题大致是 Your X Article Markdown Paste order ）。点击邮件里的 \"View Order\" / 查看订单 ，进入 Creem 订单页： ① 左侧 Orders 列表 ：点击 \"X Article Markdown Paste — Pro\" 这一条订单 ② 右侧 License Key 区域 ：复制形如 5VLZ0-…-…-…-… 的激活码 拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 License Key 输入框，然后按回车。每个激活码最多可在 5 台设备上使用。"}},{"@type":"Question","name":"能退款吗？","acceptedAnswer":{"@type":"Answer","text":"购买后 7 天内如果不满意，可以申请全额退款。请把订单号发到 中文 lengkuxiaomao@gmail.com 。"}},{"@type":"Question","name":"X 改版后会不会失效？","acceptedAnswer":{"@type":"Answer","text":"有可能。X 的编辑器改版时，扩展偶尔会失效。发现问题后，我会尽量在 24-48 小时内修复并推送更新，Chrome 会自动安装新版扩展。"}},{"@type":"Question","name":"支持 Firefox / Edge / Safari 吗？","acceptedAnswer":{"@type":"Answer","text":"目前支持 Chrome，以及 Edge、Brave、Arc 等基于 Chromium 的浏览器。Firefox 和 Safari 会放在后续版本规划里。"}}],"@id":"https://xmdpaste.icy-cat.com/zh/#faq"},
+      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"安装后怎么用？","acceptedAnswer":{"@type":"Answer","text":"先从 Chrome Web Store 安装插件，再打开 X 文章编辑器 ，用 Ctrl+V 粘贴 Markdown 即可。也可以把 .md 文件直接拖进浏览器，让扩展自动新建草稿。"}},{"@type":"Question","name":"X 长文支持 Markdown 吗？","acceptedAnswer":{"@type":"Answer","text":"X 长文编辑器本身不认 Markdown：直接粘贴会把图片变成一行 ![](url) 、表格塌成一堆竖线、代码块丢掉灰底。这个扩展在粘贴时把 Markdown 转成 X 编辑器接受的原生格式，图片会走 X 自己的上传通道，表格渲染成图片，代码块保留等宽格式。"}},{"@type":"Question","name":"会读取我的 X 账号或文章内容吗？","acceptedAnswer":{"@type":"Answer","text":"不会。扩展只在 x.com/compose/articles/* 页面工作，不读取你的 cookie 或密码，也不会上传文章内容。详见 隐私政策 。"}},{"@type":"Question","name":"付款后去哪找激活码？","acceptedAnswer":{"@type":"Answer","text":"Stripe 确认付款后会自动回到激活码页面。请先复制并保存页面上形如 XMP-…-…-…-… 的激活码： ① 复制激活码 ：在付款成功页点击“复制激活码” ② 打开扩展 ：点击 Chrome 工具栏里的扩展图标 把激活码粘贴到 License Key 输入框并按回车。每个激活码最多可在 5 台设备上使用；如果付款后没有看到激活码，请带上 Stripe 付款邮箱联系支持。"}},{"@type":"Question","name":"能退款吗？","acceptedAnswer":{"@type":"Answer","text":"购买后 7 天内如果不满意，可以申请全额退款。请把订单号发到 中文 lengkuxiaomao@gmail.com 。"}},{"@type":"Question","name":"X 改版后会不会失效？","acceptedAnswer":{"@type":"Answer","text":"有可能。X 的编辑器改版时，扩展偶尔会失效。发现问题后，我会尽量在 24-48 小时内修复并推送更新，Chrome 会自动安装新版扩展。"}},{"@type":"Question","name":"支持 Firefox / Edge / Safari 吗？","acceptedAnswer":{"@type":"Answer","text":"目前支持 Chrome，以及 Edge、Brave、Arc 等基于 Chromium 的浏览器。Firefox 和 Safari 会放在后续版本规划里。"}}],"@id":"https://xmdpaste.icy-cat.com/zh/#faq"},
       {
         "@type": "WebSite",
         "@id": "https://xmdpaste.icy-cat.com/#website",
@@ -69,7 +70,7 @@
             "price": "4.90",
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
-            "url": "https://pay.icy-cat.com/?p=xmd&plan=month"
+            "url": "https://xmdpaste.icy-cat.com/#pricing"
           },
           {
             "@type": "Offer",
@@ -77,7 +78,7 @@
             "price": "49.00",
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
-            "url": "https://pay.icy-cat.com/?p=xmd&plan=year"
+            "url": "https://xmdpaste.icy-cat.com/#pricing"
           }
         ]
       }
@@ -243,15 +244,14 @@
           <li>支持信用卡 / Apple Pay / Google Pay</li>
         </ul>
         <div class="plan-actions">
-          
-          <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=month" target="_blank" rel="noopener">
+          <button class="ic-btn ic-btn--primary" type="button" data-checkout-plan="month">
             月付 $4.9
             
-          </a>
-          <a class="ic-btn" href="https://pay.icy-cat.com/?p=xmd&amp;plan=year" target="_blank" rel="noopener">
+          </button>
+          <button class="ic-btn" type="button" data-checkout-plan="year">
             年付 $49
             
-          </a>
+          </button>
         </div>
         <p class="later">
           之前购买的早鸟买断授权继续长期有效，不受影响。
@@ -259,17 +259,6 @@
         </p>
       </div>
 
-      <div id="cn" class="ic-card cn-card">
-        <h3>国内用户支持</h3>
-        <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=month" target="_blank" rel="noopener">
-          支付宝月付 ¥19
-          
-        </a>
-        <a class="ic-btn" href="https://pay.icy-cat.com/?p=xmd&amp;plan=year" target="_blank" rel="noopener">
-          支付宝年付 ¥99
-          
-        </a>
-      </div>
     </div>
   </section>
 
@@ -326,16 +315,15 @@
           <summary>付款后去哪找激活码？</summary>
           <div class="ic-collapse__body">
             <p>
-              付款后，Creem 会向你购买时填写的邮箱发送订单确认邮件（标题大致是 <em>Your X Article Markdown Paste order</em>）。点击邮件里的 <strong>"View Order"</strong> / <strong>查看订单</strong>，进入 Creem 订单页：
+              Stripe 确认付款后会自动回到激活码页面。请先复制并保存页面上形如 <code>XMP-…-…-…-…</code> 的激活码：
               
             </p>
             <ol class="license-steps">
-              <li><strong>① 左侧 Orders 列表</strong>：点击 "X Article Markdown Paste — Pro" 这一条订单</li>
-              <li><strong>② 右侧 License Key 区域</strong>：复制形如 <code>5VLZ0-…-…-…-…</code> 的激活码</li>
+              <li><strong>① 复制激活码</strong>：在付款成功页点击“复制激活码”</li>
+              <li><strong>② 打开扩展</strong>：点击 Chrome 工具栏里的扩展图标</li>
             </ol>
-            <img src="/creem-find-license-key.png" alt="Creem dashboard: how to locate license key" width="1555" height="575" loading="lazy" style="width: 100%; max-width: 720px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(127,127,127,0.3);" />
             <p style="margin-top: 10px;">
-              拿到激活码后，点击 Chrome 工具栏里的扩展图标，把激活码粘贴到 <strong>License Key</strong> 输入框，然后按回车。每个激活码最多可在 5 台设备上使用。
+              把激活码粘贴到 <strong>License Key</strong> 输入框并按回车。每个激活码最多可在 5 台设备上使用；如果付款后没有看到激活码，请带上 Stripe 付款邮箱联系支持。
               
             </p>
           </div>
@@ -381,30 +369,18 @@
     <div>© 2026 IcyCat · 独立开发者作品</div>
   </footer>
 </div>
-
-<dialog id="pay-dialog" class="pay-dialog">
-  <button type="button" class="pay-close" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
-  <iframe title="Checkout" referrerpolicy="origin"></iframe>
+<dialog id="pay-dialog" class="pay-dialog ic-root" aria-labelledby="pay-title">
+  <section class="pay-panel">
+    <header class="pay-head">
+      <div>
+        <p class="kicker">Stripe Checkout</p>
+        <h2 id="pay-title">完成 Pro 订阅</h2>
+      </div>
+      <button type="button" class="pay-close" aria-label="Close checkout">×</button>
+    </header>
+    <div id="pay-status" class="pay-status" role="status" aria-live="polite"></div>
+    <div id="stripe-checkout"></div>
+  </section>
 </dialog>
-<script>
-  (() => {
-    const dlg = document.getElementById('pay-dialog');
-    const frame = dlg.querySelector('iframe');
-    document.addEventListener('click', (e) => {
-      const a = e.target.closest && e.target.closest('a[href^="https://pay.icy-cat.com/"]');
-      if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
-      e.preventDefault();
-      frame.src = a.href;
-      dlg.showModal();
-    });
-    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
-    dlg.addEventListener('close', () => { frame.removeAttribute('src'); frame.style.height = ''; });
-    // 收银台在 iframe 里上报自己的内容高度，弹层跟着缩放，不留大块空白。
-    addEventListener('message', (e) => {
-      if (e.origin !== 'https://pay.icy-cat.com' || e.source !== frame.contentWindow) return;
-      if (e.data && e.data.type === 'checkout-height') frame.style.height = e.data.height + 'px';
-    });
-  })();
-</script>
 </body>
 </html>

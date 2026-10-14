@@ -35,11 +35,12 @@
   <link rel="stylesheet" href="/styles.css?v=20260928a" />
   <script src="/lang.js" defer></script>
   <script src="/analytics.js" defer></script>
+  <script src="/checkout.js" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
-      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I install and use it?","acceptedAnswer":{"@type":"Answer","text":"Install from the Chrome Web Store , open the X article editor , then Ctrl+V your Markdown. Or drag a .md file onto the browser to create a fresh draft."}},{"@type":"Question","name":"Does X Articles support Markdown?","acceptedAnswer":{"@type":"Answer","text":"Not natively. Paste Markdown into the X Articles editor and images become a line of ![](url) , tables collapse into pipes, and code blocks lose their formatting. This extension converts Markdown to X Articles' native format on paste: images upload through X's own media pipeline, tables render as images, and code blocks keep their monospace style."}},{"@type":"Question","name":"Does it leak my X account or content?","acceptedAnswer":{"@type":"Answer","text":"No. The extension only runs on x.com/compose/articles/* , doesn't read your cookies or password, and uploads zero article content. See Privacy Policy ."}},{"@type":"Question","name":"Where do I find the license key after purchase?","acceptedAnswer":{"@type":"Answer","text":"Creem sends an order confirmation email (subject roughly Your X Article Markdown Paste order ) to the address you entered at checkout. Click the \"View Order\" link inside the email to open your order page on Creem: ① Orders panel on the left : click the \"X Article Markdown Paste — Pro\" row ② License Key panel on the right : copy the 5VLZ0-…-…-…-… key Once you have the key, click the extension icon in Chrome's toolbar, paste it into the License Key field, press Enter. Each key activates on up to 5 devices."}},{"@type":"Question","name":"Can I get a refund?","acceptedAnswer":{"@type":"Answer","text":"Yes — within 7 days of purchase if you're not satisfied. Email lengkuxiaomao@gmail.com with your order ID."}},{"@type":"Question","name":"Does it break when X updates its UI?","acceptedAnswer":{"@type":"Answer","text":"Occasionally yes, but we monitor closely — usually fixed and pushed within 24-48 hours of breakage. Chrome auto-updates the extension."}},{"@type":"Question","name":"Firefox / Edge / Safari support?","acceptedAnswer":{"@type":"Answer","text":"Currently Chrome and Chromium-based browsers (Edge, Brave, Arc) only. Firefox and Safari are on the v1.5 roadmap."}}],"@id":"https://xmdpaste.icy-cat.com/#faq"},
+      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I install and use it?","acceptedAnswer":{"@type":"Answer","text":"Install from the Chrome Web Store , open the X article editor , then Ctrl+V your Markdown. Or drag a .md file onto the browser to create a fresh draft."}},{"@type":"Question","name":"Does X Articles support Markdown?","acceptedAnswer":{"@type":"Answer","text":"Not natively. Paste Markdown into the X Articles editor and images become a line of ![](url) , tables collapse into pipes, and code blocks lose their formatting. This extension converts Markdown to X Articles' native format on paste: images upload through X's own media pipeline, tables render as images, and code blocks keep their monospace style."}},{"@type":"Question","name":"Does it leak my X account or content?","acceptedAnswer":{"@type":"Answer","text":"No. The extension only runs on x.com/compose/articles/* , doesn't read your cookies or password, and uploads zero article content. See Privacy Policy ."}},{"@type":"Question","name":"Where do I find the license key after purchase?","acceptedAnswer":{"@type":"Answer","text":"After Stripe confirms payment, Checkout redirects you to a page showing an XMP-…-…-…-… license key. Copy and save it: ① Copy the key : click “Copy license key” on the payment success page ② Open the extension : click its icon in the Chrome toolbar Paste it into the License Key field and press Enter. Each key activates on up to 5 devices. If the success page did not appear, contact support using the email from your Stripe payment."}},{"@type":"Question","name":"Can I get a refund?","acceptedAnswer":{"@type":"Answer","text":"Yes — within 7 days of purchase if you're not satisfied. Email lengkuxiaomao@gmail.com with your order ID."}},{"@type":"Question","name":"Does it break when X updates its UI?","acceptedAnswer":{"@type":"Answer","text":"Occasionally yes, but we monitor closely — usually fixed and pushed within 24-48 hours of breakage. Chrome auto-updates the extension."}},{"@type":"Question","name":"Firefox / Edge / Safari support?","acceptedAnswer":{"@type":"Answer","text":"Currently Chrome and Chromium-based browsers (Edge, Brave, Arc) only. Firefox and Safari are on the v1.5 roadmap."}}],"@id":"https://xmdpaste.icy-cat.com/#faq"},
       {
         "@type": "WebSite",
         "@id": "https://xmdpaste.icy-cat.com/#website",
@@ -69,7 +70,7 @@
             "price": "4.90",
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
-            "url": "https://pay.icy-cat.com/?p=xmd&plan=month"
+            "url": "https://xmdpaste.icy-cat.com/#pricing"
           },
           {
             "@type": "Offer",
@@ -77,7 +78,7 @@
             "price": "49.00",
             "priceCurrency": "USD",
             "availability": "https://schema.org/InStock",
-            "url": "https://pay.icy-cat.com/?p=xmd&plan=year"
+            "url": "https://xmdpaste.icy-cat.com/#pricing"
           }
         ]
       }
@@ -243,15 +244,14 @@
           <li>Card / Apple Pay / Google Pay</li>
         </ul>
         <div class="plan-actions">
-          
-          <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=month" target="_blank" rel="noopener">
+          <button class="ic-btn ic-btn--primary" type="button" data-checkout-plan="month">
             
             Monthly $4.9
-          </a>
-          <a class="ic-btn" href="https://pay.icy-cat.com/?p=xmd&amp;plan=year" target="_blank" rel="noopener">
+          </button>
+          <button class="ic-btn" type="button" data-checkout-plan="year">
             
             Yearly $49
-          </a>
+          </button>
         </div>
         <p class="later">
           
@@ -259,17 +259,6 @@
         </p>
       </div>
 
-      <div id="cn" class="ic-card cn-card">
-        <h3>Support for China users</h3>
-        <a class="ic-btn ic-btn--primary" href="https://pay.icy-cat.com/?p=xmd&amp;plan=month" target="_blank" rel="noopener">
-          
-          Alipay monthly ¥19
-        </a>
-        <a class="ic-btn" href="https://pay.icy-cat.com/?p=xmd&amp;plan=year" target="_blank" rel="noopener">
-          
-          Alipay yearly ¥99
-        </a>
-      </div>
     </div>
   </section>
 
@@ -327,16 +316,15 @@
           <div class="ic-collapse__body">
             <p>
               
-              Creem sends an order confirmation email (subject roughly <em>Your X Article Markdown Paste order</em>) to the address you entered at checkout. Click the <strong>"View Order"</strong> link inside the email to open your order page on Creem:
+              After Stripe confirms payment, Checkout redirects you to a page showing an <code>XMP-…-…-…-…</code> license key. Copy and save it:
             </p>
             <ol class="license-steps">
-              <li><strong>① Orders panel on the left</strong>: click the "X Article Markdown Paste — Pro" row</li>
-              <li><strong>② License Key panel on the right</strong>: copy the <code>5VLZ0-…-…-…-…</code> key</li>
+              <li><strong>① Copy the key</strong>: click “Copy license key” on the payment success page</li>
+              <li><strong>② Open the extension</strong>: click its icon in the Chrome toolbar</li>
             </ol>
-            <img src="/creem-find-license-key.png" alt="Creem dashboard: how to locate license key" width="1555" height="575" loading="lazy" style="width: 100%; max-width: 720px; border-radius: 10px; margin-top: 8px; border: 1px solid rgba(127,127,127,0.3);" />
             <p style="margin-top: 10px;">
               
-              Once you have the key, click the extension icon in Chrome's toolbar, paste it into the <strong>License Key</strong> field, press Enter. Each key activates on up to 5 devices.
+              Paste it into the <strong>License Key</strong> field and press Enter. Each key activates on up to 5 devices. If the success page did not appear, contact support using the email from your Stripe payment.
             </p>
           </div>
         </details>
@@ -380,30 +368,18 @@
     <div>© 2026 IcyCat · Built solo</div>
   </footer>
 </div>
-
-<dialog id="pay-dialog" class="pay-dialog">
-  <button type="button" class="pay-close" aria-label="Close" onclick="this.closest('dialog').close()">×</button>
-  <iframe title="Checkout" referrerpolicy="origin"></iframe>
+<dialog id="pay-dialog" class="pay-dialog ic-root" aria-labelledby="pay-title">
+  <section class="pay-panel">
+    <header class="pay-head">
+      <div>
+        <p class="kicker">Stripe Checkout</p>
+        <h2 id="pay-title">Complete your Pro subscription</h2>
+      </div>
+      <button type="button" class="pay-close" aria-label="Close checkout">×</button>
+    </header>
+    <div id="pay-status" class="pay-status" role="status" aria-live="polite"></div>
+    <div id="stripe-checkout"></div>
+  </section>
 </dialog>
-<script>
-  (() => {
-    const dlg = document.getElementById('pay-dialog');
-    const frame = dlg.querySelector('iframe');
-    document.addEventListener('click', (e) => {
-      const a = e.target.closest && e.target.closest('a[href^="https://pay.icy-cat.com/"]');
-      if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
-      e.preventDefault();
-      frame.src = a.href;
-      dlg.showModal();
-    });
-    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
-    dlg.addEventListener('close', () => { frame.removeAttribute('src'); frame.style.height = ''; });
-    // 收银台在 iframe 里上报自己的内容高度，弹层跟着缩放，不留大块空白。
-    addEventListener('message', (e) => {
-      if (e.origin !== 'https://pay.icy-cat.com' || e.source !== frame.contentWindow) return;
-      if (e.data && e.data.type === 'checkout-height') frame.style.height = e.data.height + 'px';
-    });
-  })();
-</script>
 </body>
 </html>
