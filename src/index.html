@@ -372,10 +372,14 @@
         <p class="kicker">Stripe Checkout</p>
         <h2 id="pay-title"><span lang-zh>完成 Pro 订阅</span><span lang-en>Complete your Pro subscription</span></h2>
       </div>
-      <button type="button" class="pay-close" aria-label="Close checkout">×</button>
+      <button type="button" class="pay-close" aria-label="Close checkout">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+      </button>
     </header>
-    <div id="pay-status" class="pay-status" role="status" aria-live="polite"></div>
-    <div id="stripe-checkout"></div>
+    <div class="pay-body">
+      <div id="pay-status" class="pay-status" role="status" aria-live="polite"></div>
+      <div id="stripe-checkout"></div>
+    </div>
   </section>
 </dialog>
 </body>
