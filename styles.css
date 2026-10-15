@@ -303,6 +303,7 @@ footer.site .links a { color: var(--ic-ink); font-weight: 500; }
   header.site { padding: 0 16px; gap: var(--ic-2); }
   header.site .brand { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
   header.site nav a { display: none; }
+  header.site nav #lang-toggle { display: inline-flex; }
   .hero { padding: 36px 18px 44px; gap: var(--ic-4); }
   .container { padding: 0 18px; }
   .cta-row, .plan-actions { grid-template-columns: 1fr; display: grid; }
